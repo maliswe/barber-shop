@@ -82,7 +82,7 @@ Note: We still have upcoming pages and requirements
 
 ### Entity-Relationship (ER) Diagram
 
-![ER Diagram](./images/er_diagram.png)
+![ER Diagram](./images/er_diagram.jpg)
 
 ## Teaser (MS3)
 
