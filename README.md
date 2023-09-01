@@ -63,12 +63,22 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+The BarberShop Web Application's goal is to provide an effective and user-friendly platform for both consumers and barbers to manage and plan appointments, hence improving the whole experience of scheduling and getting barber services. The system will consist of both backend and frontend components that work seamlessly together to meet the following requirements: 
+ 1. Allow customers to simply browse available time slots and barber services.
+ 2. Set up a notification system to send clients and barbers appointment confirmations, reminders, and updates via email or SMS.
+ 3. Provide the business owner with an admin dashboard to manage barbers, services, and appointments.
+ 4. Allow consumers to choose certain services, such as haircuts, shaves, styling, and so on, and tailor their appointments by selecting preferred barbers and time slots. 
+ 5. Allow consumers to leave evaluations and ratings for barbers from whom they have gotten services. 
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Home: This section comprises a significant portion of the website, including features like the "Contact Us" section, information about us, and a gallery showcasing our salon.
+* Booking page: This is where customers can reserve their appointment time.
+* Barber dashboard: Barbers can set their availability and view the list of scheduled appointments from their dashboard.
+* Admin page: The admin can create a list of services for customers to choose from and handle inquiries.
+* Team page: Here, customers can get to know the members of our skilled barber team.
+
+Note: We still have upcoming pages and requirements 
 
 ### Entity-Relationship (ER) Diagram
 
