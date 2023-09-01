@@ -72,8 +72,13 @@ The BarberShop Web Application's goal is to provide an effective and user-friend
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Home: This section comprises a significant portion of the website, including features like the "Contact Us" section, information about us, and a gallery showcasing our salon.
+* Booking page: This is where customers can reserve their appointment time.
+* Barber dashboard: Barbers can set their availability and view the list of scheduled appointments from their dashboard.
+* Admin page: The admin can create a list of services for customers to choose from and handle inquiries.
+* Team page: Here, customers can get to know the members of our skilled barber team.
+
+Note: We still have upcoming pages and requirements 
 
 ### Entity-Relationship (ER) Diagram
 
