@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Admin = require('../schema/admin_schema.js')
+const Admin = require('../schema/user_schema.js')
 
 router.get('/', async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        const admins = await Admin.find(); // This fetches all admin documents in the 'admins' collection
+        const admins = await Admin.find({ role: 'admin' }); // This fetches all admin documents in the 'admins' collection
 
         // Send the data as a response to the client
         res.json(admins);
