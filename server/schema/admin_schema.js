@@ -4,13 +4,11 @@ const Schema = mongoose.Schema;
 
 const adminSchema = new Schema({
     name: String,
+    password: String,
     role: String
-}, {
-    // Enable strict schema validation
-    strict: true
 });
 
 
-const Admin = mongoose.model("Admins", adminSchema);
+const Admin = mongoose.model("Users", adminSchema);
 
 module.exports = Admin;
