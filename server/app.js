@@ -45,10 +45,7 @@ app.use('/barbers', barberRouter);
 adminRouter = require('./routes/admin_routes.js');
 app.use('/admins', adminRouter);
 
-// Catch all non-error handler for api (i.e., 404 Not Found)
-app.use('/api/*', function (req, res) {
-    res.status(404).json({ 'message': 'Not Found' });
-});
+
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
