@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const barber = require('../schema/user_schema.js')
+const barber = require('../schema/barber_schema.js')
 
 router.get('/', async (req, res) => {
 
     try {
         // Use Mongoose to query the MongoDB database for barber data
-        const barber = await barber.find({ role: 'barber' }); // This fetches all barber documents in the 'barber' collection
-        res.json(barber);
+        const Barber = await barber.find(); // This fetches all barber documents in the 'barber' collection
+        res.json(Barber);
     } catch (error) {
         // Handle any errors
         console.error(error);
