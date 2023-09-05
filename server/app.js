@@ -45,6 +45,12 @@ app.use('/barbers', barberRouter);
 adminRouter = require('./routes/admin_routes.js');
 app.use('/admins', adminRouter);
 
+appointmentRouter = require('./routes/appointment_routes.js');
+app.use('/appointments', appointmentRouter);
+
+servicesRouter = require('./routes/services_routes.js');
+app.use('/services', servicesRouter);
+
 
 
 // Configuration for serving frontend in production mode

@@ -28,7 +28,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.json(Services);
+        res.json(services);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -39,7 +39,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for services data
-        const services = await Services.findOne({phone:id});
+        const services = await Services.findOne({name:id});
 
         if (!services) {
             // If no services with the given ID is found, return a 404 response
@@ -58,7 +58,7 @@ const getOne = async (req, res, id) => {
 const update = async (req, res, id) => {
     try {
         // Find the services by ID
-        const services = await Services.findOne({phone:id});
+        const services = await Services.findOne({name:id});
 
         if (!services) {
             return res.status(404).json({ message: 'services not found' });
@@ -93,7 +93,7 @@ const update = async (req, res, id) => {
 const remove = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for Services data
-        const result = await Services.deleteOne({phone:id});
+        const result = await Services.deleteOne({name:id});
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'services not found' });
