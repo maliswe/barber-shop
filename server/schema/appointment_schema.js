@@ -6,8 +6,6 @@ const appointmentSchema = new Schema({
     price: Number,
     serviceID: String,
     barberID: String
-}, {
-    strict: true
 });
 
 const Appointment = mongoose.model("Appointments", appointmentSchema);

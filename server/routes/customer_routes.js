@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const customer = require('../schema/user_schema.js')
+const customer = require('../schema/customer_schema.js')
 
 router.get('/', async (req, res) => {
 
     try {
         // Use Mongoose to query the MongoDB database for customer data
-        const Customer = await customer.find({ role: 'customer' }); // This fetches all customer documents in the 'customers' collection
+        const Customer = await customer.find(); // This fetches all customer documents in the 'customers' collection
         res.json(Customer);
     } catch (error) {
         // Handle any errors
