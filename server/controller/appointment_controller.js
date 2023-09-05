@@ -6,6 +6,10 @@ const getAllAppointment  = async (req, res) => {
     try {
         const appointments = await Appointment.find();
 
+        if (appointments.length < 1) {
+            return res.status(404).json({ message: 'appointment not found' });
+        }
+
         res.json(appointments);
     }catch (error){
 

@@ -1,37 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const customer = require('../schema/customer_schema.js')
-
-router.get('/', async (req, res) => {
-
-    try {
-        // Use Mongoose to query the MongoDB database for customer data
-        const Customer = await customer.find(); // This fetches all customer documents in the 'customers' collection
-        res.json(Customer);
-    } catch (error) {
-        // Handle any errors
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
+const controller = require('../controller/customer_controller.js')
 
 router.post('/', async (req, res) => {
-    try {
-        // Create a new customer document based on the request body
-        const newCustomer = new customer(req.body);
-
-        // Save the new customer document to the database, store it in savedCustomer to get the assigned id
-        const savedCustomer = await newCustomer.save();
-
-        // Send the saved customer data as a response
-        res.status(201).json(savedCustomer); // 201 Created status code
-    } catch (error) {
-        // Handle any errors
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+    controller.create(req, res);
 });
+
+router.get('/', async (req, res) => {
+    controller.getAll(req, res);
+});
+
+router.get('/:id', async (req, res) => {
+    controller.getOne(req, res, req.params.id);
+})
+
+router.delete('/:id', async (req, res) => {
+    controller.remove(req, res, req.params.id);
+})
+
+router.put('/:id', async (req, res) => {
+    controller.update(req, res, req.params.id);
+})
 
 
 module.exports = router;
