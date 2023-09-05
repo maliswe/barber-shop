@@ -20,7 +20,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
+        // Use Mongoose to query the MongoDB database for Services data
         const services = await Services.find(); // This fetches all services documents in the 'services' collection
         
         if (services.length < 1) {
@@ -92,7 +92,7 @@ const update = async (req, res, id) => {
 
 const remove = async (req, res, id) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
+        // Use Mongoose to query the MongoDB database for Services data
         const result = await Services.deleteOne({phone:id});
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
