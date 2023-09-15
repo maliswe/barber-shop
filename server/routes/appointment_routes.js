@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    controller.post(req,res);
+    controller.createAppointment(req,res);
 });
 
 module.exports = router;
