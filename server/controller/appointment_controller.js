@@ -19,10 +19,10 @@ const getAllAppointment = async (req, res) => {
     }
 };
 
-const getAppointment = async (req, res, id) => {
+const getAppointment = async (req, res, confNumber) => {
     try {
 
-        const appointment = await Appointment.findOne({ id: id });
+        const appointment = await Appointment.findOne({ confNumber: confNumber });
 
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
@@ -113,6 +113,7 @@ const updateAppointment = async (req, res) => {
 
 module.exports = {
     getAllAppointment,
+    getAppointment,
     createAppointment,
     updateAppointment
 }

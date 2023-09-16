@@ -6,6 +6,10 @@ router.get('/', async (req, res) => {
     controller.getAllAppointment(req, res);
 });
 
+router.get('/:confNumber', async (req, res) => {
+    controller.getAppointment(req, res, req.params.confNumber);
+});
+
 router.post('/', async (req, res) => {
     controller.createAppointment(req, res);
 });
