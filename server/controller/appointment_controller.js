@@ -1,9 +1,10 @@
 const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
-const Generator = require ('../mongodbService/confNumberGenerator.js');
+const Generator = require('../mongodbService/confNumberGenerator.js');
+const Customer = require('../schema/customer_schema.js');
 
 
-const getAllAppointment  = async (req, res) => {
+const getAllAppointment = async (req, res) => {
     try {
         const appointments = await Appointment.find();
 
@@ -12,60 +13,107 @@ const getAllAppointment  = async (req, res) => {
         }
 
         res.json(appointments);
-    }catch (error) {
+    } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
 
-const getAppointment = async (req, res, id) => { 
-    try{
+const getAppointment = async (req, res, confNumber) => {
+    try {
 
-        const appointment = await Appointment.findOne({ id : id});
+        const appointment = await Appointment.findOne({ confNumber: confNumber });
 
-        if (!appointment){
-            return res.status(404).json( { message: 'Appointment not found'} );
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
         }
         res.json(appointment);
 
-    }catch (error) {
+    } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
 
-const createAppointment = async (req,res) => {
-    try{
+const createAppointment = async (req, res) => {
+    try {
         let customId = await Generator.generator();
         const currentDate = moment().format('YYYY-MM-DD');
-        const {status, price} = req.body;
+        const { status, price, customerPhone } = req.body;
 
         if (!['Scheduled', 'Completed', 'Cancelled'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status value' });
         }
 
+        // Verify if customer exists
+        const customer = await Customer.findOne({ phone: customerPhone });
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+
+        // Create and save the appointment
         const nAppointment = new Appointment({
             confNumber: customId,
-            status, 
+            status,
             price,
-            date: currentDate 
+            date: currentDate
         });
 
         const sAppointment = await nAppointment.save();
+
+        // Update the customer appointments
+        const updatedCustomer = await Customer.findOneAndUpdate(
+            { phone: customerPhone },
+            { $push: { appointments: sAppointment.confNumber } },
+            { new: true }
+        );
+
+        console.log('Updated Customer:', updatedCustomer);
 
         res.status(201).json({
             confNumber: sAppointment.confNumber,
             status: sAppointment.status,
             price: sAppointment.price,
             date: sAppointment.date
-        });   
-    }catch (error) {
+        });
+    } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
 
+//Update the appointment status
+const updateAppointment = async (req, res) => {
+    try {
+      const { status } = req.body;
+      const { confNumber } = req.params;
+  
+      if (!['Scheduled', 'Completed', 'Cancelled'].includes(status)) {
+        return res.status(400).json({ message: 'Invalid status value' });
+      }
+  
+      const appointment = await Appointment.findOneAndUpdate(
+        { confNumber: confNumber }, 
+        { status: status },
+        { new: true } // This option returns the updated document
+      );
+  
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+  
+      res.status(200).json(appointment);
+  
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+  };
+
+
 module.exports = {
     getAllAppointment,
-    createAppointment
+    getAppointment,
+    createAppointment,
+    updateAppointment
 }
