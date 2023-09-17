@@ -2,6 +2,7 @@ const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
 const Generator = require('../mongodbService/confNumberGenerator.js');
 const Customer = require('../schema/customer_schema.js');
+const { fieldsMapper } = require('./utilityMethod.js');
 
 
 const getAllAppointment = async (req, res) => {
@@ -83,30 +84,30 @@ const createAppointment = async (req, res) => {
 };
 
 //Update the appointment status
-const updateAppointment = async (req, res) => {
+const updateAppointment = async (req, res, confNumber) => {
     try {
-      const { status } = req.body;
-      const { confNumber } = req.params;
-  
-      if (!['Scheduled', 'Completed', 'Cancelled'].includes(status)) {
-        return res.status(400).json({ message: 'Invalid status value' });
-      }
-  
-      const appointment = await Appointment.findOneAndUpdate(
-        { confNumber: confNumber }, 
-        { status: status },
-        { new: true } // This option returns the updated document
-      );
-  
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-  
-      res.status(200).json(appointment);
-  
+
+        const appointment = await Appointment.findOne({ confNumber: confNumber });
+
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+        
+        if (req.body.hasOwnProperty('status')) {
+            const allowedStatusValues = ['Scheduled', 'Completed', 'Cancelled'];
+            if (!allowedStatusValues.includes(req.body.status)) {
+              return res.status(400).json({ message: 'Invalid status value' });
+            }
+          }
+          
+
+        fieldsMapper(appointment, req.body)
+
+        res.json(appointment);
+
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   };
 

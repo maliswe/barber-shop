@@ -1,5 +1,5 @@
 const Customer = require('../schema/customer_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js'); // adjust the path accordingly if the file is in a different directory
+const { fieldsMapper } = require('./utilityMethod.js'); 
 
 
 const create = async (req, res) => {
