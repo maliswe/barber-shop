@@ -1,26 +1,27 @@
 <template>
-  <div>
-    <Navbar></Navbar>
-      <b-jumbotron header="Collection hair & beard" lead="Welcome to Old School BarberShop">
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >See all Services</b-button>
-      <p>Message from the server:<br/>
-      {{ message }}</p>
+<div>
+    <Navbar />
+    <b-jumbotron header="Collection hair & beard" lead="Welcome to Old School BarberShop">
+        <ServicesButton />
     </b-jumbotron>
-  </div>
+</div>
 </template>
 
 <script>
-// @ is an alias to /src
 import Navbar from '../component/Nav/Navbar.vue'
+import ServicesButton from '../component/Home/ServicesButton.vue'
 
 export default {
-  name: 'home' 
+  name: 'home',
+  components: {
+    Navbar,
+    ServicesButton
+  }
 }
-
 </script>
 
 <style>
 .btn_message {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 </style>

@@ -3,7 +3,7 @@
 
         <nav>
             <div class="branding">
-                <img src="../assets/logo.svg" alt="">
+                <img src="../../assets/logo.svg" alt="">
             </div>
             <ul v-show="!mobile" class="navigation">
                 <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
