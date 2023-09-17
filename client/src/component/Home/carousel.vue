@@ -36,13 +36,6 @@ export default {
 </script>
 
 <style scoped>
-
-  .b-carousel-slide {
-
-  img-width: 50;
-  img-height: 50;
-
-  }
   .b-carousel-slide img {
     width: 10%;
     height: auto;
