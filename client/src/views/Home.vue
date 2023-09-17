@@ -1,7 +1,8 @@
 <template>
   <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
+    <Navbar></Navbar>
+      <b-jumbotron header="Collection hair & beard" lead="Welcome to Old School BarberShop">
+      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >See all Services</b-button>
       <p>Message from the server:<br/>
       {{ message }}</p>
     </b-jumbotron>
@@ -10,27 +11,12 @@
 
 <script>
 // @ is an alias to /src
-import { Api } from '@/Api'
+import Navbar from '../component/Nav/Navbar.vue'
 
 export default {
-  name: 'home',
-  data() {
-    return {
-      message: 'none'
-    }
-  },
-  methods: {
-    getMessage() {
-      Api.get('/')
-        .then(response => {
-          this.message = response.data.message
-        })
-        .catch(error => {
-          this.message = error
-        })
-    }
-  }
+  name: 'home' 
 }
+
 </script>
 
 <style>
