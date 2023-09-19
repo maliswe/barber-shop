@@ -1,23 +1,22 @@
 <template>
     <header :class="{ 'scrolled-nav': scrolledNav }">
-
         <nav>
-            <div class="branding">
-                <img src="../../assets/logo.svg" alt="">
-            </div>
-            <ul v-show="!mobile" class="navigation">
-                <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-                <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
-                <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
-                <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-                <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-                <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-                <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
-            </ul>
-            <div class="icon">
-                <i @click="toggleMobileNav" v-show="mobile" class="fat fa-bars" :class="{ 'icon-active': mobileNav }"></i>
-            </div>
-            <transition name="mobile-nav">
+            <div class="container">
+                <logo />
+                <ul v-show="!mobile" class="navigation">
+                    <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+                    <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+                </ul>
+                <div class="icon">
+                    <i @click="toggleMobileNav" v-show="mobile" class="fat fa-bars" :class="{ 'icon-active': mobileNav }"></i>
+                </div>
+                <button @click="navigateToBooking" class="booking-btn">BOOK</button>
+                <transition name="mobile-nav">
                 <ul v-show="mobileNav" class="dropdown-nav">
                     <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
                     <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
@@ -28,14 +27,20 @@
                     <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
                 </ul>
             </transition>
+            </div>
         </nav>
-
     </header>
 </template>
 
 <script>
+
+import logo from './logo.vue'
+
 export default {
   name: 'Navbar',
+  components: {
+    logo
+  },
   data() {
     return {
       scrolledNav: null,
@@ -71,6 +76,9 @@ export default {
       }
       this.mobile = false
       this.mobileNav = false
+    },
+    navigateToBooking() {
+      this.$router.push({ name: 'Booking' })
     }
   }
 }
@@ -78,134 +86,88 @@ export default {
 
 <style lang="scss" scoped>
 header {
-    backgroud-color: black;
+    align-items: center;
     z-index: 99;
     width: 100%;
     position: fixed;
-    transition: .5s ease all;
-    color: #00000014;
+    transition: 0.5s ease all;
+    background: rgba(255, 255, 255, 0.33);
+}
 
-    nav {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        paddding: 12px 0;
-        transition: .5s ease all;
-        width: 90%;
-        margin: 0 auto;
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
-        @media(min-width: 1140px) {
-            max-width: 1140px;
-        }
+.container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
 
-        ul,
-        .link {
-            font-weight: 500;
-            color: black;
-            list-style: none;
-            text-decoration: none;
-        }
+    @media (min-width: 1140px) {
+        max-width: 1140px;
+    }
+}
 
-        li {
-            text-transform: uppercase;
-            padding: 16px;
-            margin-left: 16px;
-        }
+.navigation {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
 
-        .link {
-            font-size: 14px;
-            transition: .5s ease all;
-            padding-bottom: 4px;
-            border-bottom: 1px solid transparent;
-        }
+.link {
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 16px;
+    margin-left: 16px;
+    font-size: 14px;
+    transition: 0.5s ease all;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
 
-        &:hover {
-            color: #E7A356;
-            border-color: #E7A356;
-        }
+    &:hover {
+        color: #E7A356;
+        border-color: #E7A356;
+    }
+}
 
-        .branding {
-            display: flex;
-            align-items: center;
+.icon {
+    display: flex;
+    align-items: center;
+}
 
-            img {
-                width: 50px;
-                transition: .5s ease all;
-            }
-        }
+.booking-btn {
+    width: 159px;
+    height: 52px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(77, 77, 77, 0.25);
 
-        .navigation {
-            display: flex;
-            align-items: center;
-            flex: 1;
-            justify-content: flex-end;
-        }
-
-        .icon {
-            display: flex;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            right: 24px;
-            height: 100%;
-
-            i {
-                cursor: pointer;
-                font-size: 24px;
-                transition: .8s ease all;
-            }
-        }
-
-        .icon-active {
-            transform: rotate(180deg);
-        }
-        .dropdown-nav{
-            display: flex;
-            flex-direction: column;
-            position:fixed;
-            width: 100%;
-            max-width: 250px;
-            height: 100%;
-            backgroud-color: white;
-            top: 0;
-            left: 0;
-            li{
-                margin-left: 0;
-                .link{
-                    color: black;
-                }
-            }
-        }
-        .mobile-nav-enter-active,
-        .mobile-nav-leave-active {
-            transition: 1s ease all;
-        }
-
-        .mobile-nav-enter-form,
-        .mobile-nav-leave-to {
-            transform: translateX(-250px);
-        }
-
-        .mobile-nav-enter-to {
-            transform: translateX(0);
-        }
+    span {
+        position: absolute;
+        width: 54px;
+        height: 24px;
+        left: 50%;  /* Centering text horizontally */
+        top: 50%;  /* Centering text vertically */
+        transform: translate(-50%, -50%);  /* Needed for exact centering */
+        font-family: 'Fira Sans';
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        text-transform: capitalize;
+        color: #E7A356;
     }
 }
 
 .scrolled-nav {
     background-color: black;
     box-shadow: 0 40px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-}
-
-nav {
-    padding: 8px 0;
-
-    .branding {
-        img {
-            width: 40px;
-            box-shadow: 0 40px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-        }
-    }
 }
 
 </style>
