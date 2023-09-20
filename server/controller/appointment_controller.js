@@ -2,9 +2,10 @@ const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
 const Generator = require('../mongodbService/confNumberGenerator.js');
 const Customer = require('../schema/customer_schema.js');
-const Services = require('../schema/services_schema.js');
 const Barber = require('../schema/barber_schema.js');
+const Service = require('../schema/services_schema.js');
 const { fieldsMapper } = require('./utilityMethod.js');
+
 
 
 const getAllAppointment = async (req, res) => {
@@ -42,59 +43,44 @@ const createAppointment = async (req, res) => {
     try {
         let customId = await Generator.generator();
         const currentDate = moment().format('YYYY-MM-DD');
-        const { status, price, customerPhone, barberPhone } = req.body;
 
-        if (!['Scheduled', 'Completed', 'Cancelled'].includes(status)) {
-            return res.status(400).json({ message: 'Invalid status value' });
-        }
-
+        req.body['date'] = currentDate;
+        req.body['confNumber'] = customId;
+       
         // Verify if customer exists
-        const customer = await Customer.findOne({ phone: customerPhone });
+        const customer = await Customer.findOne({ phone: req.body['customer'] });
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' });
         }
-
-
-        const barber = await Barber.findOne({ phone: barberPhone });
+        const barber = await Barber.findOne({ phone: req.body['barber'] });
         if (!barber) {
             return res.status(404).json({ message: 'barber not found' });
         }
+        const service = await Service.findOne({ _id: req.body['service'] });
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
 
-        // Create and save the appointment
-        const nAppointment = new Appointment({
-            confNumber: customId,
-            status,
-            price,
-            date: currentDate,
-            barber: barberPhone
-        });
+        // Create the appointment
+        const newAppointment = new Appointment(req.body);
 
-        const sAppointment = await nAppointment.save();
-
-        // Update the customer appointments
+        // Update the Customer appointments
         const updatedCustomer = await Customer.findOneAndUpdate(
-            { phone: customerPhone },
-            { $push: { appointments: sAppointment.confNumber } },
+            { phone: req.body['customer'] },
+            { $push: { appointments: newAppointment.confNumber } },
             { new: true }
         );
-
+        
+        // Update the Barber appointments
         const updatedBarber = await Barber.findOneAndUpdate(
-            { phone: barberPhone },
-            { $push: { appointments: sAppointment.confNumber } },
+            { phone: req.body['barber'] },
+            { $push: { appointments: newAppointment.confNumber } },
             { new: true }
         );
 
-        console.log('Updated Customer:', updatedCustomer);
-        console.log('Updated barber:', updatedBarber);
-
-
-        res.status(201).json({
-            confNumber: sAppointment.confNumber,
-            status: sAppointment.status,
-            price: sAppointment.price,
-            date: sAppointment.date,
-            barber: barberPhone
-        });
+        // save the appointment and send it back
+        const savedAppointment = await newAppointment.save();
+        res.status(201).json({savedAppointment});
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });

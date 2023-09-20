@@ -48,6 +48,9 @@ app.use('/admins', adminRouter);
 appointmentRouter = require ('./routes/appointment_routes.js');
 app.use('/appointments', appointmentRouter);
 
+servicesRouter = require('./routes/services_routes.js');
+app.use('/services',servicesRouter)
+
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
