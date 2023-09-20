@@ -46,7 +46,7 @@ const createAppointment = async (req, res) => {
 
         req.body['date'] = currentDate;
         req.body['confNumber'] = customId;
-       
+
         // Verify if customer exists
         const customer = await Customer.findOne({ phone: req.body['customer'] });
         if (!customer) {
@@ -69,7 +69,7 @@ const createAppointment = async (req, res) => {
             { phone: req.body['customer'] },
             { $push: { appointments: newAppointment.confNumber } }
         );
-        
+
         // Update the Barber appointments
         const updatedBarber = await Barber.findOneAndUpdate(
             { phone: req.body['barber'] },
@@ -78,7 +78,7 @@ const createAppointment = async (req, res) => {
 
         // save the appointment and send it back
         const savedAppointment = await newAppointment.save();
-        res.status(201).json({savedAppointment});
+        res.status(201).json({ savedAppointment });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
@@ -94,14 +94,14 @@ const updateAppointment = async (req, res, confNumber) => {
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
-        
+
         if (req.body.hasOwnProperty('status')) {
             const allowedStatusValues = ['Scheduled', 'Completed', 'Cancelled'];
             if (!allowedStatusValues.includes(req.body.status)) {
-              return res.status(400).json({ message: 'Invalid status value' });
+                return res.status(400).json({ message: 'Invalid status value' });
             }
-          }
-          
+        }
+
 
         fieldsMapper(appointment, req.body)
 
@@ -111,12 +111,30 @@ const updateAppointment = async (req, res, confNumber) => {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
-  };
+};
+
+const remove = async (req, res, id) => {
+    try {
+        // Use Mongoose to query the MongoDB database for Appointment data
+        const result = await Appointment.deleteOne({ phone: id });
+        if (result.deletedCount === 0) {
+            // If no document was deleted, it means the document with the given ID was not found
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+        // Send the data as a response to the client
+        res.json({ message: 'Appointment deleted' });
+    } catch (error) {
+        // Handle any errors
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 
 
 module.exports = {
     getAllAppointment,
     getAppointment,
     createAppointment,
-    updateAppointment
+    updateAppointment,
+    remove
 }
