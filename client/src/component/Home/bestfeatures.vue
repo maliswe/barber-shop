@@ -17,25 +17,19 @@
       <div class="barberFade">
         <img src="../../assets/Barber.svg" class="barberFade">
       </div>
-      <div class="images">
-        <img src="../../assets/Calender Icon.svg">
-        <img src="../../assets/thumbs.svg">
-        <img src="../../assets/sizIcon.svg">
-        <img src="../../assets/disIcon.svg">
-      </div>
+      <img src="../../assets/Calender Icon.svg" class="calendar-icon">
+      <img src="../../assets/thumbs.svg" class="thumbs-icon">
+      <img src="../../assets/sizIcon.svg" class="size-icon">
+      <img src="../../assets/disIcon.svg" class="discount-icon">
     </div>
+    <p class="Good Discount">Good Discount</p>
+    <p class="Easy way to appointment">Easy way to appointment</p>
+    <p class="Best team">Best team</p>
+    <p class="Happy Customers">300+ Happy Customers</p>
   </div>
 </template>
 
 <style>
-
-.images{
-
-  position: absolute;
-  top: auto;
-  bottom: auto;
-}
-
 .carousel-content {
   position: absolute;
   bottom: -700px;
@@ -84,12 +78,61 @@
   margin-bottom: 0px;
   position: middle;
 }
+
 .sentence1 {
   display: block;
   margin-bottom: 0px;
   position: relative;
   top: 0;
   bottom: auto;
+}
+
+.calendar-icon {
+  width: 30px;
+  position: absolute;
+  bottom: -50px;
+  left: 350px;
+}
+
+.thumbs-icon {
+  width: 30px;
+  position: absolute;
+  bottom: -100px;
+  left: 350px;
+}
+
+.size-icon {
+  width: 30px;
+  position: absolute;
+  bottom: -50px;
+  left: 700px;
+}
+
+.discount-icon {
+  width: 30px;
+  position: absolute;
+  bottom: -100px;
+  left: 700px;
+}
+
+.Easy\ way\ to\ appointment {
+  position: absolute;
+  bottom: -30px;
+  left: 400px;
+  color: #000000;
+}
+
+.Best\ team {
+  position: absolute;
+  bottom: -30px;
+  left: 750px;
+  color: #000000;
+}
+
+.Happy\ Customers {
+  position: absolute;
+  bottom: -30px;
+  color: #000000;
 }
 </style>
 
