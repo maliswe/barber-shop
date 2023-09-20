@@ -1,0 +1,3 @@
+Appointment have barbers (Create a new appointment and set the barber id)
+Appointment have customer (Create a new appointment and set the customer id)
+Appointment have services (Create a new appointment and set the service id)

@@ -63,9 +63,9 @@ const update = async (req, res, id) => {
         if (!barber) {
             return res.status(404).json({ message: 'barber not found' });
         }
-
         
-        fieldsMapper(customer, req.body);
+        // Go through all attributes and update for the values provided
+        fieldsMapper(barber, req.body);
 
         // Save the updated barber document
         await barber.save();

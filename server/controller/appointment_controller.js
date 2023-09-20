@@ -2,6 +2,8 @@ const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
 const Generator = require('../mongodbService/confNumberGenerator.js');
 const Customer = require('../schema/customer_schema.js');
+const Services = require('../schema/services_schema.js');
+const Barber = require('../schema/barber_schema.js');
 const { fieldsMapper } = require('./utilityMethod.js');
 
 
@@ -40,7 +42,7 @@ const createAppointment = async (req, res) => {
     try {
         let customId = await Generator.generator();
         const currentDate = moment().format('YYYY-MM-DD');
-        const { status, price, customerPhone } = req.body;
+        const { status, price, customerPhone, barberPhone } = req.body;
 
         if (!['Scheduled', 'Completed', 'Cancelled'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status value' });
@@ -52,12 +54,19 @@ const createAppointment = async (req, res) => {
             return res.status(404).json({ message: 'Customer not found' });
         }
 
+
+        const barber = await Barber.findOne({ phone: barberPhone });
+        if (!barber) {
+            return res.status(404).json({ message: 'barber not found' });
+        }
+
         // Create and save the appointment
         const nAppointment = new Appointment({
             confNumber: customId,
             status,
             price,
-            date: currentDate
+            date: currentDate,
+            barber: barberPhone
         });
 
         const sAppointment = await nAppointment.save();
@@ -69,13 +78,22 @@ const createAppointment = async (req, res) => {
             { new: true }
         );
 
+        const updatedBarber = await Barber.findOneAndUpdate(
+            { phone: barberPhone },
+            { $push: { appointments: sAppointment.confNumber } },
+            { new: true }
+        );
+
         console.log('Updated Customer:', updatedCustomer);
+        console.log('Updated barber:', updatedBarber);
+
 
         res.status(201).json({
             confNumber: sAppointment.confNumber,
             status: sAppointment.status,
             price: sAppointment.price,
-            date: sAppointment.date
+            date: sAppointment.date,
+            barber: barberPhone
         });
     } catch (error) {
         console.log(error);
