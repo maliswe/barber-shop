@@ -22,10 +22,10 @@
       <img src="../../assets/sizIcon.svg" class="size-icon">
       <img src="../../assets/disIcon.svg" class="discount-icon">
     </div>
-    <p class="Good Discount">Good Discount</p>
-    <p class="Easy way to appointment">Easy way to appointment</p>
-    <p class="Best team">Best team</p>
-    <p class="Happy Customers">300+ Happy Customers</p>
+    <p class="feature1">Good Discount</p>
+    <p class="feature2">Easy way to appointment</p>
+    <p class="feature3">Best team</p>
+    <p class="feature4">300+ Happy Customers</p>
   </div>
 </template>
 
@@ -46,7 +46,7 @@
   height: 300px;
   position: absolute;
   bottom: -70px;
-  left: 600px;
+  left: 700px;
   right: 0;
   padding: 20px;
 }
@@ -115,24 +115,43 @@
   left: 700px;
 }
 
-.Easy\ way\ to\ appointment {
+.feature1 {
   position: absolute;
-  bottom: -30px;
+  right: 5px;
   left: 400px;
+  bottom: -115px;
   color: #000000;
+  white-space: nowrap;
 }
 
-.Best\ team {
+.feature2{
+
   position: absolute;
-  bottom: -30px;
+  right: 5px;
+  left: 400px;
+  bottom: -60px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.feature3{
+
+  position: absolute;
+  right: 5px;
   left: 750px;
+  bottom: -112px;
   color: #000000;
+  white-space: nowrap;
 }
 
-.Happy\ Customers {
-  position: absolute;
-  bottom: -30px;
-  color: #000000;
+.feature4{
+
+    position: absolute;
+    right: 5px;
+    left: 750px;
+    bottom: -62px;
+    color: #000000;
+    white-space: nowrap;
 }
 </style>
 
