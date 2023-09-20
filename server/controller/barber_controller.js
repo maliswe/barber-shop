@@ -1,8 +1,17 @@
 const Barber = require('../schema/barber_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const Service = require('../schema/services_schema.js');
 
 const create = async (req, res) => {
     try {
+
+        // Check if Service is found
+        const service = await Service.find({ _id: req.body['service'] });
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+
+
         // Create a new barber document based on the request body
         const newBarber = new Barber(req.body);
 

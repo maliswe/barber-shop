@@ -67,15 +67,13 @@ const createAppointment = async (req, res) => {
         // Update the Customer appointments
         const updatedCustomer = await Customer.findOneAndUpdate(
             { phone: req.body['customer'] },
-            { $push: { appointments: newAppointment.confNumber } },
-            { new: true }
+            { $push: { appointments: newAppointment.confNumber } }
         );
         
         // Update the Barber appointments
         const updatedBarber = await Barber.findOneAndUpdate(
             { phone: req.body['barber'] },
-            { $push: { appointments: newAppointment.confNumber } },
-            { new: true }
+            { $push: { appointments: newAppointment.confNumber } }
         );
 
         // save the appointment and send it back
