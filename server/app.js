@@ -37,19 +37,19 @@ app.get('/api', function(req, res) {
 });
 
 customerRouter = require('./routes/customer_routes.js');
-app.use('/customers', customerRouter);
+app.use('/v2/customers', customerRouter);
 
 barberRouter = require('./routes/barber_routes.js');
-app.use('/barbers', barberRouter);
+app.use('/v1/barbers', barberRouter);
 
 adminRouter = require('./routes/admin_routes.js');
-app.use('/admins', adminRouter);
+app.use('/v1/admins', adminRouter);
 
 appointmentRouter = require ('./routes/appointment_routes.js');
-app.use('/appointments', appointmentRouter);
+app.use('/v1/appointments', appointmentRouter);
 
 servicesRouter = require('./routes/services_routes.js');
-app.use('/services',servicesRouter)
+app.use('/v1/services',servicesRouter)
 
 
 // Configuration for serving frontend in production mode
