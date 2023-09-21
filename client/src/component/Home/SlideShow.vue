@@ -3,6 +3,7 @@
     <div class="header">
       <h1>Our Best Services</h1>
     </div>
+    <div class="rectangle-22"></div>
     <div class="image-container">
       <div
         v-for="(image, index) in images"
@@ -48,6 +49,32 @@ export default {
 </script>
 
 <style>
+
+.header {
+  position: absolute;
+  width: 400px;
+  height: 48px;
+  left: 750px;
+  top: 1900px;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: bold;
+  font-size: 38px;
+  line-height: 48px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #272522;
+  padding: 0px; /* You can adjust the padding as needed */
+}
+
+.rectangle-22 {
+  position: absolute;
+  bottom: -1000px;
+  left: 940px;
+  width: 29px;
+  height: 5px;
+  background: #EAB172;
+}
+
 .image-item {
   text-align: center;
   padding: 20px;
@@ -58,11 +85,11 @@ export default {
 }
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay color */
+  top: 20px;
+  left: 20px;
+  width: 86.5%;
+  height: 86%;
+  background-color: rgba(0, 0, 0, .5); /* Dark overlay color */
   display: none;
   transition: opacity 0.3s;
 }
