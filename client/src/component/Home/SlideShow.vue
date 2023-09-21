@@ -18,6 +18,7 @@
         />
         <div class="overlay" v-if="index === currentIndex"></div>
         <div class="thumbnail-buttons">
+
         </div>
       </div>
     </div>
