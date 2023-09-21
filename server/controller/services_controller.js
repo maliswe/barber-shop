@@ -1,5 +1,7 @@
 const Services = require('../schema/services_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 
 const create = async (req, res) => {
     try {
@@ -20,9 +22,11 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for Services data
-        const services = await Services.find(); // This fetches all services documents in the 'services' collection
-        
+
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const services = await Services.find().skip(skip).limit(Number(req.query.pageSize));
+
         if (services.length < 1) {
             return res.status(404).json({ message: 'services not found' });
         }
