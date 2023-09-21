@@ -28,7 +28,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.json(admins);
+        res.status(200).json(admins);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -45,9 +45,21 @@ const getOne = async (req, res, id) => {
             // If no admin with the given ID is found, return a 404 response
             return res.status(404).json({ message: 'Admin not found' });
         }
-
+        const links = [
+            {
+                rel: 'self',
+                href: 'api/v1/admins/'+id,
+                type: 'PUT'
+            },
+            {
+                rel: 'self',
+                href: 'api/v1/admins/'+id,
+                type: 'DELETE'
+            }
+        ]
         // Send the data as a response to the client
-        res.json(admin);
+        res.status(200).json({...admin._doc, links});
+
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -71,7 +83,7 @@ const update = async (req, res, id) => {
         await admin.save();
 
         // Send the updated admin data as a response
-        res.json(admin);
+        res.status(200).json(admin);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -87,7 +99,7 @@ const remove = async (req, res, id) => {
             return res.status(404).json({ message: 'Admin not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'Admin deleted' });
+        res.status(200).json({ message: 'Admin deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);

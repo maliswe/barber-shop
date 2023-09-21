@@ -73,7 +73,7 @@ const update = async (req, res, id) => {
         await customer.save();
 
         // Send the updated customer data as a response
-        res.json(customer);
+        res.status(200).json(customer);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -89,7 +89,7 @@ const remove = async (req, res, id) => {
             return res.status(404).json({ message: 'customer not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'customer deleted' });
+        res.status(200).json({ message: 'customer deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
