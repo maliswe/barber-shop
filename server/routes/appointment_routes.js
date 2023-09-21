@@ -18,4 +18,8 @@ router.put('/:confNumber', async (req, res) => {
     controller.updateAppointment(req, res, req.params.confNumber);
 });
 
+router.delete('/:confNumber', async (req, res) => {
+    controller.remove(req, res, req.params.confNumber);
+});
+
 module.exports = router;

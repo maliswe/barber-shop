@@ -1,5 +1,5 @@
 const Services = require('../schema/services_schema.js')
-
+const { fieldsMapper } = require('./utilityMethod.js');
 
 const create = async (req, res) => {
     try {
@@ -64,20 +64,8 @@ const update = async (req, res, id) => {
             return res.status(404).json({ message: 'services not found' });
         }
 
-        // Define an array of field names that can be updated
-
-        const fieldsToUpdate = Object.keys(services.schema.paths)
-            .filter((fieldName) => {
-                const field = services.schema.paths[fieldName];
-                return field.isRequired && !field.options.hidden;
-            });
-
-        // Use a for loop to iterate through the fields and update them
-        for (const field of fieldsToUpdate) {
-            if (req.body[field]) {
-                services[field] = req.body[field];
-            }
-        }
+        
+        fieldsMapper(customer, req.body);
 
         // Save the updated services document
         await services.save();
