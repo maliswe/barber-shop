@@ -1,5 +1,7 @@
 const Admin = require('../schema/admin_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 
 
 const create = async (req, res) => {
@@ -22,7 +24,10 @@ const create = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        const admins = await Admin.find(); // This fetches all admin documents in the 'admins' collection
+        
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
         
         if (admins.length < 1) {
             return res.status(404).json({ message: 'Admin not found' });
