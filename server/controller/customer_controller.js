@@ -1,5 +1,7 @@
 const Customer = require('../schema/customer_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js'); 
+const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 
 
 const create = async (req, res) => {
@@ -21,8 +23,10 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for customer data
-        const customers = await Customer.find(); // This fetches all customer documents in the 'customers' collection
+
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const customers = await Customer.find().skip(skip).limit(Number(req.query.pageSize));
 
         if (customers.length < 1) {
             return res.status(404).json({ message: 'customer not found' });

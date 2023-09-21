@@ -1,5 +1,8 @@
 const Admin = require('../schema/admin_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
+
 
 const create = async (req, res) => {
     try {
@@ -16,12 +19,15 @@ const create = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
 const getAll = async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        const admins = await Admin.find(); // This fetches all admin documents in the 'admins' collection
+        
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
         
         if (admins.length < 1) {
             return res.status(404).json({ message: 'Admin not found' });
@@ -101,18 +107,30 @@ const remove = async (req, res, id) => {
         // Send the data as a response to the client
         res.status(200).json({ message: 'Admin deleted' });
     } catch (error) {
-        // Handle any errors
-        console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
-
+const methodDispatch = async (req, res, id) =>{
+    methodType = req.headers['_method']
+    try {
+        if (methodType === 'PUT'){
+            update(req, res, id);
+        } else if (methodType === 'DELETE') {
+            remove(req, res, id);
+        } else {
+            res.status(400).json({ message: 'Only PUT or DELETE methods are accepted' });
+        }
+    } catch {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 
 module.exports = {
     getAll,
     create,
     getOne,
     remove,
-    update
+    update,
+    methodDispatch
 };

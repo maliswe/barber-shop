@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+const methodOverride = require('method-override');
 require('dotenv').config()
 
 // Variables
@@ -30,6 +31,7 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+app.use(methodOverride('_method'));
 
 // Import routes
 app.get('/api', function(req, res) {
