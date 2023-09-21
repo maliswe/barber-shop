@@ -11,6 +11,26 @@ function fieldsMapper(schemaType, requestBody) {
     }
 }
 
+function sort(sortOrder) {
+
+    if (sortOrder === 'asc'){
+        return 1
+    } else if (sortOrder === 'desc'){
+        return -1
+    } else {
+        return 0
+    }
+}
+
+
+function recSkipper(page=1, pageSize=10) {
+    skip = (page - 1) * pageSize;
+    return skip
+}
+
+
 module.exports = {
-    fieldsMapper
+    fieldsMapper,
+    sort,
+    recSkipper
 };
