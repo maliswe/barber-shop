@@ -20,7 +20,7 @@ const getAllAppointment = async (req, res, customerID = undefined) => {
             return res.status(404).json({ message: 'appointment not found' });
         }
 
-        res.json(appointments);
+        res.status(200).json(appointments);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
@@ -41,7 +41,7 @@ const getAppointment = async (req, res, confNumber, customerID = undefined) => {
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
-        res.json(appointment);
+        res.status(200).json(appointment);
 
     } catch (error) {
         console.log(error);

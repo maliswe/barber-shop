@@ -37,7 +37,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.json(barbers);
+        res.status(200).json(barbers);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -56,7 +56,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.json(barber);
+        res.status(200).json(barber);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -80,7 +80,7 @@ const update = async (req, res, id) => {
         await barber.save();
 
         // Send the updated barber data as a response
-        res.json(barber);
+        res.status(200).json(barber);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -96,7 +96,7 @@ const remove = async (req, res, id) => {
             return res.status(404).json({ message: 'barber not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'barber deleted' });
+        res.status(200).json({ message: 'barber deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
