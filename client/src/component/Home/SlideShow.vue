@@ -36,7 +36,7 @@ export default {
         { left: '320px', bottom: '-1400px' },
         { left: '640px', bottom: '-1400px' },
         { left: '960px', bottom: '-1400px' },
-        { left: '1280px', bottom: '-1400px' } // Adjust positions as needed
+        { left: '1280px', bottom: '-1400px' }
       ]
     }
   },
@@ -57,19 +57,19 @@ export default {
   left: 750px;
   top: 1900px;
   font-family: 'Fira Sans', sans-serif;
-  font-weight: bold;
+  font-weight: 900;
   font-size: 38px;
   line-height: 48px;
   text-align: center;
   text-transform: capitalize;
   color: #272522;
-  padding: 0px; /* You can adjust the padding as needed */
+  padding: 0px;
 }
 
 .rectangle-22 {
   position: absolute;
   bottom: -1000px;
-  left: 940px;
+  left: 935px;
   width: 29px;
   height: 5px;
   background: #EAB172;
@@ -89,7 +89,7 @@ export default {
   left: 20px;
   width: 86.5%;
   height: 86%;
-  background-color: rgba(0, 0, 0, .5); /* Dark overlay color */
+  background-color: rgba(0, 0, 0, .5);
   display: none;
   transition: opacity 0.3s;
 }
