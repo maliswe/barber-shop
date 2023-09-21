@@ -48,7 +48,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.json(customer);
+        res.status(200).json(customer);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -96,6 +96,7 @@ const remove = async (req, res, id) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 

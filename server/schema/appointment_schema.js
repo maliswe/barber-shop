@@ -13,7 +13,7 @@ const appointmentSchema = new Schema({
     date: { type: Date, required: true },
     service: [{ type: Schema.Types.ObjectId, ref: 'Services', required: false }],
     barber: [{ type: Number, ref: 'Barber', required: false }],
-    customer: [{ type: Number, ref: 'Customer', required: false }]
+    customer: { type: Number, ref: 'Customer', required: false }
 });
 
 const Appointment = mongoose.model("Appointments", appointmentSchema);

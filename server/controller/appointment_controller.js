@@ -8,9 +8,13 @@ const { fieldsMapper } = require('./utilityMethod.js');
 
 
 
-const getAllAppointment = async (req, res) => {
+const getAllAppointment = async (req, res, customerID = undefined) => {
     try {
-        const appointments = await Appointment.find();
+        let query = {};
+        if ( customerID !== undefined ){
+            query = { customer: customerID }
+        }
+        const appointments = await Appointment.find(query);
 
         if (appointments.length < 1) {
             return res.status(404).json({ message: 'appointment not found' });
@@ -23,10 +27,16 @@ const getAllAppointment = async (req, res) => {
     }
 };
 
-const getAppointment = async (req, res, confNumber) => {
+const getAppointment = async (req, res, confNumber, customerID = undefined) => {
     try {
 
-        const appointment = await Appointment.findOne({ confNumber: confNumber });
+        let query = {};
+        if ( customerID !== undefined ){
+            query = {customer: customerID}
+        };
+
+        // Use the (...) to merge the confNumber filter and the properties of the query object into a single object.
+        const appointment = await Appointment.findOne({ confNumber: confNumber, ...query});
 
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
@@ -39,13 +49,18 @@ const getAppointment = async (req, res, confNumber) => {
     }
 };
 
-const createAppointment = async (req, res) => {
+const createAppointment = async (req, res, customerID = undefined) => {
     try {
         let customId = await Generator.generator();
         const currentDate = moment().format('YYYY-MM-DD');
 
         req.body['date'] = currentDate;
         req.body['confNumber'] = customId;
+
+        // Used for create appointment from the customer route
+        if (customerID !== undefined){
+            req.body['customer'] = customerID;
+        }
 
         // Verify if customer exists
         const customer = await Customer.findOne({ phone: req.body['customer'] });
@@ -95,17 +110,10 @@ const updateAppointment = async (req, res, confNumber) => {
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        if (req.body.hasOwnProperty('status')) {
-            const allowedStatusValues = ['Scheduled', 'Completed', 'Cancelled'];
-            if (!allowedStatusValues.includes(req.body.status)) {
-                return res.status(400).json({ message: 'Invalid status value' });
-            }
-        }
+        fieldsMapper(appointment, req.body);
+        await appointment.save();
 
-
-        fieldsMapper(appointment, req.body)
-
-        res.json(appointment);
+        res.status(200).json(appointment);
 
     } catch (error) {
         console.log(error);
@@ -113,16 +121,16 @@ const updateAppointment = async (req, res, confNumber) => {
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res, confNumber) => {
     try {
         // Use Mongoose to query the MongoDB database for Appointment data
-        const result = await Appointment.deleteOne({ phone: id });
+        const result = await Appointment.deleteOne({ confNumber: confNumber });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Appointment not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'Appointment deleted' });
+        res.status(200).json({ message: 'Appointment deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
