@@ -64,12 +64,13 @@
 }
 
 .image-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
   position: absolute;
   top: 300px;
-  left: 350px;
+  left: 125px;
   right: 100px;
 }
 

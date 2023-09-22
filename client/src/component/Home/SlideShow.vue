@@ -35,10 +35,10 @@ export default {
       images: ['first.png', 'second.png', 'third.png', 'forth.png'],
       currentIndex: 0,
       imagePositions: [
-        { left: '320px', bottom: '-1400px' },
-        { left: '640px', bottom: '-1400px' },
-        { left: '960px', bottom: '-1400px' },
-        { left: '1280px', bottom: '-1400px' }
+        { left: '50px', bottom: '-1500px' }, // Update positions here
+        { left: '500px', bottom: '-1500px' }, // Adjust as needed
+        { left: '950px', bottom: '-1500px' }, // Adjust as needed
+        { left: '1350px', bottom: '-1500px' } // Adjust as needed
       ]
     }
   },
@@ -77,18 +77,20 @@ export default {
 
 .image-item {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   cursor: pointer;
   position: absolute;
-  width: 300px;
-  height: 400px;
+  width: 360px;
+  height: 482px;
+  margin-right: 20px; /* Added margin for spacing */
 }
+
 .overlay {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 86.5%;
-  height: 86%;
+  top: 0;
+  left: 0;
+  width: 100%; /* Updated width to 100% */
+  height: 100%; /* Updated height to 100% */
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
   transition: opacity 0.3s;
@@ -98,28 +100,9 @@ export default {
   display: block;
 }
 
-.image-1 {
-  left: 320px;
-  bottom: '-1400px';
-}
-
-.image-2 {
-  left: 640px;
-  bottom: '-1400px';
-}
-
-.image-3 {
-  left: 960px;
-  bottom: '-1400px';
-}
-
-.image-4 {
-  left: 1280px;
-  bottom: '-1400px';
-}
-
+/* Updated styles for resizable images */
 .resizable-image {
-  width: 100%;
-  height: auto;
+  width: 400px; /* Updated width */
+  height: 500px; /* Updated height */
 }
 </style>
