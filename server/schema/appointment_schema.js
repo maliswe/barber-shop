@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 const appointmentSchema = new Schema({
-    status: { type: String, required: true },
+    confNumber: { type: String, required: true, unique: true },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Scheduled', 'Completed', 'Cancelled']
+    },
     price: { type: Number, required: true },
-    date: { type: Date, default: Date.now,required: false },
-    customer: {
-        type: Schema.Types.ObjectId,
-        ref: 'Customer'
-    }
+    date: { type: Date, required: true },
+    service: [{ type: Schema.Types.ObjectId, ref: 'Services', required: false }],
+    barber: [{ type: Number, ref: 'Barber', required: false }],
+    customer: { type: Number, ref: 'Customer', required: false }
 });
 
 const Appointment = mongoose.model("Appointments", appointmentSchema);
-module.exports= Appointment;
+module.exports = Appointment;

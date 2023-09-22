@@ -1,4 +1,7 @@
 const Customer = require('../schema/customer_schema.js')
+const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 
 
 const create = async (req, res) => {
@@ -20,9 +23,11 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for customer data
-        const customers = await Customer.find(); // This fetches all customer documents in the 'customers' collection
-        
+
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const customers = await Customer.find().skip(skip).limit(Number(req.query.pageSize));
+
         if (customers.length < 1) {
             return res.status(404).json({ message: 'customer not found' });
         }
@@ -39,7 +44,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for customer data
-        const customer = await Customer.findOne({phone:id});
+        const customer = await Customer.findOne({ phone: id });
 
         if (!customer) {
             // If no customer with the given ID is found, return a 404 response
@@ -47,7 +52,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.json(customer);
+        res.status(200).json(customer);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -58,7 +63,7 @@ const getOne = async (req, res, id) => {
 const update = async (req, res, id) => {
     try {
         // Find the customer by ID
-        const customer = await Customer.findOne({phone:id});
+        const customer = await Customer.findOne({ phone: id });
 
         if (!customer) {
             return res.status(404).json({ message: 'customer not found' });
@@ -66,24 +71,13 @@ const update = async (req, res, id) => {
 
         // Define an array of field names that can be updated
 
-        const fieldsToUpdate = Object.keys(customer.schema.paths)
-            .filter((fieldName) => {
-                const field = customer.schema.paths[fieldName];
-                return field.isRequired && !field.options.hidden;
-            });
-
-        // Use a for loop to iterate through the fields and update them
-        for (const field of fieldsToUpdate) {
-            if (req.body[field]) {
-                customer[field] = req.body[field];
-            }
-        }
+        fieldsMapper(customer, req.body);
 
         // Save the updated customer document
         await customer.save();
 
         // Send the updated customer data as a response
-        res.json(customer);
+        res.status(200).json(customer);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -93,19 +87,20 @@ const update = async (req, res, id) => {
 const remove = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for customer data
-        const result = await Customer.deleteOne({phone:id});
+        const result = await Customer.deleteOne({ phone: id });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'customer not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'customer deleted' });
+        res.status(200).json({ message: 'customer deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 
