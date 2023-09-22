@@ -1,12 +1,17 @@
 <template>
-  <header>
-    <div class="navbar">
-      <!-- Logo goes here, outside the container -->
-      <div>
-        <logo />
+  <header :class="{ 'scrolled-nav': scrolledNav }">
+    <div class="logo-container">
+      <div class="logo-background">
+        <img src="../../assets/bg.png" class="bg-img" alt="Background 1">
+        <img src="../../assets/bg.png" class="bg-img" alt="Background 2">
+        <img src="../../assets/bg.png" class="bg-img" alt="Background 3">
       </div>
-      <!-- Navigation Links in the Center -->
-      <ul v-show="!mobile" class="ul">
+      <div class="logo">
+        <img src="../../assets/logo.png" alt="">
+      </div>
+    </div>
+    <nav>
+      <ul v-show="!mobile" class="navigation">
         <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
         <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
         <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
@@ -15,25 +20,28 @@
         <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
         <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
       </ul>
-      <!-- button goes here, outside the container -->
-      <div>
-        <btn />
+      <div class="icon">
+        <i @click="toggleMobileNav" v-show="mobile" class="fat fa-bars" :class="{ 'icon-active': mobileNav }"></i>
       </div>
-    </div>
+      <transition name="mobile-nav">
+        <ul v-show="mobileNav" class="dropdown-nav">
+          <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+        </ul>
+      </transition>
+    </nav>
+
   </header>
 </template>
 
 <script>
-
-import btn from './bookBtn.vue'
-import logo from './logo.vue'
-
 export default {
   name: 'Navbar',
-  components: {
-    btn,
-    logo
-  },
   data() {
     return {
       scrolledNav: null,
@@ -69,19 +77,160 @@ export default {
       }
       this.mobile = false
       this.mobileNav = false
-    },
-    navigateToBooking() {
-      this.$router.push({ name: 'Booking' })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import './navbar.module.scss';
+header {
+  z-index: 99;
+  width: 100%;
+  position: fixed;
+  transition: .5s ease all;
+  justify-content: center;
+  color: #00000014;
+
+  nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    transition: .5s ease all;
+    width: 90%;
+    margin: 0 auto;
+
+    @media(min-width: 1140px) {
+      max-width: 1140px;
+    }
+
+    ul,
+    .link {
+      font-weight: 500;
+      color: black;
+      list-style: none;
+      text-decoration: none;
+    }
+
+    li {
+      text-transform: uppercase;
+      padding: 16px;
+      margin-left: 16px;
+    }
+
+    .link {
+      font-size: 14px;
+      transition: .5s ease all;
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+    }
+
+    &:hover {
+      color: #E7A356;
+      border-color: #E7A356;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 24px;
+      height: 100%;
+
+      i {
+        cursor: pointer;
+        font-size: 24px;
+        transition: .8s ease all;
+      }
+    }
+
+    .icon-active {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-nav {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      width: 100%;
+      max-width: 250px;
+      height: 100%;
+      backgroud-color: white;
+      top: 0;
+      left: 0;
+
+      li {
+        margin-left: 0;
+
+        .link {
+          color: black;
+        }
+      }
+    }
+
+    .mobile-nav-enter-active,
+    .mobile-nav-leave-active {
+      transition: 1s ease all;
+    }
+
+    .mobile-nav-enter-form,
+    .mobile-nav-leave-to {
+      transform: translateX(-250px);
+    }
+
+    .mobile-nav-enter-to {
+      transform: translateX(0);
+    }
+  }
+}
 
 .scrolled-nav {
   background-color: black;
   box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.branding {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  img {
+    width: 50px;
+    transition: .5s ease all;
+  }
+}
+
+.logo-background {
+  flex: 10;
+  height: 73px;
+  background-color: black;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.bg-img {
+  vertical-align: middle;
+}
+
 </style>

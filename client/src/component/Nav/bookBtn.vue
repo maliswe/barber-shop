@@ -1,10 +1,10 @@
 <template>
-    <div class="book">
-        <button @click="navigateToBooking" class="book">
-            <img src="../../assets/group.png">
-            Book
-        </button>
-    </div>
+  <div class="book">
+    <button @click="navigateToBooking" class="book">
+      <img src="../../assets/group.png">
+      Book
+    </button>
+  </div>
 </template>
 <script>
 export default {
