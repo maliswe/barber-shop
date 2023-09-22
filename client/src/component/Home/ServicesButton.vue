@@ -1,6 +1,8 @@
 <template>
   <div>
-    <b-button variant="outline-primary" class="custom-button">See All Services</b-button>
+    <b-button variant="outline-primary" class="custom-button"
+      >See All Services</b-button
+    >
   </div>
 </template>
 
@@ -11,18 +13,17 @@ export default {
 </script>
 
 <style>
-
 .custom-button {
   box-sizing: border-box;
   position: absolute;
   width: 267.14px;
   height: 84.36px;
   left: 100px;
-  top: 800px;
-  border: 2.81195px solid #E7A356;
+  top: 700px;
+  border: 2.81195px solid #e7a356;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 0px 0px 7.02988px 7.02988px;
-  color: #E7A356;
+  color: #e7a356;
   background-color: transparent;
   font-family: 'Fira Sans', sans-serif;
   font-style: normal;
@@ -33,7 +34,7 @@ export default {
 }
 
 .custom-button:hover {
-  background-color: #E7A356;
+  background-color: #e7a356;
   color: #fff;
 }
 </style>

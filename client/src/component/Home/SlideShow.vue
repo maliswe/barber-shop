@@ -8,7 +8,11 @@
       <div
         v-for="(image, index) in images"
         :key="index"
-        :class="['image-item', 'image-' + (index + 1), { 'selected': index === currentIndex }]"
+        :class="[
+          'image-item',
+          'image-' + (index + 1),
+          { selected: index === currentIndex }
+        ]"
         @click="setCurrentIndex(index)"
         :style="imagePositions[index]"
       >
@@ -18,9 +22,7 @@
           class="resizable-image"
         />
         <div class="overlay" v-if="index === currentIndex"></div>
-        <div class="thumbnail-buttons">
-
-        </div>
+        <div class="thumbnail-buttons"></div>
       </div>
     </div>
   </div>
@@ -49,13 +51,12 @@ export default {
 </script>
 
 <style>
-
 .header {
   position: absolute;
   width: 400px;
   height: 48px;
   left: 750px;
-  top: 1900px;
+  top: 210%;
   font-family: 'Fira Sans', sans-serif;
   font-weight: 900;
   font-size: 38px;
@@ -63,7 +64,6 @@ export default {
   text-align: center;
   text-transform: capitalize;
   color: #272522;
-  padding: 0px;
 }
 
 .rectangle-22 {
@@ -72,7 +72,7 @@ export default {
   left: 935px;
   width: 29px;
   height: 5px;
-  background: #EAB172;
+  background: #eab172;
 }
 
 .image-item {
@@ -89,7 +89,7 @@ export default {
   left: 20px;
   width: 86.5%;
   height: 86%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: none;
   transition: opacity 0.3s;
 }
