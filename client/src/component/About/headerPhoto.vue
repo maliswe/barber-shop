@@ -4,16 +4,17 @@
     </div>
 </template>
 
-<style scoped>
-.header-photo {
-    position: absolute;
-    top: 146px;
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-}
+<script>
+const screenWidth = window.innerWidth
+document.documentElement.style.setProperty('--screen-width', `${screenWidth}px`)
 
+</script>
+
+<style scoped>
 .header-photo img {
-    width: max(1140px, 50vw); /* Set a fixed width */
-    height: auto; /* Maintain the aspect ratio of the image */
+    max-width: 100%;
+    min-width: 400px;
+    height: auto;
+    width: auto\9;
 }
 </style>

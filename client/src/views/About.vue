@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <headerPhoto/>
-        <textSection/>
-        <whoAreWe/>
+        <headerPhoto class="headerPhoto"/>
+        <textSection class="textSection"/>
+        <whoAreWe class="whoAreWe"/>
     </div>
 </template>
 
@@ -26,6 +26,18 @@ export default {
 .container{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  gap: 75px;
+}
+
+.whoAreWe{
+}
+
+.textSection{
+  width: auto;
+}
+
+.headerPhoto{
+  margin-top: 146px;
 }
 </style>
