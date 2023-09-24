@@ -24,7 +24,4 @@ export default {
 </script>
 
 <style>
-.navbar {
-  padding: 0;
-}
 </style>
