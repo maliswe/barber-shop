@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <headerPhoto/> <textSection/> <whoAreWe/>
-        <p> This is the about us page</p>
+    <div class="container">
+        <headerPhoto/>
+        <textSection/>
+        <whoAreWe/>
     </div>
 </template>
 
@@ -22,4 +23,9 @@ export default {
 </script>
 
 <style>
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 </style>

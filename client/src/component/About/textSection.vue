@@ -21,16 +21,16 @@
     transform: translateX(-50%); /* Center horizontally */
     font-family: 'Roboto';
     font-weight: 400;
-    font-size: 1.2vw;
-    line-height: 1.8vw;
+    font-size: max(1.0vw, 15px);
+    line-height: max(1.7vw, 23);
     color: rgba(136, 135, 143, 1);
     width: 75%;
 }
 
 @media (max-width: 768px) {
   .text {
-    font-size: 5vw;
-    line-height: 6vw;
+    font-size: min(4vw, 13);
+    line-height: min(5vw, 17);
   }
 }
 </style>
