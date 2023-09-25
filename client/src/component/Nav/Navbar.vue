@@ -1,41 +1,38 @@
 <template>
-  <div class="navbar">
-    <!-- Logo goes here, outside the container -->
-    <div class="logo-bg">
-      <div class="bg-images">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 1">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 1">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 1">
-        <!-- ... -->
+  <header>
+    <div class="navbar">
+      <!-- Logo goes here, outside the container -->
+      <div>
+        <logo />
       </div>
-      <div class="logo">
-        <img src="../../assets/logo.png" alt="">
+      <!-- Navigation Links in the Center -->
+      <ul v-show="!mobile" class="ul">
+        <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
+        <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+      </ul>
+      <!-- button goes here, outside the container -->
+      <div>
+        <btn />
       </div>
     </div>
-    <!-- Navigation Links in the Center -->
-    <ul v-show="!mobile" class="ul">
-      <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-      <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
-      <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
-      <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-      <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-      <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-      <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
-    </ul>
-
-    <!-- ...other parts of your template like mobile navigation... -->
-    <div>
-      <!-- Button on the Right -->
-      <button @click="navigateToBooking" class="book">BOOK</button>
-    </div>
-  </div>
+  </header>
 </template>
 
 <script>
 
+import btn from './bookBtn.vue'
+import logo from './logo.vue'
+
 export default {
   name: 'Navbar',
   components: {
+    btn,
+    logo
   },
   data() {
     return {
@@ -81,5 +78,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './navbar.module.scss'
+@import './navbar.module.scss';
+
+.scrolled-nav {
+  background-color: black;
+  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: black;
+  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 </style>
