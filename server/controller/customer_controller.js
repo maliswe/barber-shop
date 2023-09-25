@@ -2,12 +2,21 @@ const Customer = require('../schema/customer_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
+const bcrypt = require('bcryptjs');
 
 
 const create = async (req, res) => {
     try {
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
         // Create a new customer document based on the request body
-        const newCustomer = new Customer(req.body);
+        const newCustomer = new Customer({
+            ...req.body,
+            password: hashedPassword
+        });
 
         // Save the new customer document to the database
         const savedCustomer = await newCustomer.save();

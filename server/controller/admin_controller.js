@@ -2,12 +2,24 @@ const Admin = require('../schema/admin_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
+const bcrypt = require('bcryptjs');
 
 
 const create = async (req, res) => {
     try {
+        // Check if the user has the role of 'admin'
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'You do not have permission to perform this action.' });
+        }
+
+        //Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashPass = await bcrypt.hash(req.body.password, salt);
         // Create a new admin document based on the request body
-        const newAdmin = new Admin(req.body);
+        const newAdmin = new Admin({
+            ...req.body,
+            password: hashPass
+        });
 
         // Save the new admin document to the database
         const savedAdmin = await newAdmin.save();
@@ -24,11 +36,11 @@ const create = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        
+
         sortFilter = sort(req.query.sort)
         recSkipper(req.query.page, req.query.pageSize);
         const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
-        
+
         if (admins.length < 1) {
             return res.status(404).json({ message: 'Admin not found' });
         }
@@ -45,7 +57,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        const admin = await Admin.findOne({phone:id});
+        const admin = await Admin.findOne({ phone: id });
 
         if (!admin) {
             // If no admin with the given ID is found, return a 404 response
@@ -54,17 +66,17 @@ const getOne = async (req, res, id) => {
         const links = [
             {
                 rel: 'self',
-                href: 'api/v1/admins/'+id,
+                href: 'api/v1/admins/' + id,
                 type: 'PUT'
             },
             {
                 rel: 'self',
-                href: 'api/v1/admins/'+id,
+                href: 'api/v1/admins/' + id,
                 type: 'DELETE'
             }
         ]
         // Send the data as a response to the client
-        res.status(200).json({...admin._doc, links});
+        res.status(200).json({ ...admin._doc, links });
 
     } catch (error) {
         // Handle any errors
@@ -76,13 +88,13 @@ const getOne = async (req, res, id) => {
 const update = async (req, res, id) => {
     try {
         // Find the admin by ID
-        const admin = await Admin.findOne({phone:id});
+        const admin = await Admin.findOne({ phone: id });
 
         if (!admin) {
             return res.status(404).json({ message: 'Admin not found' });
         }
 
-        
+
         fieldsMapper(customer, req.body);
 
         // Save the updated admin document
@@ -99,7 +111,7 @@ const update = async (req, res, id) => {
 const remove = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
-        const result = await Admin.deleteOne({phone:id});
+        const result = await Admin.deleteOne({ phone: id });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Admin not found' });
@@ -111,10 +123,10 @@ const remove = async (req, res, id) => {
     }
 };
 
-const methodDispatch = async (req, res, id) =>{
+const methodDispatch = async (req, res, id) => {
     methodType = req.headers['_method']
     try {
-        if (methodType === 'PUT'){
+        if (methodType === 'PUT') {
             update(req, res, id);
         } else if (methodType === 'DELETE') {
             remove(req, res, id);

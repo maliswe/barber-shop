@@ -5,6 +5,7 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
 require('dotenv').config()
 
 // Variables
@@ -12,7 +13,7 @@ var mongoURI = process.env.MONGODB_URI;
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect(mongoURI).catch(function(err) {
+mongoose.connect("mongodb+srv://ali:ali@aslan.im1wsjq.mongodb.net/BarberShop").catch(function(err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
         console.error(err.stack);
@@ -29,9 +30,12 @@ app.use(express.json());
 // HTTP request logger
 app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
-app.options('*', cors());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:8080', // replace with your frontend application's URL
+    credentials: true // this allows cookies to be sent
+  }));
 app.use(methodOverride('_method'));
+app.use(cookieParser());
 
 // Import routes
 app.get('/api', function(req, res) {
@@ -52,6 +56,9 @@ app.use('/api/v1/appointments', appointmentRouter);
 
 servicesRouter = require('./routes/services_routes.js');
 app.use('/api/v1/services',servicesRouter)
+
+loginRouter = require('./routes/auth_routes.js');
+app.use('/api', loginRouter)
 
 
 // Configuration for serving frontend in production mode
