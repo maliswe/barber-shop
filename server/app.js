@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+const methodOverride = require('method-override');
 require('dotenv').config()
 
 // Variables
@@ -30,6 +31,7 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+app.use(methodOverride('_method'));
 
 // Import routes
 app.get('/api', function(req, res) {
@@ -37,19 +39,19 @@ app.get('/api', function(req, res) {
 });
 
 customerRouter = require('./routes/customer_routes.js');
-app.use('/v2/customers', customerRouter);
+app.use('/api/v1/customers', customerRouter);
 
 barberRouter = require('./routes/barber_routes.js');
-app.use('/v1/barbers', barberRouter);
+app.use('/api/v1/barbers', barberRouter);
 
 adminRouter = require('./routes/admin_routes.js');
-app.use('/v1/admins', adminRouter);
+app.use('/api/v1/admins', adminRouter);
 
 appointmentRouter = require ('./routes/appointment_routes.js');
-app.use('/v1/appointments', appointmentRouter);
+app.use('/api/v1/appointments', appointmentRouter);
 
 servicesRouter = require('./routes/services_routes.js');
-app.use('/v1/services',servicesRouter)
+app.use('/api/v1/services',servicesRouter)
 
 
 // Configuration for serving frontend in production mode

@@ -1,5 +1,7 @@
 const Barber = require('../schema/barber_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 const Service = require('../schema/services_schema.js');
 
 const create = async (req, res) => {
@@ -29,15 +31,17 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
-        const barbers = await Barber.find(); // This fetches all barber documents in the 'barbers' collection
+        
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const barbers = await Barber.find().skip(skip).limit(Number(req.query.pageSize));
         
         if (barbers.length < 1) {
             return res.status(404).json({ message: 'barber not found' });
         }
 
         // Send the data as a response to the client
-        res.json(barbers);
+        res.status(200).json(barbers);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -56,7 +60,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.json(barber);
+        res.status(200).json(barber);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -80,7 +84,7 @@ const update = async (req, res, id) => {
         await barber.save();
 
         // Send the updated barber data as a response
-        res.json(barber);
+        res.status(200).json(barber);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -96,7 +100,7 @@ const remove = async (req, res, id) => {
             return res.status(404).json({ message: 'barber not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'barber deleted' });
+        res.status(200).json({ message: 'barber deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);

@@ -1,5 +1,7 @@
 const Services = require('../schema/services_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
+const { sort } = require('./utilityMethod.js');
+const { recSkipper } = require('./utilityMethod.js');
 
 const create = async (req, res) => {
     try {
@@ -20,15 +22,17 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for Services data
-        const services = await Services.find(); // This fetches all services documents in the 'services' collection
-        
+
+        sortFilter = sort(req.query.sort)
+        recSkipper(req.query.page, req.query.pageSize);
+        const services = await Services.find().skip(skip).limit(Number(req.query.pageSize));
+
         if (services.length < 1) {
             return res.status(404).json({ message: 'services not found' });
         }
 
         // Send the data as a response to the client
-        res.json(Services);
+        res.status(200).json(Services);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -47,7 +51,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.json(Services);
+        res.status(200).json(Services);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -71,7 +75,7 @@ const update = async (req, res, id) => {
         await services.save();
 
         // Send the updated services data as a response
-        res.json(services);
+        res.status(200).json(services);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -87,7 +91,7 @@ const remove = async (req, res, id) => {
             return res.status(404).json({ message: 'services not found' });
         }
         // Send the data as a response to the client
-        res.json({ message: 'services deleted' });
+        res.status(200).json({ message: 'services deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
