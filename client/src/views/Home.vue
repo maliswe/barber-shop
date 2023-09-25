@@ -1,9 +1,6 @@
 <template>
   <div>
-    <carousel />
-    <bestfeatures />
-    <SlideShow />
-    <ServicesButton />
+    <carousel /> <bestfeatures /> <SlideShow /> <ServicesButton /> <Gallery />
   </div>
 </template>
 
@@ -12,6 +9,7 @@ import carousel from '../component/Home/carousel.vue'
 import ServicesButton from '../component/Home/ServicesButton.vue'
 import bestfeatures from '../component/Home/bestfeatures.vue'
 import SlideShow from '../component/Home/SlideShow.vue'
+import Gallery from '../component/Home/Gallery.vue'
 
 export default {
   name: 'home',
@@ -19,7 +17,8 @@ export default {
     carousel,
     ServicesButton,
     bestfeatures,
-    SlideShow
+    SlideShow,
+    Gallery
   }
 }
 </script>

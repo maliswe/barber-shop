@@ -5,22 +5,29 @@
     </div>
     <div class="p1-text">
       <p>
-        <span class="sentence">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-        <span class="sentence">Quis ipsum suspendisse ultrices gravida.Risus commodo viverra maecenas accumsan lacus vel facilisis</span>
-        <span class="sentence1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+        <span class="sentence"
+          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.</span
+        >
+        <span class="sentence"
+          >Quis ipsum suspendisse ultrices gravida.Risus commodo viverra
+          maecenas accumsan lacus vel facilisis</span
+        >
+        <span class="sentence1"
+          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.</span
+        >
       </p>
     </div>
     <div class="p2-text">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </p>
+      <p></p>
       <div class="barberFade">
-        <img src="../../assets/Barber.svg" class="barberFade">
+        <img src="../../assets/Barber.svg" class="barberFade" />
       </div>
-      <img src="../../assets/Calender Icon.svg" class="calendar-icon">
-      <img src="../../assets/thumbs.svg" class="thumbs-icon">
-      <img src="../../assets/sizIcon.svg" class="size-icon">
-      <img src="../../assets/disIcon.svg" class="discount-icon">
+      <img src="../../assets/Calender Icon.svg" class="calendar-icon" />
+      <img src="../../assets/thumbs.svg" class="thumbs-icon" />
+      <img src="../../assets/sizIcon.svg" class="size-icon" />
+      <img src="../../assets/disIcon.svg" class="discount-icon" />
     </div>
     <p class="feature1">Good Discount</p>
     <p class="feature2">Easy way to appointment</p>
@@ -33,12 +40,12 @@
 .carousel-content {
   position: absolute;
   bottom: -700px;
-  left: 0px;
+  left: 30px;
   right: 0px;
   color: #fff;
   padding: 20px;
   text-align: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 
 .barberFade {
@@ -46,7 +53,7 @@
   height: 300px;
   position: absolute;
   bottom: -70px;
-  left: 700px;
+  left: 645px;
   right: 0;
   padding: 20px;
 }
@@ -63,11 +70,10 @@
 
 .p1-text {
   position: absolute;
-  bottom: 0;
+  bottom: 10%;
   left: 318px;
   right: 0;
   color: #000000;
-  padding: 0;
   z-index: 2;
   max-height: 200px;
   overflow-y: auto;
@@ -124,8 +130,7 @@
   white-space: nowrap;
 }
 
-.feature2{
-
+.feature2 {
   position: absolute;
   right: 5px;
   left: 400px;
@@ -134,8 +139,7 @@
   white-space: nowrap;
 }
 
-.feature3{
-
+.feature3 {
   position: absolute;
   right: 5px;
   left: 750px;
@@ -144,18 +148,15 @@
   white-space: nowrap;
 }
 
-.feature4{
-
-    position: absolute;
-    right: 5px;
-    left: 750px;
-    bottom: -62px;
-    color: #000000;
-    white-space: nowrap;
+.feature4 {
+  position: absolute;
+  right: 5px;
+  left: 750px;
+  bottom: -62px;
+  color: #000000;
+  white-space: nowrap;
 }
-
 </style>
 
 <script>
-
 </script>
