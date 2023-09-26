@@ -1,73 +1,49 @@
 <template>
-  <header :class="{ 'scrolled-nav': scrolledNav }">
-    <div class="logo-container">
-      <div class="logo-background">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 1">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 2">
-        <img src="../../assets/bg.png" class="bg-img" alt="Background 3">
-      </div>
-      <div class="logo">
-        <img src="../../assets/logo.png" alt="">
-      </div>
-    </div>
+  <header :class="{ 'scrolled-nav': scrollNav }">
     <nav>
+      <div class="branding">
+        <img src="../../assets/logo.png" alt="logo">
+      </div>
       <ul v-show="!mobile" class="navigation">
         <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-        <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
+        <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
         <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
         <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
         <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
         <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+        <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
       </ul>
       <div class="icon">
-        <i @click="toggleMobileNav" v-show="mobile" class="fat fa-bars" :class="{ 'icon-active': mobileNav }"></i>
+        <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
       </div>
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
           <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-          <li><router-link class="link" :to="{ name: 'About Us' }">About Us</router-link></li>
+          <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
           <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
           <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
           <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
           <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+          <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
         </ul>
       </transition>
     </nav>
-
   </header>
 </template>
-
 <script>
 export default {
   name: 'Navbar',
   data() {
     return {
-      scrolledNav: null,
+      scrollNav: null,
       mobile: null,
       mobileNav: null,
       windowWidth: null
     }
   },
-  created() {
-    window.addEventListener('resize', this.checkScreen)
-    this.checkScreen()
-  },
-  mounted() {
-    window.addEventListener('scroll', this.updateScroll)
-  },
   methods: {
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
-    },
-    updateScroll() {
-      const scrollPosition = window.scrollY
-      if (scrollPosition > 50) {
-        this.scrolledNav = true
-        return
-      }
-      this.scrolledNav = false
     },
     checkScreen() {
       this.windowWidth = window.innerWidth
@@ -77,26 +53,41 @@ export default {
       }
       this.mobile = false
       this.mobileNav = false
+    },
+    updateScroll() {
+      const scrollPosition = window.scrollY
+      if (scrollPosition > 50) {
+        this.scrollNav = true
+        return
+      }
+      this.scrollNav = false
     }
+  },
+  created() {
+    window.addEventListener('resize', this.checkScreen)
+    this.checkScreen()
+  },
+  mounted() {
+    window.addEventListener('scroll', this.updateScroll)
+    this.updateScroll()
   }
 }
 </script>
-
 <style lang="scss" scoped>
 header {
+  background-color: #FFFFFF54;
   z-index: 99;
   width: 100%;
   position: fixed;
-  transition: .5s ease all;
-  justify-content: center;
-  color: #00000014;
+  transition: .1s ease all;
+  color: rgba($color: #000000, $alpha: 1.0);
 
   nav {
-    position: relative;
     display: flex;
+    position: relative;
     flex-direction: row;
+    padding: 12px 0;
     transition: .5s ease all;
-    width: 90%;
     margin: 0 auto;
 
     @media(min-width: 1140px) {
@@ -106,7 +97,7 @@ header {
     ul,
     .link {
       font-weight: 500;
-      color: black;
+      color: #000000;
       list-style: none;
       text-decoration: none;
     }
@@ -122,18 +113,28 @@ header {
       transition: .5s ease all;
       padding-bottom: 4px;
       border-bottom: 1px solid transparent;
+
+      &:hover {
+        color: red;
+        border-color: reds;
+      }
     }
 
-    &:hover {
-      color: #E7A356;
-      border-color: #E7A356;
+    .branding {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 75%;
+        transition: .5s ease all;
+      }
     }
 
     .navigation {
       display: flex;
       align-items: center;
       flex: 1;
-      justify-content: flex-end;
+      justify-content: center;
     }
 
     .icon {
@@ -147,7 +148,7 @@ header {
       i {
         cursor: pointer;
         font-size: 24px;
-        transition: .8s ease all;
+        transition: 0.8s ease all;
       }
     }
 
@@ -162,7 +163,7 @@ header {
       width: 100%;
       max-width: 250px;
       height: 100%;
-      backgroud-color: white;
+      background-color: white;
       top: 0;
       left: 0;
 
@@ -170,7 +171,7 @@ header {
         margin-left: 0;
 
         .link {
-          color: black;
+          color: #000000;
         }
       }
     }
@@ -180,7 +181,7 @@ header {
       transition: 1s ease all;
     }
 
-    .mobile-nav-enter-form,
+    .mobile-nav-enter-from,
     .mobile-nav-leave-to {
       transform: translateX(-250px);
     }
@@ -192,48 +193,17 @@ header {
 }
 
 .scrolled-nav {
-  background-color: black;
-  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  background-color: black;
-  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
+  background-color: #202020;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px, -1px rgba(0, 0, 0, 0.06);
 
-.logo-container {
-  position: relative;
-  display: inline-block;
+  nav {
+    padding: 8px 0;
 
-  @media (max-width: 768px) {
-    display: flex;
-    justify-content: space-between;
+    .branding {
+      img {
+        width: 50%;
+      }
+    }
   }
 }
-
-.branding {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-
-  img {
-    width: 50px;
-    transition: .5s ease all;
-  }
-}
-
-.logo-background {
-  flex: 10;
-  height: 73px;
-  background-color: black;
-  display: inline-block;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.bg-img {
-  vertical-align: middle;
-}
-
 </style>
