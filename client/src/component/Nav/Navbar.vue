@@ -1,65 +1,49 @@
 <template>
-  <header>
-    <div class="navbar">
-      <!-- Logo goes here, outside the container -->
-      <div>
-        <logo />
+  <header :class="{ 'scrolled-nav': scrollNav }">
+    <nav>
+      <div class="branding">
+        <img src="../../assets/logo.png" alt="logo">
       </div>
-      <!-- Navigation Links in the Center -->
-      <ul v-show="!mobile" class="ul">
+      <ul v-show="!mobile" class="navigation">
         <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-        <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Service' }">Services</router-link></li>
+        <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
+        <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
         <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
         <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
         <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+        <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
       </ul>
-      <!-- button goes here, outside the container -->
-      <div>
-        <btn />
+      <div class="icon">
+        <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
       </div>
-    </div>
+      <transition name="mobile-nav">
+        <ul v-show="mobileNav" class="dropdown-nav">
+          <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+          <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
+        </ul>
+      </transition>
+    </nav>
   </header>
 </template>
-
 <script>
-
-import btn from './bookBtn.vue'
-import logo from './logo.vue'
-
 export default {
   name: 'Navbar',
-  components: {
-    btn,
-    logo
-  },
   data() {
     return {
-      scrolledNav: null,
+      scrollNav: null,
       mobile: null,
       mobileNav: null,
       windowWidth: null
     }
   },
-  created() {
-    window.addEventListener('resize', this.checkScreen)
-    this.checkScreen()
-  },
-  mounted() {
-    window.addEventListener('scroll', this.updateScroll)
-  },
   methods: {
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
-    },
-    updateScroll() {
-      const scrollPosition = window.scrollY
-      if (scrollPosition > 50) {
-        this.scrolledNav = true
-        return
-      }
-      this.scrolledNav = false
     },
     checkScreen() {
       this.windowWidth = window.innerWidth
@@ -70,21 +54,156 @@ export default {
       this.mobile = false
       this.mobileNav = false
     },
-    navigateToBooking() {
-      this.$router.push({ name: 'Booking' })
+    updateScroll() {
+      const scrollPosition = window.scrollY
+      if (scrollPosition > 50) {
+        this.scrollNav = true
+        return
+      }
+      this.scrollNav = false
     }
+  },
+  created() {
+    window.addEventListener('resize', this.checkScreen)
+    this.checkScreen()
+  },
+  mounted() {
+    window.addEventListener('scroll', this.updateScroll)
+    this.updateScroll()
   }
 }
 </script>
-
 <style lang="scss" scoped>
-@import './navbar.module.scss';
+header {
+  background-color: #FFFFFF54;
+  z-index: 99;
+  width: 100%;
+  position: fixed;
+  transition: .1s ease all;
+  color: rgba($color: #000000, $alpha: 1.0);
+
+  nav {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    padding: 12px 0;
+    transition: .5s ease all;
+    margin: 0 auto;
+
+    @media(min-width: 1140px) {
+      max-width: 1140px;
+    }
+
+    ul,
+    .link {
+      font-weight: 500;
+      color: #000000;
+      list-style: none;
+      text-decoration: none;
+    }
+
+    li {
+      text-transform: uppercase;
+      padding: 16px;
+      margin-left: 16px;
+    }
+
+    .link {
+      font-size: 14px;
+      transition: .5s ease all;
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+
+      &:hover {
+        color: red;
+        border-color: reds;
+      }
+    }
+
+    .branding {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 75%;
+        transition: .5s ease all;
+      }
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 24px;
+      height: 100%;
+
+      i {
+        cursor: pointer;
+        font-size: 24px;
+        transition: 0.8s ease all;
+      }
+    }
+
+    .icon-active {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-nav {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      width: 100%;
+      max-width: 250px;
+      height: 100%;
+      background-color: white;
+      top: 0;
+      left: 0;
+
+      li {
+        margin-left: 0;
+
+        .link {
+          color: #000000;
+        }
+      }
+    }
+
+    .mobile-nav-enter-active,
+    .mobile-nav-leave-active {
+      transition: 1s ease all;
+    }
+
+    .mobile-nav-enter-from,
+    .mobile-nav-leave-to {
+      transform: translateX(-250px);
+    }
+
+    .mobile-nav-enter-to {
+      transform: translateX(0);
+    }
+  }
+}
 
 .scrolled-nav {
-  background-color: black;
-  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  background-color: black;
-  box-shadow: 0 40px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: #202020;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px, -1px rgba(0, 0, 0, 0.06);
+
+  nav {
+    padding: 8px 0;
+
+    .branding {
+      img {
+        width: 50%;
+      }
+    }
+  }
 }
 </style>
