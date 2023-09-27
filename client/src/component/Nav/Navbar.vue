@@ -1,37 +1,47 @@
 <template>
   <header :class="{ 'scrolled-nav': scrollNav }">
-    <nav>
+    <div class="navbar-container">
       <div class="branding">
-        <img src="../../assets/logo.png" alt="logo">
+        <Logo />
       </div>
-      <ul v-show="!mobile" class="navigation">
-        <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-        <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-        <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-        <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
-      </ul>
-      <div class="icon">
-        <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
-      </div>
-      <transition name="mobile-nav">
-        <ul v-show="mobileNav" class="dropdown-nav">
+      <nav>
+        <ul v-show="!mobile" class="navigation">
           <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-          <li><router-link class="link" :to="{ name: 'about' }">About Us</router-link></li>
+          <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
           <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
           <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
           <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
           <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
           <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
         </ul>
-      </transition>
-    </nav>
+        <div class="icon">
+          <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
+        </div>
+        <transition name="mobile-nav">
+          <ul v-show="mobileNav" class="dropdown-nav">
+            <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
+            <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+            <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
+            <li><router-link class="link" :to="{ name: ' ' }">Book</router-link></li>
+          </ul>
+        </transition>
+      </nav>
+      <bookbtn />
+    </div>
   </header>
 </template>
 <script>
+import Logo from './Logo.vue'
+import Bookbtn from './Bookbtn.vue'
 export default {
+  components: {
+    Logo,
+    Bookbtn
+  },
   name: 'Navbar',
   data() {
     return {
@@ -75,20 +85,31 @@ export default {
 </script>
 <style lang="scss" scoped>
 header {
-  background-color: #FFFFFF54;
+  background-color: #292727;
   z-index: 99;
   width: 100%;
   position: fixed;
   transition: .1s ease all;
   color: rgba($color: #000000, $alpha: 1.0);
 
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5%;
+  }
+
   nav {
     display: flex;
-    position: relative;
     flex-direction: row;
-    padding: 12px 0;
+    padding: 0;
+    justify-content: space-between;
+    /* Distribute nav elements across the space */
+    align-items: center;
     transition: .5s ease all;
-    margin: 0 auto;
+    width: 90%;
+    margin: 0;
 
     @media(min-width: 1140px) {
       max-width: 1140px;
@@ -97,14 +118,14 @@ header {
     ul,
     .link {
       font-weight: 500;
-      color: #000000;
+      color: aliceblue;
       list-style: none;
       text-decoration: none;
     }
 
     li {
       text-transform: uppercase;
-      padding: 16px;
+      padding: 14px;
       margin-left: 16px;
     }
 
@@ -115,26 +136,16 @@ header {
       border-bottom: 1px solid transparent;
 
       &:hover {
-        color: red;
+        color: #E7A356;
         border-color: reds;
-      }
-    }
-
-    .branding {
-      display: flex;
-      align-items: center;
-
-      img {
-        width: 75%;
-        transition: .5s ease all;
       }
     }
 
     .navigation {
       display: flex;
       align-items: center;
-      flex: 1;
       justify-content: center;
+      flex: 1;
     }
 
     .icon {
@@ -193,16 +204,15 @@ header {
 }
 
 .scrolled-nav {
-  background-color: #202020;
+  background-color: #292727;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px, -1px rgba(0, 0, 0, 0.06);
 
   nav {
     padding: 8px 0;
-
-    .branding {
-      img {
-        width: 50%;
-      }
+  }
+  .branding {
+    img {
+      width: 35%;
     }
   }
 }
