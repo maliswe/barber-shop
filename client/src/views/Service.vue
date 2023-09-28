@@ -1,35 +1,42 @@
 <template>
-    <div>
-        <h1>This is the services we provide</h1>
+  <div>
+    <div v-if="services.length === 0">Loading services...</div>
+
+    <div v-else>
+      <serviceCard v-for="service in services" :key="service._id" :service="service" />
     </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { services } from '@/api/serviceApi'
+import serviceCard from '../component/Service/serviceCard.vue'
 
 export default {
+  name: 'About',
+  components: {
+    serviceCard
+  },
   data() {
     return {
-      responseData: {}
+      services: []
     }
   },
+
+  async created() {
+    await this.fetchServices()
+  },
+
   methods: {
-    fetchData() {
-      axios.get('http://localhost:3000/api/v1/services')
-        .then(response => {
-          this.responseData = response.data
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error)
-        })
+    async fetchServices() {
+      try {
+        const response = await services.getAllServices()
+        this.services = response.data
+        console.log('Fetched services:', this.services)
+      } catch (error) {
+        console.error('Error fetching services:', error)
+      }
     }
-  },
-  mounted() {
-    this.fetchData()
   }
 }
-
 </script>
-
-<style>
-</style>
