@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/services_controller.js')
 
-router.post('/', async (req, res) => {
+router.post('/', controller.upload.single('image'), async (req, res) => {
     controller.create(req, res);
 });
 

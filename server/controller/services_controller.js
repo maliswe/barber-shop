@@ -2,17 +2,37 @@ const Services = require('../schema/services_schema.js')
 const { fieldsMapper } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
+const multer = require('multer');
+
+const upload = multer({
+    storage: multer.memoryStorage(),  // Store the image in memory as a buffer
+    limits: {
+      fileSize: 8 * 1024 * 1024,  // Limit file size to 8MB (adjust as needed)
+    },
+  });
 
 const create = async (req, res) => {
     try {
         // Create a new services document based on the request body
-        const newServices = new Services(req.body);
+        const { name, description, price, duration } = req.body;
 
-        // Save the new services document to the database
-        const savedServices = await newServices.save();
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image is required' });
+          }
 
+        const image = req.file.buffer;
+
+        const newService = new Services({
+            name,
+            description,
+            price,
+            duration,
+            image,
+          });
+        
+        const savedService = await newService.save();
         // Send the saved services data as a response
-        res.status(201).json(savedServices); // 201 Created status code
+        res.status(201).json(savedService); // 201 Created status code
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -106,5 +126,6 @@ module.exports = {
     create,
     getOne,
     remove,
-    update
+    update,
+    upload
 };
