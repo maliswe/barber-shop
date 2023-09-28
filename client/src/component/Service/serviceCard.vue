@@ -5,6 +5,7 @@
     <p>Price: ${{ service.price }}</p>
     <p>Duration: {{ service.duration }} minutes</p>
     <img :src="getImageUrl(service.image)" alt="Service Image" />
+    <button>Book</button>
   </div>
 </template>
 
