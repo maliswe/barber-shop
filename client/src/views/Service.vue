@@ -54,7 +54,8 @@ export default {
 }
 
 .container{
-  padding-top: 70px;
+  padding-top: 170px;
+  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
 }
