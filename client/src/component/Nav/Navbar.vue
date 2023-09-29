@@ -14,6 +14,9 @@
           <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
           <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
         </ul>
+        <button @click="goToRegisterPage" class="buttons">
+          Register
+        </button>
         <div class="icon">
           <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
         </div>
@@ -52,6 +55,9 @@ export default {
     }
   },
   methods: {
+    goToRegisterPage() {
+      this.$router.push({ name: 'Register' })
+    },
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
     },
@@ -201,6 +207,33 @@ header {
       transform: translateX(0);
     }
   }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: white;
+    color: #E7A356;
+    border: 1px solid black;
+    /* Corrected from 'border: black;' */
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    i {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: darken(#E7A356, 10%);
+    }
+
+    @media (max-width: 758px) {
+      display: none;
+    }
+  }
 }
 
 .scrolled-nav {
@@ -210,6 +243,7 @@ header {
   nav {
     padding: 8px 0;
   }
+
   .branding {
     img {
       width: 35%;

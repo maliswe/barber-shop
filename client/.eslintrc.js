@@ -14,6 +14,7 @@ module.exports = {
     'vue/multi-word-component-names': 'off'
   },
   parserOptions: {
+    ecmaVersion: 2017,
     parser: '@babel/eslint-parser',
     requireConfigFile: false
   },
