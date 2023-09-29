@@ -8,7 +8,7 @@
         <ul v-show="!mobile" class="navigation">
           <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
           <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
+          <li><router-link class="link" :to="{ name: 'Service' }">Services</router-link></li>
           <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
           <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
           <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>

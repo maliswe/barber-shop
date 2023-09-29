@@ -28,16 +28,11 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 75px;
-}
-
-.whoAreWe{
+  padding-bottom: 80px;
 }
 
 .textSection{
   width: auto;
 }
 
-.headerPhoto{
-  margin-top: 146px;
-}
 </style>
