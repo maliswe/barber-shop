@@ -3,9 +3,16 @@ const { fieldsMapper } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
 const Service = require('../schema/services_schema.js');
+const bcrypt = require('bcryptjs');
+
 
 const create = async (req, res) => {
     try {
+
+        // Check if the user has the role of 'admin'
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'You do not have permission to perform this action.' });
+        }
 
         // Check if Service is found
         const service = await Service.find({ _id: req.body['service'] });
@@ -13,9 +20,15 @@ const create = async (req, res) => {
             return res.status(404).json({ message: 'Service not found' });
         }
 
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
         // Create a new barber document based on the request body
-        const newBarber = new Barber(req.body);
+        const newBarber = new Barber({
+            ...req.body,
+            password: hashedPassword
+        });
 
         // Save the new barber document to the database
         const savedBarber = await newBarber.save();
@@ -31,11 +44,11 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        
+
         sortFilter = sort(req.query.sort)
         recSkipper(req.query.page, req.query.pageSize);
         const barbers = await Barber.find().skip(skip).limit(Number(req.query.pageSize));
-        
+
         if (barbers.length < 1) {
             return res.status(404).json({ message: 'barber not found' });
         }
@@ -52,7 +65,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for barber data
-        const barber = await Barber.findOne({phone:id});
+        const barber = await Barber.findOne({ phone: id });
 
         if (!barber) {
             // If no barber with the given ID is found, return a 404 response
@@ -71,12 +84,12 @@ const getOne = async (req, res, id) => {
 const update = async (req, res, id) => {
     try {
         // Find the barber by ID
-        const barber = await Barber.findOne({phone:id});
+        const barber = await Barber.findOne({ phone: id });
 
         if (!barber) {
             return res.status(404).json({ message: 'barber not found' });
         }
-        
+
         // Go through all attributes and update for the values provided
         fieldsMapper(barber, req.body);
 
@@ -94,7 +107,7 @@ const update = async (req, res, id) => {
 const remove = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for barber data
-        const result = await Barber.deleteOne({phone:id});
+        const result = await Barber.deleteOne({ phone: id });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'barber not found' });
