@@ -8,7 +8,7 @@
     <p class="description">{{ service.description }}</p>
     <div class="durationBook">
       <p class="duration"> {{ service.duration }} min</p>
-      <button class="book">Book</button>
+      <button class="booking">Book</button>
     </div>
   </div>
 </template>
@@ -70,7 +70,7 @@ export default {
 
 .price{
     color: rgba(231, 163, 86, 1);
-    font-size: max(1.1vw, 16px);
+    font-size: max(0.9vw, 12px);
     letter-spacing: 0em;
     font-weight: 650;
 }
@@ -105,7 +105,7 @@ export default {
     padding-bottom: 2px;
 }
 
-.book{
+.booking{
     height: 50px;
     width: 180px;
     max-width: 180px;
