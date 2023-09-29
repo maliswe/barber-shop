@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <div v-if="services.length === 0">Loading services...</div>
-
-    <div v-else>
+  <div class="container">
+    <headerPhoto />
+    <div class="serviceCard">
       <serviceCard v-for="service in services" :key="service._id" :service="service" />
     </div>
   </div>
+
 </template>
 
 <script>
 import { services } from '@/api/serviceApi'
 import serviceCard from '../component/Service/serviceCard.vue'
+import headerPhoto from '../component/Service/headerPhoto.vue'
 
 export default {
   name: 'About',
   components: {
-    serviceCard
+    serviceCard,
+    headerPhoto
   },
   data() {
     return {
@@ -40,3 +42,21 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.serviceCard{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-flow: wrap;
+  gap: 50px;
+}
+
+.container{
+  padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+</style>
