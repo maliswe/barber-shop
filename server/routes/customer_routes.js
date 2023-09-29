@@ -43,4 +43,6 @@ router.delete('/:id/appointments/:appoID', async (req, res) => {
     appointments.remove(req, res, req.params.appoID, req.params.id);
 })
 
+router.post('/register', controller.register);
+
 module.exports = router;
