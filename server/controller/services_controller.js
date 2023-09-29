@@ -32,7 +32,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.status(200).json(Services);
+        res.status(200).json(services);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -43,7 +43,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for services data
-        const services = await Services.findOne({name:id});
+        const services = await Services.findOne({_id:id});
 
         if (!services) {
             // If no services with the given ID is found, return a 404 response
@@ -51,7 +51,7 @@ const getOne = async (req, res, id) => {
         }
 
         // Send the data as a response to the client
-        res.status(200).json(Services);
+        res.status(200).json(services);
     } catch (error) {
         // Handle any errors
         console.error(error);
