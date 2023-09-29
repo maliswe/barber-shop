@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <carousel /> <bestfeatures /> <SlideShow /> <ServicesButton /> <Gallery />
+  <div class="container">
+    <carousel />
+    <bestfeatures />
+    <SlideShow />
+    <ServicesButton />
+    <Gallery />
   </div>
 </template>
 
@@ -23,4 +27,12 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 75px;
+  padding-bottom: 80px;
+}
+</style>
