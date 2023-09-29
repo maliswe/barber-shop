@@ -24,7 +24,7 @@
       <div class="barberFade">
         <img src="../../assets/Barber.svg" class="barberFade" />
       </div>
-      <img src="../../assets/Calender Icon.svg" class="calendar-icon" />
+      <img src="../../assets/CalenderIcon.svg" class="calendar-icon" />
       <img src="../../assets/thumbs.svg" class="thumbs-icon" />
       <img src="../../assets/sizIcon.svg" class="size-icon" />
       <img src="../../assets/disIcon.svg" class="discount-icon" />
@@ -158,5 +158,4 @@
 }
 </style>
 
-<script>
-</script>
+<script></script>
