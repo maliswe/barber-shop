@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="asd">
         <contactPhoto class="photo"/>
         <messageBoxNonUser class="message"/>
     </div>
@@ -19,17 +19,26 @@ export default {
 </script>
 
 <style>
-.container{
+.asd {
+  padding-top: 200px;
   display: flex;
   flex-direction: row;
-  justify-items: flex-start;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-bottom: 100px;
+}
+
+.message{
+  margin-top: 50px;
 }
 
 @media (max-width: 768px) {
-  .container {
+  .asd {
+    padding-top: 200px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-bottom: 100px;
   }
 }
 </style>
