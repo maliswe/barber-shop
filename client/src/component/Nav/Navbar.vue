@@ -14,8 +14,8 @@
           <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
           <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
         </ul>
-        <button @click="goToRegisterPage" class="buttons">
-          Register
+        <button @click="goToSignInPage" class="buttons">
+          Sign In
         </button>
         <div class="icon">
           <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
@@ -55,8 +55,8 @@ export default {
     }
   },
   methods: {
-    goToRegisterPage() {
-      this.$router.push({ name: 'Register' })
+    goToSignInPage() {
+      this.$router.push({ name: 'Login' })
     },
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
@@ -209,6 +209,7 @@ header {
   }
 
   .buttons {
+    order: 3;
     display: flex;
     align-items: center;
     padding: 8px 16px;
@@ -228,6 +229,7 @@ header {
 
     &:hover {
       background-color: darken(#E7A356, 10%);
+      color: aliceblue;
     }
 
     @media (max-width: 758px) {

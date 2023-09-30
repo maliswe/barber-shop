@@ -15,6 +15,7 @@ export default {
     padding: 8px 16px;
     background-color: white;
     color: #E7A356;
+    font-weight: 500;
     border: black;
     border-radius: 5px;
     font-weight: 500;
@@ -28,6 +29,7 @@ export default {
 
     &:hover {
         background-color: darken(#E7A356, 10%);
+        color: aliceblue;
     }
 
     @media (max-width: 758px) {

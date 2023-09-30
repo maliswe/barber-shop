@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
-import Register from '../component/Register/register.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
