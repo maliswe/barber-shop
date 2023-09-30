@@ -5,15 +5,12 @@
 </template>
 
 <script>
-const screenWidth = window.innerWidth
-document.documentElement.style.setProperty('--screen-width', `${screenWidth}px`)
-
 </script>
 
 <style scoped>
 .header-photo img {
     max-width: 100%;
-    min-width: 400px;
+    min-width: 10rem;
     height: auto;
     width: auto\9;
 }
