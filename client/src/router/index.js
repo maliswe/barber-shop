@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
+import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/service',
     name: 'Service',
     component: Service
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: Contact
   }
 ]
 
