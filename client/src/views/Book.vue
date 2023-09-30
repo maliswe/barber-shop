@@ -15,13 +15,17 @@ export default {
 <style>
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   gap: 75px;
-  padding-bottom: 80px;
+  padding-bottom: 200px;
 }
 
-.textSection {
-  width: auto;
+.continue-button{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  padding: 10px;
+  margin-left: 66%;
 }
+
 </style>

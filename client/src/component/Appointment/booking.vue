@@ -13,6 +13,9 @@
         class="vue-calendar"
       ></v-calendar>
     </div>
+    <div class="continue-button">
+      <button class="btn">Continue</button>
+    </div>
   </div>
 </template>
 
@@ -52,22 +55,39 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 .rectangle-51 {
   box-sizing: border-box;
   width: 1140px;
-  height: 300px;
+  height: auto;
   background: #ffffff;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .vue-calendar {
   display: flex;
-  position: relative;
-  width: 50%;
-  height: 90%;
+  width: 35%;
+  height: auto;
+}
+.continue-button {
+  width: 70%;
+  transform: translateX(-50%);
+}
+.btn {
+  width: 292px;
+  height: 70px;
+  background: #E7A356;
+  border-radius: 5px;
+  font-family:'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.02);
+  color: #FFFFFF;
 }
 </style>
