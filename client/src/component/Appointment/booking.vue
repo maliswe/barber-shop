@@ -1,45 +1,73 @@
 <template>
-  <div class="calendar-bar">
-    <div class="calendar"></div>
-    <div class="background"></div>
-    <div class="rectangle-51"></div>
-    <vue-meeting-selector
-      class="simple-example__meeting-selector"
-      v-model="meeting"
-      :date="date"
-      :loading="loading"
-      :class-names="classNames"
-      :meetings-days="meetingsDays"
-      @next-date="nextDate"
-      @previous-date="previousDate"
-    />
-    <p>Meeting Selected: {{ meeting ? meeting : 'No Meeting selected' }}</p>
+  <div>
+    <div class="rectangle-51">
+      <v-calendar
+        :events="events"
+        :disabled-days="disabledDays"
+        :highlight="highlightDays"
+        @event-clicked="eventClicked"
+        @day-clicked="dayClicked"
+        @period-clicked="periodClicked"
+        @period-context-menu="periodContextMenu"
+        @event-context-menu="eventContextMenu"
+        class="vue-calendar"
+      ></v-calendar>
+    </div>
   </div>
 </template>
+
 <script>
-import { VueMeetingSelector } from 'vue-meeting-selector'
+import { Calendar } from 'v-calendar'
+
 export default {
   name: 'book',
   components: {
-    VueMeetingSelector
+    VCalendar: Calendar
+  },
+  data() {
+    return {
+      events: [],
+      disabledDays: [],
+      highlightDays: []
+    }
+  },
+  methods: {
+    eventClicked(event) {
+      console.log('Event Clicked:', event)
+    },
+    dayClicked(day) {
+      console.log('Day Clicked:', day)
+    },
+    periodClicked(period) {
+      console.log('Period Clicked:', period)
+    },
+    eventContextMenu(event) {
+      console.log('Event Context Menu:', event)
+    },
+    periodContextMenu(period) {
+      console.log('Period Context Menu:', period)
+    }
   }
 }
 </script>
+
 <style scoped>
-.calendar-bar {
-  width: 1140px;
-  height: 107px;
-}
-.calendar {
-}
-.background {
-}
 .rectangle-51 {
   box-sizing: border-box;
   width: 1140px;
-  height: 89px;
+  height: 300px;
   background: #ffffff;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vue-calendar {
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 90%;
 }
 </style>

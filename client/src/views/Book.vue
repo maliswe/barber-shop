@@ -1,5 +1,5 @@
 <template>
-  <div class="container"><booking /> <VueMeetingSelector /></div>
+  <div class="container"><booking /> <VueCalendar /></div>
 </template>
 
 <script>
