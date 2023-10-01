@@ -9,7 +9,7 @@
 export default {
   name: 'ThirdPartyLogin',
   methods: {
-    //TODO
+    // TODO
     handleGoogleRegister() {
       // Logic for Google registration
     },
