@@ -18,10 +18,8 @@ export default {
 </script>
 <style>
 #app {
-  display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* This ensures it takes at least the full height of the viewport */
 }
 
 </style>

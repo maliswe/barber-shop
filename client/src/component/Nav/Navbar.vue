@@ -6,13 +6,13 @@
       </div>
       <nav>
         <ul v-show="!mobile" class="navigation">
-          <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-          <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Service' }">Services</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-          <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Team' }">Team</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: ' Contact' }">Contact</router-link></li>
         </ul>
         <button @click="goToSignInPage" class="buttons">
           Sign In
@@ -161,6 +161,7 @@ header {
       top: 0;
       right: 24px;
       height: 100%;
+      color: aliceblue;
 
       i {
         cursor: pointer;
@@ -235,6 +236,10 @@ header {
     @media (max-width: 758px) {
       display: none;
     }
+  }
+
+  .link.active-link {
+      color: #E7A356;
   }
 }
 
