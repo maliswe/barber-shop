@@ -5,6 +5,7 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
 import Register from '../views/Register.vue'
+import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
   }
 ]
 

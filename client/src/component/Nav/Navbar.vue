@@ -12,7 +12,7 @@
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Team' }">Team</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: ' Contact' }">Contact</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
         </ul>
         <button @click="goToSignInPage" class="buttons">
           Sign In
