@@ -21,7 +21,7 @@
             id="message"
             cols="30"
             rows="20"
-            placeholder="write your message..."
+            placeholder="Write your message..."
         ></textarea>
         <button>Send</button>
     </div>
@@ -62,7 +62,7 @@ button:hover {
     border-radius: 10px;
     font-size: inherit;
     outline-color: rgba(231, 163, 86, 1);
-    padding: 20px;
+    padding: 10px;
     min-height: 100px;
     resize: vertical;
     max-height: 290px;
