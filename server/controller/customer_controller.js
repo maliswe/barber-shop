@@ -15,7 +15,8 @@ const create = async (req, res) => {
         // Create a new customer document based on the request body
         const newCustomer = new Customer({
             ...req.body,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "Customer"
         });
 
         // Save the new customer document to the database
@@ -109,7 +110,6 @@ const remove = async (req, res, id) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-
 
 
 

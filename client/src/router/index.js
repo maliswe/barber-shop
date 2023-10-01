@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
-import Contact from '../views/Contact.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -30,9 +30,9 @@ const routes = [
     component: Service
   },
   {
-    path: '/contact',
-    name: 'contact',
-    component: Contact
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 

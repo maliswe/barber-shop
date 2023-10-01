@@ -17,21 +17,9 @@ export default {
 }
 </script>
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-
-}
-
-.app{
+#app {
+  flex-direction: column;
   min-height: 100vh;
-  position: relative;
 }
 
-.container{
-  padding: 0;
-  max-width: 1140px;
-  margin: 0 auto;
-}
 </style>
