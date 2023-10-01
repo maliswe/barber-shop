@@ -1,15 +1,33 @@
 <template>
-    <button class="booking-btn">
-        <i class="fa fa-calendar"></i> Book
-    </button>
+    <div class="button-container">
+        <button @click="goToSignInPage">
+            Sign In
+        </button>
+        <button>
+            <i class="fa fa-calendar"></i> Book
+        </button>
+    </div>
 </template>
 <script>
 export default {
-  name: 'BookingButton'
+  name: 'BookingButton',
+  methods: {
+    goToSignInPage() {
+      this.$router.push({ name: 'Login' }).catch(err => {
+        if (err.name !== 'NavigationDuplicated') {
+          throw err
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
-.booking-btn {
+.button-container {
+    display: flex;
+    gap: 2rem;
+}
+button{
     display: flex;
     align-items: center;
     padding: 8px 16px;
