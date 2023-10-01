@@ -17,21 +17,11 @@ export default {
 }
 </script>
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-
-}
-
-.app{
+#app {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  position: relative;
+  /* This ensures it takes at least the full height of the viewport */
 }
 
-.container{
-  padding: 0;
-  max-width: 1140px;
-  margin: 0 auto;
-}
 </style>

@@ -34,15 +34,10 @@
 
 <style scoped>
 .gallery-container {
-  position: absolute;
-  width: 1140px;
-  height: 591px;
-  left: 229px;
-  top: 2057px;
+  margin: 0 auto;
 }
 
 .gallery-title {
-  position: absolute;
   width: 208px;
   height: 61px;
   left: 466px;
