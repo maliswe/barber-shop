@@ -25,5 +25,9 @@ module.exports = {
       files: ['*.html'],
       processor: 'vue/.vue'
     }
-  ]
+  ],
+  globals: {
+    "$": "readonly"
+  }
+  
 }
