@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
 import Register from '../views/Register.vue'
 import Contact from '../views/Contact.vue'
+import Gallery from '../views/Gallery.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: Contact
+  },
+  {
+    path: '/Gallery',
+    name: 'Gallery',
+    component: Gallery
   }
 ]
 
