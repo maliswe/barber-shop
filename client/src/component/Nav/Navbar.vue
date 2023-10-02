@@ -99,7 +99,7 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 5%;
+    padding-right:5%;
   }
 
   nav {
