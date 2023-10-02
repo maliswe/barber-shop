@@ -24,16 +24,17 @@
     padding: 10px 20px;
     flex: 0.8;
     font-size: 0.9em;
-    background-image: url('../../assets/footerBg.png');
-    background-repeat: repeat;
-    background-position: center;
-    background-size: contain;
-    background-color: #292727;
-}
+    background-color: transparent;
 
-.footer-logo img {
-    margin-left: 0;
-    padding-left: 0;
+    .footer-logo img {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    @media (max-width: 768px) {
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .logo-container {
@@ -44,7 +45,8 @@
     margin-bottom: 30px; // Adding space below the logo
 }
 
-.description, .social-media {
+.description,
+.social-media {
     width: 100%;
     text-align: left;
     padding-left: calc(50% - 45px);
@@ -56,27 +58,39 @@
     color: #939290;
     font-family: 'Roboto';
     margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        padding-left: 0;
+    }
 }
 
 .social-media {
     display: flex;
     justify-content: flex-start;
     align-self: flex-start;
+
+    @media (max-width: 768px) {
+        align-items: center; // Center them horizontally
+    }
 }
 
-.social-media a{
+.social-media a {
     display: inline-block;
     background-color: #353331;
     padding: 8px;
     border-radius: 4px;
     margin: 0 5px;
     transition: 0.3s;
+
     &:hover {
         background-color: #292727;
     }
 }
 
 .social-media a i {
-    color: #fff;  // Icon color, adjust if necessary
+    color: #fff; // Icon color, adjust if necessary
 }
 </style>
