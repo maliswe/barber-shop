@@ -8,20 +8,23 @@
         </div>
     </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .footer-contact {
     flex: 0.8;
     padding: 10px;
     margin-left: 0%;
     font-size: 0.9em;
-    background-image: url('../../assets/footerBg.png');
-    background-repeat: repeat; /* to prevent the image from repeating */
-    background-position: center; /* to center the background image */
-    background-size: contain;
-    background-position: center;
-    background-color: #292727;
+    background-color: transparent;
     color: aliceblue;
     font-family: 'Roboto';
+
+    // Mobile view adjustments
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 h3 {
@@ -32,9 +35,8 @@ h3 {
     color: aliceblue;
     line-height: 3;
     margin-top: 30px;
-}
 
-h3::after {
+    &:after {
     content: "";
     position: absolute;
     left: 10px;
@@ -47,6 +49,13 @@ h3::after {
     transform: translateX(-50%);
 }
 
+    // Mobile view adjustments
+    @media (max-width: 768px) {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+}
+
 p {
     font-size: 14px;
     font-weight: 500;
@@ -54,6 +63,11 @@ p {
     list-style-type: none;
     padding-left: 2;
     line-height: 3;
+        // Mobile view adjustments
+    @media (max-width: 768px) {
+        font-size: 13px;
+        line-height: 2.5;
+    }
 }
 
 </style>
