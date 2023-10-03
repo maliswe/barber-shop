@@ -18,7 +18,8 @@ const create = async (req, res) => {
         // Create a new admin document based on the request body
         const newAdmin = new Admin({
             ...req.body,
-            password: hashPass
+            password: hashPass,
+            role: "Admin"
         });
 
         // Save the new admin document to the database

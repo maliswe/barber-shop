@@ -10,9 +10,9 @@ const create = async (req, res) => {
     try {
 
         // Check if the user has the role of 'admin'
-        if (req.user.role !== 'admin') {
+        /*if (req.user.role !== 'admin') {
             return res.status(403).json({ message: 'You do not have permission to perform this action.' });
-        }
+        }*/
 
         // Check if Service is found
         const service = await Service.find({ _id: req.body['service'] });
@@ -27,7 +27,8 @@ const create = async (req, res) => {
         // Create a new barber document based on the request body
         const newBarber = new Barber({
             ...req.body,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "Barber"
         });
 
         // Save the new barber document to the database

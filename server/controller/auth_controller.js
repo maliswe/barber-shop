@@ -1,43 +1,65 @@
 const user = require('../schema/user_schema.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const RefreshToken = require('../mongodbService/refreshToke.js');  // changed import to require
 
 const login = async (req, res) => {
     try {
         const loggedUser = await user.findOne({ email: req.body.email });
 
-        console.log("Received email:", req.body.email);
-        console.log("Received password:", req.body.password);
-
-        if (!loggedUser){
+        if (!loggedUser) {
             console.log("User not found for email:", req.body.email);
             return res.status(404).json({ message: 'User not found' });
         }
-        
 
         const validPass = await bcrypt.compare(req.body.password, loggedUser.password);
-        if (!validPass){
+        if (!validPass) {
             console.log("Invalid password for email:", req.body.email);
             return res.status(401).json({ message: 'Invalid Password' });
         }
-        
 
-        //Generat the token'
-        // Seer (secret in arabic): environment-specific secret key
-        const token = jwt.sign({ _id: loggedUser.id, role: loggedUser.role }, 'Seer', { expiresIn: '5m' }); // expries after 5 minutes
+        const jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
+        const token = jwt.sign({ _id: loggedUser.id, role: loggedUser.role }, jwtSecret, { expiresIn: '5m' });
 
-        //Set the cookies for the tokens
-        res.cookie('authToken', token, { httpOnly: true, secure: true, expries: new Date(Date.now() + 300000) }); // 5 minutes
+        const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'defaultRefreshSecret';
+        const refreshToken = jwt.sign({ _id: loggedUser.id }, refreshTokenSecret, { expiresIn: '7d' });
 
-        //send the token as response to check it
-        res.status(200).json({ token: token });
+        const refreshTokenInstance = new RefreshToken({
+            token: refreshToken,
+            userId: loggedUser.id,
+            expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        });
+        await refreshTokenInstance.save();
+
+        res.cookie('authToken', token, { httpOnly: true, secure: true, expires: new Date(Date.now() + 300000) });
+        res.status(200).json({ token: token, refreshToken: refreshToken });
+
     } catch (error) {
-        //Error handling
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
+async function refresh(req, res) {
+    const token = req.body.token;
+    if (!token) return res.status(401).json({ message: "Refresh Token Required" });
+
+    const existingToken = await RefreshToken.findOne({ token: token });
+    if (!existingToken) return res.status(403).json({ message: "Invalid Refresh Token" });
+
+    let userId;
+    try {
+        const verified = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET || 'defaultRefreshSecret');
+        userId = verified._id;
+    } catch (err) {
+        return res.status(403).json({ message: "Invalid Refresh Token" });
+    }
+
+    const newToken = jwt.sign({ _id: userId }, process.env.JWT_SECRET || 'defaultSecret', { expiresIn: '5m' });
+    res.json({ token: newToken });
+}
+
 module.exports = {
-    login
+    login,
+    refresh
 };

@@ -20,13 +20,14 @@
     align-items: center;
     padding: 10px;
     font-size: 0.9em;
-    background-image: url('../../assets/footerBg.png');
-    background-repeat: repeat; /* to prevent the image from repeating */
-    background-position: center; /* to center the background image */
-    background-size: contain;
-    background-position: center;
-    background-color: #292727;
+    background-color: transparent;
     font-family: 'Roboto';
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 h3 {

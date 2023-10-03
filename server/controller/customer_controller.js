@@ -15,7 +15,8 @@ const create = async (req, res) => {
         // Create a new customer document based on the request body
         const newCustomer = new Customer({
             ...req.body,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "Customer"
         });
 
         // Save the new customer document to the database
@@ -110,23 +111,6 @@ const remove = async (req, res, id) => {
     }
 };
 
-const register = async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        
-        const newUser = new User({
-            ...req.body,
-            password: hashedPassword
-        });
-
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-};
 
 
 module.exports = {
@@ -134,6 +118,5 @@ module.exports = {
     create,
     getOne,
     remove,
-    update,
-    register
+    update
 };

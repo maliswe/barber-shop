@@ -4,6 +4,9 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Service from '../views/Service.vue'
+import Register from '../views/Register.vue'
+import Contact from '../views/Contact.vue'
+import Gallery from '../views/Gallery.vue'
 import Register from '../component/Register/register.vue'
 import Book from '../views/Book.vue'
 
@@ -36,9 +39,14 @@ const routes = [
     component: Register
   },
   {
-    path: '/book',
-    name: 'Book',
-    component: Book
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
+  },
+  {
+    path: '/Gallery',
+    name: 'Gallery',
+    component: Gallery
   }
 ]
 
