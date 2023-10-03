@@ -1,26 +1,35 @@
 <template>
   <div class="modal-overlay" v-if="showModel">
     <div class="modal-content">
-      <div>
+      <div class="form-container">
         <form @submit.prevent="handleSubmit">
-          <label>Name:</label>
-          <input v-model="form.name" type="text" required />
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input v-model="form.name" type="text" id="name" required />
+          </div>
 
-          <label>Price:</label>
-          <input v-model="form.price" type="number" required />
+          <div class="form-group">
+            <label for="price">Price:</label>
+            <input v-model="form.price" type="number" id="price" required />
+          </div>
 
-          <label>Description:</label>
-          <textarea v-model="form.description" required></textarea>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea v-model="form.description" id="description" required></textarea>
+          </div>
 
-          <label>Duration:</label>
-          <input v-model="form.duration" type="number" required />
+          <div class="form-group">
+            <label for="duration">Duration:</label>
+            <input v-model="form.duration" type="number" id="duration" required />
+          </div>
 
-          <label>Upload Image:</label>
-          <input type="file" @change="handleImageUpload" accept="image/*" />
-
+          <div class="form-group">
+            <label for="image">Upload Image:</label>
+            <input type="file" @change="handleImageUpload" accept="image/*" id="image" />
+          </div>
           <button type="submit">Save</button>
+          <button class="close-button" @click="closeModal">Cancel</button>
         </form>
-        <button @click="closeModal">Close Modal</button>
       </div>
     </div>
   </div>
@@ -28,6 +37,7 @@
 
 <script>
 import { services } from '@/api/serviceApi'
+
 export default {
   props: ['showModel'],
   data() {
@@ -53,6 +63,7 @@ export default {
       formData.append('description', this.form.description)
       formData.append('duration', this.form.duration)
       formData.append('image', this.form.image)
+
       services.createService(formData)
         .then(() => {
           this.$emit('close-modal')
@@ -86,6 +97,49 @@ export default {
   background: white;
   padding: 20px;
   border-radius: 10px;
+  max-width: 80%;
+  margin-top: 60px;
 }
 
+.form-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: calc(100% - 20px);
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.close-button {
+  margin-top: 10px;
+  margin-left: 10px;
+}
 </style>
