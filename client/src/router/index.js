@@ -7,7 +7,6 @@ import Service from '../views/Service.vue'
 import Register from '../views/Register.vue'
 import Contact from '../views/Contact.vue'
 import Gallery from '../views/Gallery.vue'
-import Register from '../component/Register/register.vue'
 import Book from '../views/Book.vue'
 
 Vue.use(VueRouter)
@@ -47,6 +46,11 @@ const routes = [
     path: '/Gallery',
     name: 'Gallery',
     component: Gallery
+  },
+  {
+    path: '/book',
+    name: 'Book',
+    component: Book
   }
 ]
 
