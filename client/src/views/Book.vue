@@ -1,5 +1,8 @@
 <template>
-  <div class="container"><booking /> <VueCalendar /></div>
+  <div class="container">
+    <booking />
+    <VueCalendar />
+  </div>
 </template>
 
 <script>
@@ -20,12 +23,11 @@ export default {
   padding-bottom: 200px;
 }
 
-.continue-button{
+.continue-button {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
   padding: 10px;
   margin-left: 66%;
 }
-
 </style>
