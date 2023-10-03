@@ -43,6 +43,10 @@
       <div class="image-content">
         <img src="../../assets/feature.png" alt="Description of Image">
       </div>
+      <img src="../../assets/CalenderIcon.svg" class="calendar-icon" />
+      <img src="../../assets/thumbs.svg" class="thumbs-icon" />
+      <img src="../../assets/sizIcon.svg" class="size-icon" />
+      <img src="../../assets/disIcon.svg" class="discount-icon" />
     </div>
   </section>
 </template>
