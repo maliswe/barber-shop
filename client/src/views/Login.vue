@@ -24,7 +24,15 @@ export default {
         })
         if (response.data && response.data.token) {
           localStorage.setItem('token', response.data.token)
-          this.$router.push({ name: 'Home' })
+          localStorage.setItem('__t', response.data.__t)
+
+          // Navigate to the page
+          if (response.data.__t === 'Barber') {
+            this.$router.push({ name: 'BarberDashoard' })
+          } else {
+            console.log('Failed')
+            this.$router.push({ name: 'Home' })
+          }
         } else {
           console.error(response.data.message)
           alert('Login failed!')

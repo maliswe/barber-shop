@@ -15,8 +15,7 @@ const create = async (req, res) => {
         // Create a new customer document based on the request body
         const newCustomer = new Customer({
             ...req.body,
-            password: hashedPassword,
-            role: "Customer"
+            password: hashedPassword
         });
 
         // Save the new customer document to the database

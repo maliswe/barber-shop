@@ -122,6 +122,57 @@ const remove = async (req, res, id) => {
     }
 };
 
+const setAvailability = async (req, res) => {
+    try {
+        const { phone, date, times } = req.body;
+
+        // <Find the barber by the phone number
+        const barber = await Barber.findOne({ phone });
+        if (!barber) {
+            return res.status(404).json({ message: 'Barber not found' });
+        }
+
+        // Check the date if it exist
+        const existDate =  barber.availability.find( avail => avail.date.toISOString() === new Date(date).toISOString());
+
+        if  (existDate) {
+            existDate.times = times;
+        }else {
+            barber.availability.push({ date, times});
+        }
+
+        await barber.save();
+
+        res.status(200).json({ message: 'Availability updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+const getAvailability = async (req, res) => {
+    try{
+        const { phone, date } = req.query;
+
+        const barber = await Barber.findOne({ phone });
+
+        if (!barber) {
+            return res.status(404).json({ message: 'Barber not found' });
+        }
+
+        const availabilityForDate = barber.availability.find(avail => avail.date.toISOString() === new Date(date).toISOString());
+
+        if (!availabilityForDate) {
+            return res.status(404).json({ message: 'No availability for this date' });
+        }
+
+        res.status(200).json(availabilityForDate.times);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 
 
 module.exports = {
@@ -129,5 +180,7 @@ module.exports = {
     create,
     getOne,
     remove,
-    update
+    update,
+    setAvailability,
+    getAvailability
 };

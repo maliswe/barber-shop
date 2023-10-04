@@ -22,5 +22,13 @@ router.put('/:id', async (req, res) => {
     controller.update(req, res, req.params.id);
 })
 
+router.post('/availability', async (req, res) => {
+    controller.setTimeAvailability(req,res);
+})
+
+router.get('/availability', async (req, res) => {
+    controller.getAvailability(req,res);
+})
+
 
 module.exports = router;

@@ -21,32 +21,29 @@
 import { Calendar } from 'v-calendar'
 
 export default {
-  name: 'book',
+  name: 'setAvailability',
   components: {
     VCalendar: Calendar
   },
   data() {
     return {
+      selectedDate: null,
       events: [],
       disabledDays: [],
       highlightDays: []
     }
   },
   methods: {
-    eventClicked(event) {
-      console.log('Event Clicked:', event)
-    },
     dayClicked(day) {
       console.log('Day Clicked:', day)
+      this.selectedDate = day.date
     },
-    periodClicked(period) {
-      console.log('Period Clicked:', period)
-    },
-    eventContextMenu(event) {
-      console.log('Event Context Menu:', event)
-    },
-    periodContextMenu(period) {
-      console.log('Period Context Menu:', period)
+    setAvailability() {
+      if (this.selectedDate) {
+        console.log(`Selected Date: ${this.selectedDate}`)
+      } else {
+        console.log('Please select a date.')
+      }
     }
   }
 }
