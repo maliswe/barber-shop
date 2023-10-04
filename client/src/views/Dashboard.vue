@@ -10,7 +10,7 @@
               <th>Phone</th>
               <th>Expertise</th>
               <th>Services</th>
-              <th>
+            <th>
                 <button class="add-button" @click="showAddBarberForm">
                   <i class="fas fa-plus"></i>
                 </button>
@@ -32,7 +32,9 @@
           </tbody>
         </table>
       </div>
-      <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @close-modal="closeAddBarberFormModal" />
+      <div class="add-barber-form-overlay" v-if="showAddBarberFormModal">
+        <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-added="getAllBarbers" @close-modal="closeAddBarberFormModal" />
+      </div>
     </div>
   </template>
 
@@ -91,6 +93,18 @@ export default {
 </script>
 
 <style scoped>
+.add-barber-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the overlay background color and opacity */
+  z-index: 1000; /* Ensure the overlay is on top of other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .barber-table {
   width: 100%;
   border-collapse: collapse;

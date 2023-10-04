@@ -1,6 +1,7 @@
 <template>
   <div class="modal-overlay" v-if="showModel">
     <div class="modal-content">
+      <h1>Add a new barber</h1>
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
@@ -10,7 +11,7 @@
 
           <div class="form-group">
             <label for="phone">Phone:</label>
-            <input v-model="form.price" type="number" id="phone" required />
+            <input v-model="form.phone" type="number" id="phone" required />
           </div>
 
           <div class="form-group">
@@ -59,17 +60,18 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const formData = new FormData()
-      formData.append('name', this.form.name)
-      formData.append('phone', this.form.phone)
-      formData.append('email', this.form.email)
-      formData.append('experties', this.form.experties)
-      formData.append('service', this.form.service)
-
+      const formData = {
+        name: this.form.name,
+        phone: this.form.phone,
+        email: this.form.email,
+        experties: this.form.experties,
+        password: this.form.password,
+        service: this.form.service
+      }
       barber.createBarber(formData)
         .then(() => {
           this.$emit('close-modal')
-          this.$emit('fetch-barber')
+          this.$emit('barber-added')
         })
         .catch(error => {
           console.error('Error adding barber:', error)
