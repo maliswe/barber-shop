@@ -1,25 +1,25 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/api/v1/services'
+const BASE_URL = 'http://localhost:3000/api/v1/barbers'
 
-export const services = {
-  getAllServices() {
+export const barber = {
+  getAllbarbers() {
     return axios.get(`${BASE_URL}`)
   },
 
-  getService(userId) {
+  getBarber(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
   },
 
-  createService(userData) {
+  createBarber(userData) {
     return axios.post(`${BASE_URL}`, userData)
   },
 
-  updateService(userId, userData) {
+  updateBarber(userId, userData) {
     return axios.put(`${BASE_URL}/${userId}`, userData)
   },
 
-  deleteService(userId) {
+  deleteBarber(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
   }
 }

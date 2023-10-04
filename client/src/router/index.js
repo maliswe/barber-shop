@@ -8,6 +8,7 @@ import Register from '../views/Register.vue'
 import Contact from '../views/Contact.vue'
 import Gallery from '../views/Gallery.vue'
 import Book from '../views/Book.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
     path: '/book',
     name: 'Book',
     component: Book
+  },
+  {
+    path: '/Dashboard',
+    name: 'Dashboard',
+    component: Dashboard
   }
 ]
 
