@@ -52,12 +52,7 @@ export default {
       }
     },
     async handleEdit() {
-      try {
-        await services.updateService(this.service._id)
-        console.log('service edited')
-      } catch (error) {
-        console.error('Error fetching services:', error)
-      }
+      this.$emit('edit-service', this.service)
     }
   }
 }

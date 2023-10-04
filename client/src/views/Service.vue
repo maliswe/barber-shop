@@ -3,8 +3,10 @@
     <headerPhoto />
     <div class="serviceCard">
       <serviceCard
-      v-for="service in services" :key="service._id" :service="service"
+      v-for="service in services"
+      :key="service._id" :service="service"
       @service-deleted="handleServiceDeleted"
+      @edit-service="handleEditService"
       />
       <div class="holder">
         <button class="rectangle-button" @click="showFormModel">
@@ -13,6 +15,7 @@
       </div>
     </div>
     <serviceForm :showModel="showModel" @close-modal="closeModal" @fetch-services="fetchServices"/>
+    <serviceUpdate :showEdit="showEdit" :currentService="editingService" @close-modal="closeModal" @fetch-services="fetchServices" />
   </div>
 </template>
 
@@ -21,18 +24,23 @@ import { services } from '@/api/serviceApi'
 import serviceCard from '../component/Service/serviceCard.vue'
 import headerPhoto from '../component/Service/headerPhoto.vue'
 import serviceForm from '../component/Service/serviceForm.vue'
+import serviceUpdate from '../component/Service/serviceUpdate.vue'
 
 export default {
   name: 'Service',
   components: {
     serviceCard,
     headerPhoto,
-    serviceForm
+    serviceForm,
+    serviceUpdate
   },
   data() {
     return {
       services: [],
-      showModel: false
+      showModel: false,
+      showEdit: false,
+      editingService: null,
+      form: null
     }
   },
 
@@ -58,6 +66,11 @@ export default {
     },
     closeModal() {
       this.showModel = false
+      this.showEdit = false
+    },
+    handleEditService(service) {
+      this.editingService = service
+      this.showEdit = true
     }
   }
 }

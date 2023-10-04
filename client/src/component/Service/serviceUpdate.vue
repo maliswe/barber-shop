@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" v-if="showModel">
+  <div class="modal-overlay" v-if="showEdit">
     <div class="modal-content">
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
@@ -25,9 +25,9 @@
 
           <div class="form-group">
             <label for="image">Upload Image:</label>
-            <input type="file" @change="handleImageUpload" accept="image/*" id="image" required />
+            <input type="file" @change="handleImageUpload" accept="image/*" id="image" />
           </div>
-          <button type="submit">Save</button>
+          <button type="submit">Update</button>
           <button class="close-button" @click="closeModal">Cancel</button>
         </form>
       </div>
@@ -39,7 +39,16 @@
 import { services } from '@/api/serviceApi'
 
 export default {
-  props: ['showModel'],
+  props: {
+    showEdit: {
+      type: Boolean,
+      required: true
+    },
+    currentService: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       form: {
@@ -49,6 +58,20 @@ export default {
         duration: null,
         image: null
       }
+    }
+  },
+  watch: {
+    currentService: {
+      handler(newService) {
+        // Update form whenever currentService changes
+        if (newService) {
+          this.form.name = newService.name || ''
+          this.form.price = newService.price || null
+          this.form.description = newService.description || ''
+          this.form.duration = newService.duration || null
+        }
+      },
+      immediate: true // Call the handler immediately with the current value
     }
   },
   methods: {
@@ -64,7 +87,7 @@ export default {
       formData.append('duration', this.form.duration)
       formData.append('image', this.form.image)
 
-      services.createService(formData)
+      services.updateService(this.currentService._id, formData)
         .then(() => {
           this.$emit('close-modal')
           this.$emit('fetch-services')
