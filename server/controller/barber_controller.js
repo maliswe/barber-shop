@@ -1,9 +1,9 @@
 const Barber = require('../schema/barber_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
-const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
-const Service = require('../schema/services_schema.js');
-const bcrypt = require('bcryptjs');
+const { fieldsMapper } = require('./utilityMethod.js')
+const { sort } = require('./utilityMethod.js')
+const { recSkipper } = require('./utilityMethod.js')
+const Service = require('../schema/services_schema.js')
+const bcrypt = require('bcryptjs')
 
 
 const create = async (req, res) => {
@@ -15,7 +15,7 @@ const create = async (req, res) => {
         }*/
 
         // Check if Service is found
-        const service = await Service.find({ _id: req.body['service'] });
+        const service = await Service.find({ name: req.body['service'] });
         if (!service) {
             return res.status(404).json({ message: 'Service not found' });
         }

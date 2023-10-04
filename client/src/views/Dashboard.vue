@@ -11,7 +11,7 @@
               <th>Expertise</th>
               <th>Services</th>
               <th>
-                <button class="add-button" @click="showFormModel">
+                <button class="add-button" @click="showAddBarberForm">
                   <i class="fas fa-plus"></i>
                 </button>
               </th>
@@ -25,31 +25,33 @@
               <td>{{ barber.experties }}</td>
               <td>{{ barber.service }}</td>
               <td>
-              <button @click="showEditModal(barber)" class="edit-button"><i class="fas fa-edit"></i></button>
-              <button @click="deleteBarber(barber._id)" class="delete-button"><i class="fas fa-trash-alt"></i></button>
+              <button class="edit-button" ><i class="fas fa-edit"></i></button>
+              <button class="delete-button" @click="deleteBarber((barber.phone))"><i class="fas fa-trash-alt"></i></button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div v-else>
-        <p>No barbers available.</p>
-      </div>
+      <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @close-modal="closeAddBarberFormModal" />
     </div>
   </template>
 
 <script>
 import { barber } from '@/api/barberApi'
+import addBarberForm from '../component/Dashboard/addBarberForm.vue'
 
 export default {
   data() {
     return {
       barbers: [],
-      editedBarber: null
+      showAddBarberFormModal: false
     }
   },
   created() {
     this.getAllBarbers()
+  },
+  components: {
+    addBarberForm
   },
   methods: {
     getAllBarbers() {
@@ -61,18 +63,29 @@ export default {
           console.error('Error getting barbers:', error)
         })
     },
-    deleteBarber(userId) {
-      barber.deleteBarber(userId)
-        .then(() => {
-          this.getAllBarbers()
-        })
-        .catch(error => {
-          console.error('Error deleting barber:', error)
-        })
+    async deleteBarber(userPhone) {
+      console.log('Delete')
+      const confirmation = window.confirm('Do you really want to delete?')
+      if (confirmation) {
+        barber.deleteBarber(userPhone)
+          .then(() => {
+            this.barbers = this.barbers.filter(barbers => barbers.phone !== userPhone)
+            this.getAllBarbers()
+            console.log('Deleted a barber')
+          })
+          .catch(error => {
+            console.error('Error deleting barber:', error)
+          })
+      }
     },
-    showEditModal(barber) {
-      this.editedBarber = barber
+    showAddBarberForm() {
+      this.showAddBarberFormModal = true
+    },
+
+    closeAddBarberFormModal() {
+      this.showAddBarberFormModal = false
     }
+
   }
 }
 </script>
