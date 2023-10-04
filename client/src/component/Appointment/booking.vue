@@ -7,7 +7,12 @@
         @day-clicked="dayClicked" @period-clicked="periodClicked" @period-context-menu="periodContextMenu"
         @event-context-menu="eventContextMenu" class="vue-calendar">
       </v-calendar>
-      <h1 class="availability">Availbility Time</h1>
+      <h1 class="availability">Available Slot</h1>
+      <div class="ptags">
+        <p>Morning</p>
+        <p>Afternoon</p>
+        <p>Evening</p>
+      </div>
     </div>
 
     <div class="button-container">
@@ -57,15 +62,26 @@ export default {
 .book-container {
   width: 100%;
 
+  .ptags {
+    display: flex;
+    flex-direction: column;
+    gap: 20%;
+    color: #88878F;
+    margin-left: -68%;
+    margin-right: auto;
+    max-width: 100%;
+    margin-top: 4rem;
+  }
+
   .availability {
     color: black;
-    font-family: 'Roboto', sans-serif;
+    font-family: sans-serif;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 18px;
     line-height: 48px;
     letter-spacing: 0.02em;
-    margin-left: auto;
+    margin-left: 1%;
     margin-right: auto;
     max-width: 100%;
     margin-top: -.5rem;
