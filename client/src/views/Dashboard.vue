@@ -1,6 +1,7 @@
 <template>
     <div>
       <div class="container" v-if="barbers.length > 0">
+        <h1>Barber accounts</h1>
         <table class="barber-table">
           <thead>
             <tr>
@@ -9,6 +10,11 @@
               <th>Phone</th>
               <th>Expertise</th>
               <th>Services</th>
+              <th>
+                <button class="add-button" @click="showFormModel">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -18,6 +24,10 @@
               <td>{{ barber.phone }}</td>
               <td>{{ barber.experties }}</td>
               <td>{{ barber.service }}</td>
+              <td>
+              <button @click="showEditModal(barber)" class="edit-button"><i class="fas fa-edit"></i></button>
+              <button @click="deleteBarber(barber._id)" class="delete-button"><i class="fas fa-trash-alt"></i></button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -85,6 +95,31 @@ export default {
 
 .white-row {
   background-color: #ffffff;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.edit-button i,
+.delete-button i {
+  font-size: 15px;
+}
+
+.delete-button {
+  color: red;
+}
+
+.add-button {
+  width: fill;
+  height: fill;
+  background-color: #3498db; /* Adjust the button background color */
+  border: none;
+  color: white;
+  border-radius: 5px;
 }
 
 </style>
