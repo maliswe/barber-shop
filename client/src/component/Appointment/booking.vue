@@ -8,13 +8,7 @@
         @event-context-menu="eventContextMenu" class="vue-calendar">
       </v-calendar>
       <h1 class="availability">Available Slot</h1>
-      <div class="ptags">
-        <p>Morning</p>
-        <p>Afternoon</p>
-        <p>Evening</p>
-      </div>
     </div>
-
     <div class="button-container">
       <button>Continue</button>
     </div>
@@ -61,17 +55,6 @@ export default {
 
 .book-container {
   width: 100%;
-
-  .ptags {
-    display: flex;
-    flex-direction: column;
-    gap: 20%;
-    color: #88878F;
-    margin-left: -68%;
-    margin-right: auto;
-    max-width: 100%;
-    margin-top: 4rem;
-  }
 
   .availability {
     color: black;
