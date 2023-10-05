@@ -25,15 +25,18 @@
               <td>{{ barber.experties }}</td>
               <td>{{ barber.service }}</td>
               <td>
-              <button class="edit-button" ><i class="fas fa-edit"></i></button>
+              <button class="edit-button" @click="editBarber(barber)"><i class="fas fa-edit"></i></button>
               <button class="delete-button" @click="deleteBarber((barber.phone))"><i class="fas fa-trash-alt"></i></button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="add-barber-form-overlay" v-if="showAddBarberFormModal">
-        <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-added="getAllBarbers" @close-modal="closeAddBarberFormModal" />
+      <div class="form-overlay" v-if="showUpdateBarberFormModal">
+        <updateBarberForm ref="updateBarberForm" :showEdit="showUpdateBarberFormModal" :currentService="currentBarber" @barber-updated="onBarberUpdated" @close-modal="closeUpdateBarberForm" />
+      </div>
+      <div class="form-overlay" v-if="showAddBarberFormModal">
+        <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-updated="onBarberUpdated" @close-modal="closeAddBarberForm" />
       </div>
     </div>
   </template>
@@ -41,19 +44,23 @@
 <script>
 import { barber } from '@/api/barberApi'
 import addBarberForm from '../component/Dashboard/addBarberForm.vue'
+import updateBarberForm from '../component/Dashboard/updateBarberForm.vue'
 
 export default {
   data() {
     return {
       barbers: [],
-      showAddBarberFormModal: false
+      showAddBarberFormModal: false,
+      showUpdateBarberFormModal: false,
+      currentBarber: null
     }
   },
   created() {
     this.getAllBarbers()
   },
   components: {
-    addBarberForm
+    addBarberForm,
+    updateBarberForm
   },
   methods: {
     getAllBarbers() {
@@ -64,6 +71,10 @@ export default {
         .catch(error => {
           console.error('Error getting barbers:', error)
         })
+    },
+    editBarber(barber) {
+      this.showUpdateBarberFormModal = true
+      this.currentBarber = barber
     },
     async deleteBarber(userPhone) {
       console.log('Delete')
@@ -84,23 +95,32 @@ export default {
       this.showAddBarberFormModal = true
     },
 
-    closeAddBarberFormModal() {
+    closeAddBarberForm() {
       this.showAddBarberFormModal = false
-    }
+    },
+    showUpdateBarberForm() {
+      this.showUpdateBarberFormModal = true
+    },
 
+    closeUpdateBarberForm() {
+      this.showUpdateBarberFormModal = false
+    },
+    onBarberUpdated() {
+      this.getAllBarbers()
+    }
   }
 }
 </script>
 
 <style scoped>
-.add-barber-form-overlay {
+.form-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Adjust the overlay background color and opacity */
-  z-index: 1000; /* Ensure the overlay is on top of other elements */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
