@@ -26,7 +26,7 @@
 
           <div class="form-group">
             <label for="service">Services:</label>
-            <input v-model="form.service" id="service" required>
+            <input v-model="form.service" id="service">
           </div>
 
           <div class="form-group">
@@ -87,6 +87,7 @@ export default {
       const formData = {
         name: this.form.name,
         phone: this.form.phone,
+        email: this.form.email,
         experties: this.form.experties,
         service: this.form.service
       }
