@@ -4,7 +4,6 @@
     <section class="availability-section">
       <SetAvailability />
     </section>
-
     <section class="appointments-section">
       <AppointmentsList :appointments="appointments" @updateStatus="updateAppointmentStatus" />
     </section>
@@ -39,13 +38,13 @@ export default {
 <style scoped lang="scss">
 .dashboard {
   display: flex;
-  flex-direction: row;
-  padding-bottom: 200px;
+  flex-direction: column;
   width: 100%;
+  padding: 15% 10%;
 
   h1 {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 10rem;
   }
 }
 </style>

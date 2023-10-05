@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <div class="rectangle-51">
+  <div class="book-container">
       <v-calendar
         :events="events"
         :disabled-days="disabledDays"
         :highlight="highlightDays"
-        @day-clicked="dayClicked"
-        class="vue-calendar"
+        @dayclick="dayClicked"
+        class="vue-calendar custom-v-calendar"
       ></v-calendar>
-    </div>
-    <CustomTimePicker v-if="selectedDate" :key="selectedDate" @time-selected="selectTime" />
-    <div class="continue-button">
-      <button class="btn" @click="setAvailability">Continue</button>
+
+    <CustomTimePicker v-if="showTimePicker" @time-selected="selectTime" />
+
+    <div class="button-container">
+      <button @click="setAvailability">Continue</button>
     </div>
   </div>
 </template>
@@ -29,68 +29,89 @@ export default {
   data() {
     return {
       selectedDate: null,
-      selectedTime: null,
       events: [],
       disabledDays: [],
-      highlightDays: []
+      highlightDays: [],
+      showTimePicker: false
     }
   },
   methods: {
-    dayClicked(day) {
-      console.log('Day Clicked:', day)
-      this.selectedDate = day.date
+    dayClicked() {
+      console.log('Day Clicked:')
+      this.showTimePicker = true
     },
     selectTime(time) {
       this.selectedTime = time
     },
     setAvailability() {
-      if (this.selectedDate && this.selectedTime) {
-        console.log(`Selected Date and Time: ${this.selectedDate} ${this.selectedTime}`)
+      if (this.selectedDate) {
+        console.log(`Selected Date: ${this.selectedDate}`)
       } else {
-        console.log('Please select a date and time.')
+        console.log('Please select a date.')
       }
     }
   }
 }
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import './custom-v-calendar.scss';
 
-.rectangle-51 {
-  box-sizing: border-box;
-  width: 1140px;
-  height: auto;
-  background: #ffffff;
-  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-}
+.book-container {
+  width: 100%;
+    .vue-calendar {
+      width: 100%;
+    }
 
-.vue-calendar {
-  display: flex;
-  width: 35%;
-  height: auto;
-}
+      p {
+        color: black;
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        padding-top: 0.25rem;
+      }
+    }
 
-.continue-button {
-  width: 70%;
-  transform: translateX(-50%);
-}
+  .button-container {
+    margin-left: 68%;
+    margin-top: 2rem;
+  }
 
-.btn {
-  width: 292px;
-  height: 70px;
-  background: #E7A356;
-  border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 48px;
-  text-align: center;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.02);
-  color: #FFFFFF;
+  button {
+    width: 18rem;
+    height: 4rem;
+    background: #e7a356;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 48px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.01);
+    color: #ffffff;
+    border-color: #e7a356;
+
+    &:hover {
+      background-color: #e7a356c5;
+    }
+  }
+
+@media screen and (max-width: 767px) {
+  .book-container {
+    .under-cal {
+      flex-direction: column;
+    }
+
+    .vue-calendar {
+      width: 100%;
+    }
+
+    .button-container {
+      margin-left: 0;
+    }
+  }
 }
 </style>
