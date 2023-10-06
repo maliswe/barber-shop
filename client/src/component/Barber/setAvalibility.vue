@@ -19,6 +19,7 @@
 <script>
 import { Calendar } from 'v-calendar'
 import CustomTimePicker from './CustomTimePicker.vue'
+import axios from 'axios'
 
 export default {
   name: 'setAvailability',
@@ -29,6 +30,7 @@ export default {
   data() {
     return {
       selectedDate: null,
+      selectedTimes: [],
       events: [],
       disabledDays: [],
       highlightDays: [],
@@ -41,13 +43,30 @@ export default {
       this.showTimePicker = true
     },
     selectTime(time) {
-      this.selectedTime = time
+      if (!this.selectedTimes.includes(time)) {
+        this.selectedTimes.push(time)
+      } else {
+        const index = this.selectedTimes.indexOf(time)
+        if (index > -1) {
+          this.selectedTimes.splice(index, 1)
+        }
+      }
     },
     setAvailability() {
-      if (this.selectedDate) {
-        console.log(`Selected Date: ${this.selectedDate}`)
+      if (this.selectedDate && this.selectedTimes.length > 0) {
+        const dateToSave = {
+          date: this.selectedDate,
+          times: this.selectedTimes
+        }
+        axios.post('http://localhost:3000/api/v1/barbers/availability', dateToSave)
+          .then(response => {
+            console.log('Data saved: ', response.data)
+          })
+          .catch(error => {
+            console.log('Error saving data: ', error)
+          })
       } else {
-        console.log('Please select a date.')
+        console.log('Please enter the data')
       }
     }
   }

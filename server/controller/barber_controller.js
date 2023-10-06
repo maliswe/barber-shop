@@ -122,15 +122,11 @@ const remove = async (req, res, id) => {
     }
 };
 
-const setAvailability = async (req, res, id) => {
+const setAvailability = async (req, res) => {
     try {
-        // THe id required
-        if (!id) {
-            return res.status(400).json({ message: 'Barber ID is required' });
-        }
-
+        
          // Find the barber by the phone number
-         const barber = await Barber.findOne({ phone : id});
+         const barber = await Barber.findOne({ phone });
          if (!barber) {
              return res.status(404).json({ message: 'Barber not found' });
          }
