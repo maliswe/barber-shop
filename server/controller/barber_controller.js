@@ -122,23 +122,37 @@ const remove = async (req, res, id) => {
     }
 };
 
-const setAvailability = async (req, res) => {
+const setAvailability = async (req, res, id) => {
     try {
-        const { phone, date, times } = req.body;
-
-        // <Find the barber by the phone number
-        const barber = await Barber.findOne({ phone });
-        if (!barber) {
-            return res.status(404).json({ message: 'Barber not found' });
+        // THe id required
+        if (!id) {
+            return res.status(400).json({ message: 'Barber ID is required' });
         }
 
-        // Check the date if it exist
-        const existDate =  barber.availability.find( avail => avail.date.toISOString() === new Date(date).toISOString());
+         // Find the barber by the phone number
+         const barber = await Barber.findOne({ phone : id});
+         if (!barber) {
+             return res.status(404).json({ message: 'Barber not found' });
+         }
+        
+        const { date, times } = req.body;
 
-        if  (existDate) {
+        if (!date || !times) {
+            return res.status(400).json({ message: 'Date and times are required' });
+        }
+
+        // Check the date if it exists
+        const targetDate = new Date(date);
+        const existDate = barber.availability.find(
+            avail => avail.date.getUTCFullYear() === targetDate.getUTCFullYear() &&
+                     avail.date.getUTCMonth() === targetDate.getUTCMonth() &&
+                     avail.date.getUTCDate() === targetDate.getUTCDate()
+        );
+
+        if (existDate) {
             existDate.times = times;
-        }else {
-            barber.availability.push({ date, times});
+        } else {
+            barber.availability.push({ date, times });
         }
 
         await barber.save();
@@ -150,28 +164,46 @@ const setAvailability = async (req, res) => {
     }
 };
 
-const getAvailability = async (req, res) => {
-    try{
-        const { phone, date } = req.query;
 
-        const barber = await Barber.findOne({ phone });
+const getAvailability = async (req, res, id) => {
+    try {
+        if (!id) {
+            return res.status(400).json({ message: 'Barber ID is required' });
+        }
+
+        const barber = await Barber.findOne({ phone: id });
 
         if (!barber) {
             return res.status(404).json({ message: 'Barber not found' });
         }
+        
+        const { date } = req.query;
+        if (!date) {
+            return res.status(200).json(barber.availability);
+        }
 
-        const availabilityForDate = barber.availability.find(avail => avail.date.toISOString() === new Date(date).toISOString());
+        const inputDate = new Date(date);
+        
+        if (isNaN(inputDate)) {
+            return res.status(400).json({ message: 'Invalid date' });
+        }
+
+        const availabilityForDate = barber.availability.find(
+            avail => avail.date.getUTCFullYear() === inputDate.getUTCFullYear() &&
+                     avail.date.getUTCMonth() === inputDate.getUTCMonth() &&
+                     avail.date.getUTCDate() === inputDate.getUTCDate()
+        );
 
         if (!availabilityForDate) {
             return res.status(404).json({ message: 'No availability for this date' });
         }
-
         res.status(200).json(availabilityForDate.times);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 

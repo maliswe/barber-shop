@@ -22,12 +22,12 @@ router.put('/:id', async (req, res) => {
     controller.update(req, res, req.params.id);
 })
 
-router.post('/availability', async (req, res) => {
-    controller.setTimeAvailability(req,res);
+router.put('/availability/:id', async (req, res) => {
+    controller.setAvailability(req,res, req.params.id);
 })
 
-router.get('/availability', async (req, res) => {
-    controller.getAvailability(req,res);
+router.get('/availability/:id', async (req, res) => {
+    controller.getAvailability(req,res, req.params.id);
 })
 
 

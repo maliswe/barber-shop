@@ -3,6 +3,7 @@ const { fieldsMapper } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
 const multer = require('multer');
+const Generator = require('../mongodbService/confNumberGenerator.js');
 
 const upload = multer({
     storage: multer.memoryStorage(),  // Store the image in memory as a buffer
@@ -13,16 +14,21 @@ const upload = multer({
 
 const create = async (req, res) => {
     try {
+
+        // Create custom id 
+        let customId = await Generator.generator();
         // Create a new services document based on the request body
         const { name, description, price, duration } = req.body;
 
-        if (!req.file) {
-            return res.status(400).json({ message: 'Image is required' });
-          }
+        let image = null;
 
-        const image = req.file.buffer;
+        // If there's an image in the request, assign it. Otherwise, leave it as null.
+        if (req.file) {
+            image = req.file.buffer;
+        }
 
         const newService = new Services({
+            _id: customId,
             name,
             description,
             price,

@@ -8,13 +8,14 @@ const bcrypt = require('bcryptjs');
 const create = async (req, res) => {
     try {
         // Check if the user has the role of 'admin'
-        if (req.user.role !== 'admin') {
+        /*if (req.user.role !== 'admin') {
             return res.status(403).json({ message: 'You do not have permission to perform this action.' });
-        }
+        }*/
 
         //Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(req.body.password, salt);
+
         // Create a new admin document based on the request body
         const newAdmin = new Admin({
             ...req.body,
@@ -96,7 +97,7 @@ const update = async (req, res, id) => {
         }
 
 
-        fieldsMapper(customer, req.body);
+        fieldsMapper(admin, req.body);
 
         // Save the updated admin document
         await admin.save();
