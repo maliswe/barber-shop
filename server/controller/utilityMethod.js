@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+const Appointment = require('../schema/appointment_schema');
+
+
 function fieldsMapper(schemaType, requestBody) {
     const fieldsToUpdate = Object.keys(schemaType.schema.paths).filter((fieldName) => {
         const field = schemaType.schema.paths[fieldName];
@@ -28,9 +32,32 @@ function recSkipper(page=1, pageSize=10) {
     return skip
 }
 
+ async function generator () {
+
+    let confNumber;
+    const characters = '0123456789';
+
+    do {
+
+        confNumber = '';
+        for (let i = 0; i < 7; i++) {
+            const random = Math.floor(Math.random() * characters.length);
+            confNumber += characters.charAt(random);
+        }
+    } while (await this.confNumberChecker(confNumber));
+
+    return confNumber;
+}
+async function confNumberChecker (confNumber) {
+    const existingAppointment = await Appointment.findOne({ "confNumber": confNumber });
+    return !!existingAppointment;
+}
+
 
 module.exports = {
     fieldsMapper,
     sort,
-    recSkipper
+    recSkipper,
+    generator,
+    confNumberChecker
 };

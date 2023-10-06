@@ -1,7 +1,5 @@
 const Customer = require('../schema/customer_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
-const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { fieldsMapper, recSkipper, sort } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
 
@@ -19,10 +17,10 @@ const create = async (req, res) => {
         });
 
         // Save the new customer document to the database
-        const savedCustomer = await newCustomer.save();
+        await newCustomer.save();
 
         // Send the saved customer data as a response
-        res.status(201).json(savedCustomer); // 201 Created status code
+        res.status(201).json({ message: 'User created successfully'});
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -42,7 +40,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.json(customers);
+        res.status(201).json(customers);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -86,7 +84,7 @@ const update = async (req, res, id) => {
         await customer.save();
 
         // Send the updated customer data as a response
-        res.status(200).json(customer);
+        res.status(200).json({ message: 'User updated'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -110,6 +108,24 @@ const remove = async (req, res, id) => {
     }
 };
 
+const removeAll = async (req, res) => {
+    try{
+
+        const count = await Customer.countDouments();
+
+        if (count === 0) {
+            return res.status(404).send({ message: 'No Customers found in the database.' });
+        }
+
+        await Customer.deleteMany();
+        res.status.status(200).json({ message: 'Customers deleted'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error'});
+    }
+     
+}
+
 
 
 module.exports = {
@@ -117,5 +133,6 @@ module.exports = {
     create,
     getOne,
     remove,
-    update
+    update,
+    removeAll
 };

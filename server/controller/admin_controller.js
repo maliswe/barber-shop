@@ -1,17 +1,10 @@
 const Admin = require('../schema/admin_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
-const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { fieldsMapper, sort, recSkipper } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
 
 const create = async (req, res) => {
     try {
-        // Check if the user has the role of 'admin'
-        /*if (req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'You do not have permission to perform this action.' });
-        }*/
-
         //Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(req.body.password, salt);
@@ -19,8 +12,7 @@ const create = async (req, res) => {
         // Create a new admin document based on the request body
         const newAdmin = new Admin({
             ...req.body,
-            password: hashPass,
-            role: "Admin"
+            password: hashPass
         });
 
         // Save the new admin document to the database
@@ -96,7 +88,7 @@ const update = async (req, res, id) => {
             return res.status(404).json({ message: 'Admin not found' });
         }
 
-
+        // Call method to update the body
         fieldsMapper(admin, req.body);
 
         // Save the updated admin document
@@ -125,6 +117,7 @@ const remove = async (req, res, id) => {
     }
 };
 
+// Overrided method for the old version browsers
 const methodDispatch = async (req, res, id) => {
     methodType = req.headers['_method']
     try {

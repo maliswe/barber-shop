@@ -1,7 +1,7 @@
 const user = require('../schema/user_schema.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const RefreshToken = require('../mongodbService/refreshToke.js');  // changed import to require
+const RefreshToken = require('../schema/refreshToke_schema.js');
 
 const login = async (req, res) => {
     try {

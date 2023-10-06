@@ -1,9 +1,8 @@
 const Services = require('../schema/services_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
+const { fieldsMapper, Generator } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
 const { recSkipper } = require('./utilityMethod.js');
 const multer = require('multer');
-const Generator = require('../mongodbService/confNumberGenerator.js');
 
 const upload = multer({
     storage: multer.memoryStorage(),  // Store the image in memory as a buffer

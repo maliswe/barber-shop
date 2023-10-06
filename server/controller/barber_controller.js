@@ -9,17 +9,6 @@ const bcrypt = require('bcryptjs')
 const create = async (req, res) => {
     try {
 
-        // Check if the user has the role of 'admin'
-        /*if (req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'You do not have permission to perform this action.' });
-        }*/
-
-        // Check if Service is found
-        const service = await Service.find({ name: req.body['service'] });
-        if (!service) {
-            return res.status(404).json({ message: 'Service not found' });
-        }
-
         // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -28,14 +17,13 @@ const create = async (req, res) => {
         const newBarber = new Barber({
             ...req.body,
             password: hashedPassword,
-            role: "Barber"
         });
 
         // Save the new barber document to the database
-        const savedBarber = await newBarber.save();
+        await newBarber.save();
 
         // Send the saved barber data as a response
-        res.status(201).json(savedBarber); // 201 Created status code
+        res.status(201).json({ message: 'Barber created successfully'});
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -51,9 +39,8 @@ const getAll = async (req, res) => {
         const barbers = await Barber.find().skip(skip).limit(Number(req.query.pageSize));
 
         if (barbers.length < 1) {
-            return res.status(404).json({ message: 'barber not found' });
+            return res.status(404).json({ message: 'No Barber registered yet' });
         }
-
         // Send the data as a response to the client
         res.status(200).json(barbers);
     } catch (error) {
@@ -65,12 +52,12 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res, id) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
+        // Find the barber by using the phone number
         const barber = await Barber.findOne({ phone: id });
 
         if (!barber) {
-            // If no barber with the given ID is found, return a 404 response
-            return res.status(404).json({ message: 'barber not found' });
+            // If no barber with the given phone is found, return a 404 response
+            return res.status(404).json({ message: 'Barber not found' });
         }
 
         // Send the data as a response to the client
@@ -84,11 +71,11 @@ const getOne = async (req, res, id) => {
 
 const update = async (req, res, id) => {
     try {
-        // Find the barber by ID
+        // Find the barber by phone
         const barber = await Barber.findOne({ phone: id });
 
         if (!barber) {
-            return res.status(404).json({ message: 'barber not found' });
+            return res.status(404).json({ message: 'Barber not found' });
         }
 
         // Go through all attributes and update for the values provided
@@ -98,7 +85,7 @@ const update = async (req, res, id) => {
         await barber.save();
 
         // Send the updated barber data as a response
-        res.status(200).json(barber);
+        res.status(200).json({ message: 'Barber info updated'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -111,10 +98,10 @@ const remove = async (req, res, id) => {
         const result = await Barber.deleteOne({ phone: id });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
-            return res.status(404).json({ message: 'barber not found' });
+            return res.status(404).json({ message: 'Barber not found' });
         }
         // Send the data as a response to the client
-        res.status(200).json({ message: 'barber deleted' });
+        res.status(200).json({ message: 'Barber deleted' });
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -122,85 +109,95 @@ const remove = async (req, res, id) => {
     }
 };
 
+const removeAll = async (req, res) => {
+    try {
+
+        const count = await Barber.countDouments();
+
+        if (count === 0) {
+            return res.status(404).send({ message: 'No barbers found in the database.' });
+        }
+
+        await Barber.deleteMany();
+        res.status.status(200).json({ message: 'Barbers deleted'});
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error'});
+    }
+}
+
 const setAvailability = async (req, res) => {
     try {
-        
-        const phone = req.user && req.user.phone;
-         // Find the barber by the phone number
-         const barber = await Barber.findOne({ phone });
-         if (!barber) {
-             return res.status(404).json({ message: 'Barber not found' });
-         }
-        
+        const barberId = req.user.phone;
+
+        // Availability data is sent in the request body
         const { date, times } = req.body;
 
-        if (!date || !times) {
-            return res.status(400).json({ message: 'Date and times are required' });
-        }
-
-        // Check the date if it exists
-        const targetDate = new Date(date);
-        const existDate = barber.availability.find(
-            avail => avail.date.getUTCFullYear() === targetDate.getUTCFullYear() &&
-                     avail.date.getUTCMonth() === targetDate.getUTCMonth() &&
-                     avail.date.getUTCDate() === targetDate.getUTCDate()
-        );
-
-        if (existDate) {
-            existDate.times = times;
-        } else {
-            barber.availability.push({ date, times });
-        }
-
-        await barber.save();
-
-        res.status(200).json({ message: 'Availability updated successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-};
-
-
-const getAvailability = async (req, res, id) => {
-    try {
-        if (!id) {
-            return res.status(400).json({ message: 'Barber ID is required' });
-        }
-
-        const barber = await Barber.findOne({ phone: id });
+        // Find the barber using the provided ID
+        const barber = await mongoose.model('Barber').findById(barberId);
 
         if (!barber) {
-            return res.status(404).json({ message: 'Barber not found' });
-        }
-        
-        const { date } = req.query;
-        if (!date) {
-            return res.status(200).json(barber.availability);
+            return res.status(404).send({ message: 'Barber not found.' });
         }
 
-        const inputDate = new Date(date);
-        
-        if (isNaN(inputDate)) {
-            return res.status(400).json({ message: 'Invalid date' });
-        }
+        // Check if an entry for the specified date already exists in the availability array
+        const availabilityIndex = barber.availability.findIndex(avail => avail.date.toISOString() === new Date(date).toISOString());
 
-        const availabilityForDate = barber.availability.find(
-            avail => avail.date.getUTCFullYear() === inputDate.getUTCFullYear() &&
-                     avail.date.getUTCMonth() === inputDate.getUTCMonth() &&
-                     avail.date.getUTCDate() === inputDate.getUTCDate()
-        );
-
-        if (!availabilityForDate) {
-            return res.status(404).json({ message: 'No availability for this date' });
+        if (availabilityIndex > -1) {
+            // If the date exists, update the times array
+            barber.availability[availabilityIndex].times = times;
+        } else {
+            // If the date does not exist, push a new availability object
+            barber.availability.push({ date, times });
         }
-        res.status(200).json(availabilityForDate.times);
+        // Save the updated barber document
+        await barber.save();
+
+        res.status(200).send({ message: 'Availability updated successfully.', availability: barber.availability });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).send({ message: 'Error updating availability.', error: error.message });
     }
 };
 
+const getOneAvailability = async (req, res) => {
+    try {
+        const barberId = req.user.phone;
+        const targetDate = new Date(req.params.date);
+
+        const barber = await mongoose.model('Barber').findById(barberId);
+
+        if (!barber) {
+            return res.status(404).send({ message: 'Barber not found.' });
+        }
+
+        const availability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
+
+        if (!availability) {
+            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+        }
+
+        res.status(200).send(availability);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching availability.', error: error.message });
+    }
+};
+
+const getAllAvailabilities = async (req, res) => {
+    try {
+        const barberId = req.user.id;
+
+        const barber = await mongoose.model('Barber').findById(barberId);
+
+        if (!barber) {
+            return res.status(404).send({ message: 'Barber not found.' });
+        }
+
+        res.status(200).send(barber.availability);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching availabilities.', error: error.message });
+    }
+};
 
 
 
@@ -211,5 +208,6 @@ module.exports = {
     remove,
     update,
     setAvailability,
-    getAvailability
+    getOneAvailability,
+    getAllAvailabilities
 };

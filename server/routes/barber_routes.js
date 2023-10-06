@@ -2,33 +2,14 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/barber_controller.js')
 
-router.post('/', async (req, res) => {
-    controller.create(req, res);
-});
+router.post('/', controller.create);
+router.get('/', controller.getAll);
+router.get('/:id', controller.getOne);
+router.delete('/:id', controller.remove);
+router.put('/:id', controller.update);
 
-router.get('/', async (req, res) => {
-    controller.getAll(req, res);
-});
-
-router.get('/:id', async (req, res) => {
-    controller.getOne(req, res, req.params.id);
-})
-
-router.delete('/:id', async (req, res) => {
-    controller.remove(req, res, req.params.id);
-})
-
-router.put('/:id', async (req, res) => {
-    controller.update(req, res, req.params.id);
-})
-
-router.post('/availability', async (req, res) => {
-    controller.setAvailability(req,res );
-})
-
-router.get('/availability/:id', async (req, res) => {
-    controller.getAvailability(req,res, req.params.id);
-})
-
+router.put('/availability', controller.setAvailability);
+router.get('/availability/:date', controller.getOneAvailability);
+router.get('/availability', controller.getAllAvailabilities); 
 
 module.exports = router;
