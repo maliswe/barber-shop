@@ -6,6 +6,7 @@
       </div>
       <nav>
         <ul v-show="!mobile" class="navigation">
+          <li v-if="true"><router-link class="link" active-class="active-class" :to="{ name: 'Dashboard' }">Dashboard</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
@@ -20,6 +21,7 @@
         </div>
         <transition name="mobile-nav">
           <ul v-show="mobileNav" class="dropdown-nav">
+            <li v-if="true"><router-link class="link" :to="{ name: 'Dashboard' }">Dashboard</router-link></li>
             <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
             <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
             <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
