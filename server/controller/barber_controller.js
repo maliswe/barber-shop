@@ -125,6 +125,7 @@ const remove = async (req, res, id) => {
 const setAvailability = async (req, res) => {
     try {
         
+        const phone = req.user && req.user.phone;
          // Find the barber by the phone number
          const barber = await Barber.findOne({ phone });
          if (!barber) {

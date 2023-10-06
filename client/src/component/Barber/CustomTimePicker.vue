@@ -1,7 +1,11 @@
 <template>
   <div class="time-container">
-    <button v-for="(time, index) in timeSlots" :key="index" @click="selectTime(time)" class="time-slot"
-      :class="{ 'time-slot-selected': selectedTime === time }">
+    <button
+      v-for="(time, index) in timeSlots"
+      :key="index"
+      @click="selectTime(time)"
+      class="time-slot"
+      :class="{ 'time-slot-selected': isSelected(time) }">
       {{ time }}
     </button>
   </div>
@@ -15,6 +19,13 @@ export default {
       timeSlots: this.generateTimeSlots()
     }
   },
+  computed: {
+    isSelected() {
+      return (time) => {
+        return this.selectedTimes.includes(time)
+      }
+    }
+  },
   methods: {
     generateTimeSlots() {
       const times = []
@@ -25,13 +36,19 @@ export default {
       return times
     },
     selectTime(time) {
-      this.selectedTime = time
-      this.$emit('time-selected', time)
+      if (this.selectedTimes.includes(time)) {
+        // Remove the time if already selected
+        this.selectedTimes = this.selectedTimes.filter(t => t !== time)
+      } else {
+        // Add the time if not already selected
+        this.selectedTimes.push(time)
+      }
+      this.$emit('time-selected', this.selectedTimes) // Emitting the whole array now
     }
   }
 }
 </script>
- <style scoped lang="scss">
+<style scoped lang="scss">
 .time-container {
   display: flex;
   flex-wrap: wrap;
@@ -46,7 +63,7 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s;
 
-  &:hover {
+  &:hover, &.time-slot-selected {
     background-color: #E7A35630;
   }
 }

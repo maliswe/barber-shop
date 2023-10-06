@@ -22,7 +22,7 @@ router.put('/:id', async (req, res) => {
     controller.update(req, res, req.params.id);
 })
 
-router.put('/availability', async (req, res) => {
+router.post('/availability', async (req, res) => {
     controller.setAvailability(req,res );
 })
 
