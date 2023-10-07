@@ -45,7 +45,7 @@ export default {
     redirectBasedOnRole(role) {
       const roleToRouteMapping = {
         Barber: 'BarberDashoard',
-        Admin: 'Dashboard',
+        Admin: 'AdminDashboard',
         Default: 'Home'
       }
 
