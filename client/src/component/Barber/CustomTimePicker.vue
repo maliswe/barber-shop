@@ -15,14 +15,14 @@ export default {
   props: ['selectedDate'],
   data() {
     return {
-      selectedTime: null,
+      selectedTime: [],
       timeSlots: this.generateTimeSlots()
     }
   },
   computed: {
     isSelected() {
       return (time) => {
-        return this.selectedTimes.includes(time)
+        return this.selectedTime.includes(time)
       }
     }
   },
@@ -36,14 +36,14 @@ export default {
       return times
     },
     selectTime(time) {
-      if (this.selectedTimes.includes(time)) {
+      if (this.selectedTime.includes(time)) {
         // Remove the time if already selected
-        this.selectedTimes = this.selectedTimes.filter(t => t !== time)
+        this.selectedTime = this.selectedTime.filter(t => t !== time)
       } else {
         // Add the time if not already selected
-        this.selectedTimes.push(time)
+        this.selectedTime.push(time)
       }
-      this.$emit('time-selected', this.selectedTimes) // Emitting the whole array now
+      this.$emit('time-selected', this.selectedTime)
     }
   }
 }

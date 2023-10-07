@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <LoginForm :onLogin="handleLogin"/>
+    <LoginForm :onLogin="handleLogin" />
     <ThirdPartySignIn />
   </div>
 </template>
@@ -18,47 +18,57 @@ export default {
   methods: {
     async handleLogin(email, password) {
       try {
-        const response = await axios.post('http://localhost:3000/api/login', {
-          email: email,
-          password: password
-        })
+        const response = await axios.post('http://localhost:3000/api/login', { email, password })
+
         if (response.data && response.data.token) {
           localStorage.setItem('token', response.data.token)
-          localStorage.setItem('__t', response.data.__t)
-
-          // Navigate to the page
-          if (response.data.__t === 'Barber') {
-            this.$router.push({ name: 'BarberDashoard' })
-          } else {
-            console.log('Failed')
-            this.$router.push({ name: 'Home' })
-          }
+          this.updateStoreState(response.data.user, response.data.__t)
+          this.redirectBasedOnRole(response.data.__t)
         } else {
           console.error(response.data.message)
           alert('Login failed!')
         }
       } catch (error) {
         console.error('Login error:', error)
-        alert('Login error! Please check your credentials.')
+        if (error.response && error.response.status === 401) {
+          alert('Invalid credentials. Please try again.')
+        } else {
+          alert('Login error! Please check your credentials or try again later.')
+        }
       }
+    },
+    updateStoreState(user, role) {
+      this.$store.commit('SET_USER', user)
+      this.$store.commit('SET_LOGIN_STATUS', true)
+      this.$store.commit('SET_ROLE', role)
+    },
+    redirectBasedOnRole(role) {
+      const roleToRouteMapping = {
+        Barber: 'BarberDashoard',
+        Admin: 'Dashboard',
+        Default: 'Home'
+      }
+
+      this.$router.push({ name: roleToRouteMapping[role] || roleToRouteMapping.Default })
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
-.container{
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 
-  @media screen and (max-width: 768px) { // This is for tablet screens and below
+  @media screen and (max-width: 768px) {
+    // This is for tablet screens and below
     margin: 0; // Reducing margin for smaller screens.
     padding: 15px;
   }
 
-  @media screen and (max-width: 480px) { // This is for mobile screens
+  @media screen and (max-width: 480px) {
+    // This is for mobile screens
     margin: 0;
     padding: 10px;
   }
@@ -82,5 +92,4 @@ button {
     outline: none; // Removes the default focus outline
   }
 }
-
 </style>

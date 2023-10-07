@@ -63,7 +63,25 @@ async function refresh(req, res) {
     res.json({ token: newToken });
 }
 
+const logout = async (req, res) => {
+    try {
+        const refreshToken = req.body.refreshToken;
+
+        // Remove the refresh token from the database
+        await RefreshToken.findOneAndDelete({ token: refreshToken });
+
+        // Clear the auth token cookie
+        res.clearCookie('authToken');
+
+        return res.status(200).json({ message: 'Logged out successfully' });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 module.exports = {
     login,
-    refresh
+    refresh,
+    logout
 };

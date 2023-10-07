@@ -5,16 +5,22 @@
         <Logo />
       </div>
       <nav>
-        <ul v-show="!mobile" class="navigation">
-          <li v-if="true"><router-link class="link" active-class="active-class" :to="{ name: 'Dashboard' }">Dashboard</router-link></li>
+        <ul v-show="!mobile" v-if="!isLoggedIn" class="navigation">
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'Team' }">Team</router-link></li>
-          <li><router-link class="link" active-class="active-class"
-              :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
+        </ul>
+        <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') " class="navigation">
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
+        </ul>
+        <ul v-if="isLoggedIn && role === 'Barber'" class="navigation">
+          <!-- ... no links -->
         </ul>
         <div class="icon">
           <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
@@ -26,8 +32,6 @@
             <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
             <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
             <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
             <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
             <li><router-link class="link" :to="{ name: 'Book' }">Book</router-link></li>
             <li><router-link class="link" :to="{ name: 'Login' }">Sign In</router-link></li>
@@ -39,6 +43,7 @@
   </header>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Logo from './Logo.vue'
 import Bookbtn from './Bookbtn.vue'
 export default {
@@ -54,6 +59,9 @@ export default {
       mobileNav: null,
       windowWidth: null
     }
+  },
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
   },
   methods: {
     toggleMobileNav() {
@@ -101,7 +109,7 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding-right:5%;
+    padding-right: 5%;
   }
 
   nav {
@@ -191,7 +199,8 @@ header {
 
         .link {
           color: #000000;
-          &:hover{
+
+          &:hover {
             color: #E7A356;
           }
         }

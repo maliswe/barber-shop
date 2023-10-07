@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '../store/store.js'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
@@ -9,7 +10,7 @@ import Contact from '../views/Contact.vue'
 import Gallery from '../views/Gallery.vue'
 import Book from '../views/Book.vue'
 import BarberDashboard from '../component/Barber/barberDashboard.vue'
-import Dashboard from '../views/Dashboard.vue'
+import AdminDashboard from '../component/Admin/Dashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -54,14 +55,16 @@ const routes = [
     name: 'Book',
     component: Book
   }, {
-    path: '/dashboard',
+    path: '/barber-dashboard',
     name: 'BarberDashoard',
-    component: BarberDashboard
+    component: BarberDashboard,
+    meta: { requiresAuth: true, role: 'Barber' }
   },
   {
-    path: '/Dashboard',
-    name: 'Dashboard',
-    component: Dashboard
+    path: '/admin-dashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard,
+    meta: { requiresAuth: true, role: 'Admin' }
   }
 ]
 
@@ -69,6 +72,24 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.state.isLoggedIn
+  const userRole = store.state.role
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next('/login')
+    } else {
+      if (to.matched.some(record => record.meta.role && record.meta.role !== userRole)) {
+        next('/')
+      } else {
+        next()
+      }
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -73,8 +73,8 @@ app.use('/api/v1/appointments', appointmentRouter);
 servicesRouter = require('./routes/services_routes.js');
 app.use('/api/v1/services', servicesRouter)
 
-loginRouter = require('./routes/auth_routes.js');
-app.use('/api', loginRouter)
+authRouter = require('./routes/auth_routes.js');
+app.use('/api', authRouter)
 
 
 // Configuration for serving frontend in production mode

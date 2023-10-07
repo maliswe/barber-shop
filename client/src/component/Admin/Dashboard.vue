@@ -43,8 +43,8 @@
 
 <script>
 import { barber } from '@/api/barberApi'
-import addBarberForm from '../component/Dashboard/addBarberForm.vue'
-import updateBarberForm from '../component/Dashboard/updateBarberForm.vue'
+import addBarberForm from './addBarberForm.vue'
+import updateBarberForm from './updateBarberForm.vue'
 
 export default {
   data() {

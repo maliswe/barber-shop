@@ -38,8 +38,9 @@ export default {
     }
   },
   methods: {
-    dayClicked() {
+    dayClicked(dateInfo) {
       console.log('Day Clicked:')
+      this.selectedDate = dateInfo.date
       this.showTimePicker = true
     },
     selectTime(time) {
@@ -53,12 +54,15 @@ export default {
       }
     },
     setAvailability() {
+      console.log('selectedDate:', this.selectedDate)
+      console.log('selectedTimes:', this.selectedTimes)
       if (this.selectedDate && this.selectedTimes.length > 0) {
+        const flatTimes = [].concat(...this.selectedTimes)
         const dateToSave = {
           date: this.selectedDate,
-          times: this.selectedTimes
+          times: flatTimes
         }
-        axios.post('http://localhost:3000/api/v1/barbers/availability', dateToSave)
+        axios.put('http://localhost:3000/api/v1/barbers/availability', dateToSave)
           .then(response => {
             console.log('Data saved: ', response.data)
           })

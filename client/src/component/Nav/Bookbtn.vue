@@ -1,19 +1,50 @@
 <template>
-  <div class="button-container">
-    <button @click="goToSignInPage">
-      Sign In
-    </button>
-    <button @click="goToBook" >
-      <i class="fa fa-calendar"></i>Book
-    </button>
+  <div>
+    <div v-if="!isLoggedIn" class="button-container">
+      <button @click="goToSignInPage">Sign In</button>
+      <button @click="goToBook"><i class="fa fa-calendar"></i>Book</button>
+    </div>
+    <!-- For customers -->
+    <div v-if="isLoggedIn && role === 'Customer'" class="button-container">
+      <button @click="logout">Logout</button>
+      <button @click="goToBook"><i class="fa fa-calendar"></i>Book</button>
+    </div>
+    <!-- For barbers -->
+    <div v-if="isLoggedIn && role === 'Barber'" class="button-container">
+      <button @click="logout">Logout</button>
+      <button @click="goToBarberDashboard">Barber Dashboard</button>
+    </div>
+    <!-- For admins -->
+    <div v-if="isLoggedIn && role === 'Admin'" class="button-container">
+      <button @click="logout">Logout</button>
+      <button @click="goToAdminDashboard">Admin Dashboard</button>
+    </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'BookingButton',
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
+  },
   methods: {
     goToSignInPage() {
       this.$router.push({ name: 'Login' }).catch(err => {
+        if (err.name !== 'NavigationDuplicated') {
+          throw err
+        }
+      })
+    },
+    goToBarberDashboard() {
+      this.$router.push({ name: 'BarberDashoard' }).catch(err => {
+        if (err.name !== 'NavigationDuplicated') {
+          throw err
+        }
+      })
+    },
+    goToAdminDashboard() {
+      this.$router.push({ name: 'AdminDashboard' }).catch(err => {
         if (err.name !== 'NavigationDuplicated') {
           throw err
         }
@@ -25,6 +56,11 @@ export default {
           throw err
         }
       })
+    },
+    logout() {
+      this.$store.commit('SET_LOGIN_STATUS', false)
+      this.$store.commit('SET_ROLE', null)
+      this.$router.push({ name: 'Home' })
     }
   }
 }
