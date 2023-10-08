@@ -9,23 +9,18 @@ const bcrypt = require('bcryptjs')
 const create = async (req, res) => {
     try {
 
-        // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-        // Create a new barber document based on the request body
         const newBarber = new Barber({
             ...req.body,
             password: hashedPassword,
         });
 
-        // Save the new barber document to the database
         await newBarber.save();
 
-        // Send the saved barber data as a response
-        res.status(201).json({ message: 'Barber created successfully'});
+        res.status(201).json({ message: 'Barber created successfully' });
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -41,10 +36,8 @@ const getAll = async (req, res) => {
         if (barbers.length < 1) {
             return res.status(404).json({ message: 'No Barber registered yet' });
         }
-        // Send the data as a response to the client
         res.status(200).json(barbers);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -57,14 +50,11 @@ const getOne = async (req, res) => {
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
-            // If no barber with the given phone is found, return a 404 response
             return res.status(404).json({ message: 'Barber not found' });
         }
 
-        // Send the data as a response to the client
         res.status(200).json(barber);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -80,14 +70,11 @@ const update = async (req, res) => {
             return res.status(404).json({ message: 'Barber not found' });
         }
 
-        // Go through all attributes and update for the values provided
         fieldsMapper(barber, req.body);
 
-        // Save the updated barber document
         await barber.save();
 
-        // Send the updated barber data as a response
-        res.status(200).json({ message: 'Barber info updated'});
+        res.status(200).json({ message: 'Barber info updated' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -99,13 +86,10 @@ const remove = async (req, res) => {
         // Use Mongoose to query the MongoDB database for barber data
         const result = await Barber.deleteOne({ phone: req.params.id });
         if (result.deletedCount === 0) {
-            // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Barber not found' });
         }
-        // Send the data as a response to the client
         res.status(200).json({ message: 'Barber deleted' });
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -121,39 +105,33 @@ const removeAll = async (req, res) => {
         }
 
         await Barber.deleteMany();
-        res.status.status(200).json({ message: 'Barbers deleted'});
+        res.status.status(200).json({ message: 'Barbers deleted' });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error'});
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
-const setAvailability = async (req, res) => {
+const setAvailability = async (req, res, next) => {
     try {
-        const barberId = req.user.phone;
+        const barberId = req.params.id;
 
-        // Availability data is sent in the request body
         const { date, times } = req.body;
 
-        // Find the barber using the provided ID
-        const barber = await mongoose.model('Barber').findById(barberId);
+        const barber = await mongoose.model('Barber').findOne({ phone: barberId });
 
         if (!barber) {
             return res.status(404).send({ message: 'Barber not found.' });
         }
 
-        // Check if an entry for the specified date already exists in the availability array
         const availabilityIndex = barber.availability.findIndex(avail => avail.date.toISOString() === new Date(date).toISOString());
 
         if (availabilityIndex > -1) {
-            // If the date exists, update the times array
             barber.availability[availabilityIndex].times = times;
         } else {
-            // If the date does not exist, push a new availability object
             barber.availability.push({ date, times });
         }
-        // Save the updated barber document
         await barber.save();
 
         res.status(200).send({ message: 'Availability updated successfully.', availability: barber.availability });
@@ -164,10 +142,10 @@ const setAvailability = async (req, res) => {
 
 const getOneAvailability = async (req, res) => {
     try {
-        const barberId = req.user.phone;
+        const barberId = req.params.id;
         const targetDate = new Date(req.params.date);
 
-        const barber = await mongoose.model('Barber').findById(barberId);
+        const barber = await mongoose.model('Barber').findOne({ phone: barberId });
 
         if (!barber) {
             return res.status(404).send({ message: 'Barber not found.' });
@@ -176,7 +154,7 @@ const getOneAvailability = async (req, res) => {
         const availability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
 
         if (!availability) {
-            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+            return res.status(200).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
         }
 
         res.status(200).send(availability);
@@ -187,9 +165,9 @@ const getOneAvailability = async (req, res) => {
 
 const getAllAvailabilities = async (req, res) => {
     try {
-        const barberId = req.user.id;
+        const barberId = req.params.id;
 
-        const barber = await mongoose.model('Barber').findById(barberId);
+        const barber = await mongoose.model('Barber').findOne({ phone: barberId });
 
         if (!barber) {
             return res.status(404).send({ message: 'Barber not found.' });
@@ -201,6 +179,61 @@ const getAllAvailabilities = async (req, res) => {
     }
 };
 
+const deleteAvailability = async (req, res) => {
+    try {
+        const barberId = req.params.id;
+        const { phone, date } = req.params;
+        const targetDate = new Date(date);
+        const barber = await mongoose.model('Barber').findOne({ phone: barberId });
+
+        if (!barber) {
+            return res.status(404).send({ message: 'Barber not found.' });
+        }
+
+        const availabilityIndex = barber.availability.findIndex(avail => avail.date.toISOString() === targetDate.toISOString());
+
+        if (availabilityIndex === -1) {
+            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+        }
+
+        barber.availability.splice(availabilityIndex, 1);
+        await barber.save();
+
+        res.status(200).send({ message: 'Availability deleted successfully.' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting availability.', error: error.message });
+    }
+};
+
+const deleteTimeSlot = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const targetDate = new Date(req.params.date);
+        const timeToDelete = req.body.timeToDelete;
+
+        const barber = await mongoose.model('Barber').findOne({ phone });
+
+        if (!barber) {
+            return res.status(404).send({ message: 'Barber not found.' });
+        }
+
+        const availability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
+
+        if (!availability || !availability.times) {
+            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+        }
+
+        availability.times = availability.times.filter(time => time !== timeToDelete);
+
+        await barber.save();
+
+        res.status(200).send({ message: 'Time slot deleted successfully.' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting time slot.', error: error.message });
+    }
+};
+
+
 
 
 module.exports = {
@@ -211,5 +244,7 @@ module.exports = {
     update,
     setAvailability,
     getOneAvailability,
-    getAllAvailabilities
+    getAllAvailabilities,
+    deleteAvailability,
+    deleteTimeSlot
 };

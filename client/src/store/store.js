@@ -5,12 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    phone: null,
     isLoggedIn: false,
     role: null
   },
   mutations: {
-    SET_USER(state, user) {
-      state.user = user
+    SET_USER(state, phone) {
+      state.phone = phone
     },
     SET_LOGIN_STATUS(state, status) {
       state.isLoggedIn = status
@@ -30,6 +31,11 @@ export default new Vuex.Store({
     },
     setRole({ commit }, role) {
       commit('SET_ROLE', role)
+    }
+  },
+  getters: {
+    userPhone: state => {
+      return state.phone ? state.phone : null
     }
   }
 })
