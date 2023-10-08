@@ -48,7 +48,8 @@ const getAll = async (req, res) => {
     }
 };
 
-const getOne = async (req, res, id) => {
+const getOne = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for admin data
         const admin = await Admin.findOne({ phone: id });
@@ -79,7 +80,8 @@ const getOne = async (req, res, id) => {
     }
 };
 
-const update = async (req, res, id) => {
+const update = async (req, res) => {
+    const id = req.params.id;
     try {
         // Find the admin by ID
         const admin = await Admin.findOne({ phone: id });
@@ -102,7 +104,8 @@ const update = async (req, res, id) => {
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for admin data
         const result = await Admin.deleteOne({ phone: id });

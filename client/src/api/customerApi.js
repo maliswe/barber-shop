@@ -1,25 +1,25 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/api/v1/admins'
+const BASE_URL = 'http://localhost:3000/api/v1/customers'
 
-export const admin = {
-  getAllAdmins() {
+export const customer = {
+  getAllCustomer() {
     return axios.get(`${BASE_URL}`)
   },
 
-  getAdmin(userId) {
+  getCustomer(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
   },
 
-  createAdmin(userData) {
+  createCustomer(userData) {
     return axios.post(`${BASE_URL}`, userData)
   },
 
-  updateAdmin(userId, userData) {
+  updateCustomer(userId, userData) {
     return axios.put(`${BASE_URL}/${userId}`, userData)
   },
 
-  deleteAdmin(userId) {
+  deleteCustomer(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
   }
 }

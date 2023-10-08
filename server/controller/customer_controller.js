@@ -48,7 +48,8 @@ const getAll = async (req, res) => {
     }
 };
 
-const getOne = async (req, res, id) => {
+const getOne = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for customer data
         const customer = await Customer.findOne({ phone: id });
@@ -67,7 +68,8 @@ const getOne = async (req, res, id) => {
     }
 };
 
-const update = async (req, res, id) => {
+const update = async (req, res) => {
+    const id = req.params.id;
     try {
         // Find the customer by ID
         const customer = await Customer.findOne({ phone: id });
@@ -91,7 +93,8 @@ const update = async (req, res, id) => {
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for customer data
         const result = await Customer.deleteOne({ phone: id });

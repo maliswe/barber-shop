@@ -1,6 +1,7 @@
 <template>
   <div class="modal-overlay" v-if="showEdit">
     <div class="modal-content">
+      <h1>Update a customer</h1>
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
@@ -9,25 +10,20 @@
           </div>
 
           <div class="form-group">
-            <label for="price">Price:</label>
-            <input v-model="form.price" type="number" id="price" required />
+            <label for="phone">Phone:</label>
+            <input v-model="form.phone" type="number" id="phone" required />
           </div>
 
           <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea v-model="form.description" id="description" required></textarea>
+            <label for="email">Email:</label>
+            <input v-model="form.email" type="text" id="email" required>
           </div>
 
           <div class="form-group">
-            <label for="duration">Duration:</label>
-            <input v-model="form.duration" type="number" id="duration" required />
+            <label for="password">Password:</label>
+            <input v-model="form.password" type="password" id="password" />
           </div>
-
-          <div class="form-group">
-            <label for="image">Upload Image:</label>
-            <input type="file" @change="handleImageUpload" accept="image/*" id="image" />
-          </div>
-          <button type="submit">Update</button>
+          <button type="submit">Save</button>
           <button class="close-button" @click="closeModal">Cancel</button>
         </form>
       </div>
@@ -36,7 +32,7 @@
 </template>
 
 <script>
-import { services } from '@/api/serviceApi'
+import { customer } from '@/api/customerApi'
 
 export default {
   props: {
@@ -44,7 +40,7 @@ export default {
       type: Boolean,
       required: true
     },
-    currentService: {
+    currentCustomer: {
       type: Object,
       default: null
     }
@@ -53,47 +49,43 @@ export default {
     return {
       form: {
         name: '',
-        price: null,
-        description: '',
-        duration: null,
-        image: null
+        phone: null,
+        email: '',
+        password: null
       }
     }
   },
   watch: {
-    currentService: {
-      handler(newService) {
-        // Update form whenever currentService changes
-        if (newService) {
-          this.form.name = newService.name || ''
-          this.form.price = newService.price || null
-          this.form.description = newService.description || ''
-          this.form.duration = newService.duration || null
+    currentCustomer: {
+      handler(newCustomer) {
+        // Update form whenever currentCustomer changes
+        if (newCustomer) {
+          this.form.name = newCustomer.name || ''
+          this.form.phone = newCustomer.phone || null
+          this.form.email = newCustomer.email || ''
         }
       },
       immediate: true // Call the handler immediately with the current value
     }
   },
   methods: {
-    handleImageUpload(event) {
-      const file = event.target.files[0]
-      this.form.image = file
-    },
     handleSubmit() {
-      const formData = new FormData()
-      formData.append('name', this.form.name)
-      formData.append('price', this.form.price)
-      formData.append('description', this.form.description)
-      formData.append('duration', this.form.duration)
-      formData.append('image', this.form.image)
+      const formData = {
+        name: this.form.name,
+        phone: this.form.phone,
+        email: this.form.email
+      }
+      if (this.form.password) {
+        formData.password = this.form.password
+      }
 
-      services.updateService(this.currentService._id, formData)
+      customer.updateCustomer(this.currentCustomer.phone, formData)
         .then(() => {
           this.$emit('close-modal')
-          this.$emit('fetch-services')
+          this.$emit('customer-updated')
         })
         .catch(error => {
-          console.error('Error adding service:', error)
+          console.error('Error adding customer:', error)
         })
     },
     closeModal() {

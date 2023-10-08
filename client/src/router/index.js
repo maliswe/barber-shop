@@ -10,7 +10,9 @@ import Contact from '../views/Contact.vue'
 import Gallery from '../views/Gallery.vue'
 import Book from '../views/Book.vue'
 import BarberDashboard from '../component/Barber/barberDashboard.vue'
-import AdminDashboard from '../component/Admin/Dashboard.vue'
+import AdminDashboard from '../component/Admin/adminController/Dashboard.vue'
+import BarberController from '../component/Admin/barberController/Dashboard.vue'
+import CustomerController from '../component/Admin/customerController/Dashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -64,6 +66,18 @@ const routes = [
     path: '/admin-dashboard',
     name: 'AdminDashboard',
     component: AdminDashboard,
+    meta: { requiresAuth: true, role: 'Admin' }
+  },
+  {
+    path: '/barber-controller',
+    name: 'BarberController',
+    component: BarberController,
+    meta: { requiresAuth: true, role: 'Admin' }
+  },
+  {
+    path: '/customer-controller',
+    name: 'CustomerController',
+    component: CustomerController,
     meta: { requiresAuth: true, role: 'Admin' }
   }
 ]

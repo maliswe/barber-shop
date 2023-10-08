@@ -1,7 +1,7 @@
 <template>
   <div class="modal-overlay" v-if="showEdit">
     <div class="modal-content">
-      <h1>Add a new barber</h1>
+      <h1>Update an admin</h1>
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
@@ -20,16 +20,6 @@
           </div>
 
           <div class="form-group">
-            <label for="experties">Experties:</label>
-            <textarea v-model="form.experties" id="experties" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="service">Services:</label>
-            <input v-model="form.service" id="service">
-          </div>
-
-          <div class="form-group">
             <label for="password">Password:</label>
             <input v-model="form.password" type="password" id="password" />
           </div>
@@ -42,7 +32,7 @@
 </template>
 
 <script>
-import { barber } from '@/api/barberApi'
+import { admin } from '@/api/adminApi'
 
 export default {
   props: {
@@ -50,7 +40,7 @@ export default {
       type: Boolean,
       required: true
     },
-    currentService: {
+    currentAdmin: {
       type: Object,
       default: null
     }
@@ -61,22 +51,18 @@ export default {
         name: '',
         phone: null,
         email: '',
-        password: null,
-        experties: null,
-        service: null
+        password: null
       }
     }
   },
   watch: {
-    currentService: {
-      handler(newService) {
-        // Update form whenever currentService changes
-        if (newService) {
-          this.form.name = newService.name || ''
-          this.form.phone = newService.phone || null
-          this.form.email = newService.email || ''
-          this.form.experties = newService.experties || ''
-          this.form.service = newService.service || ''
+    currentAdmin: {
+      handler(newAdmin) {
+        // Update form whenever currentAdmin changes
+        if (newAdmin) {
+          this.form.name = newAdmin.name || ''
+          this.form.phone = newAdmin.phone || null
+          this.form.email = newAdmin.email || ''
         }
       },
       immediate: true // Call the handler immediately with the current value
@@ -87,21 +73,19 @@ export default {
       const formData = {
         name: this.form.name,
         phone: this.form.phone,
-        email: this.form.email,
-        experties: this.form.experties,
-        service: this.form.service
+        email: this.form.email
       }
       if (this.form.password) {
         formData.password = this.form.password
       }
 
-      barber.updateBarber(this.currentService.phone, formData)
+      admin.updateAdmin(this.currentAdmin.phone, formData)
         .then(() => {
           this.$emit('close-modal')
-          this.$emit('barber-updated')
+          this.$emit('admin-updated')
         })
         .catch(error => {
-          console.error('Error adding service:', error)
+          console.error('Error adding admin:', error)
         })
     },
     closeModal() {

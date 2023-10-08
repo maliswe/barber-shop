@@ -50,10 +50,11 @@ const getAll = async (req, res) => {
     }
 };
 
-const getOne = async (req, res, id) => {
+const getOne = async (req, res) => {
     try {
+        const barberId = req.params.id
         // Find the barber by using the phone number
-        const barber = await Barber.findOne({ phone: id });
+        const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
             // If no barber with the given phone is found, return a 404 response
@@ -69,10 +70,11 @@ const getOne = async (req, res, id) => {
     }
 };
 
-const update = async (req, res, id) => {
+const update = async (req, res) => {
     try {
-        // Find the barber by phone
-        const barber = await Barber.findOne({ phone: id });
+        const barberId = req.params.id
+         // Find the barber by phone
+        const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
             return res.status(404).json({ message: 'Barber not found' });
@@ -92,10 +94,10 @@ const update = async (req, res, id) => {
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for barber data
-        const result = await Barber.deleteOne({ phone: id });
+        const result = await Barber.deleteOne({ phone: req.params.id });
         if (result.deletedCount === 0) {
             // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Barber not found' });
