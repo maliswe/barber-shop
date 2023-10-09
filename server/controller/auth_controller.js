@@ -19,7 +19,7 @@ const login = async (req, res) => {
         }
 
         const jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
-        const token = jwt.sign({ _id: loggedUser.id, __t: loggedUser.__t }, jwtSecret, { expiresIn: '5m' });
+        const token = jwt.sign({ _id: loggedUser.id, __t: loggedUser.__t, phone: loggedUser.phone }, jwtSecret, { expiresIn: '5m' });
 
         const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'defaultRefreshSecret';
         const refreshToken = jwt.sign({ _id: loggedUser.id }, refreshTokenSecret, { expiresIn: '7d' });
@@ -35,7 +35,8 @@ const login = async (req, res) => {
         res.status(200).json({ 
             token: token, 
             refreshToken: refreshToken,
-            __t: loggedUser.__t
+            __t: loggedUser.__t,
+            phone: loggedUser.phone
         });
 
     } catch (error) {

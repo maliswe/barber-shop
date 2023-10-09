@@ -1,22 +1,25 @@
 <template>
   <div class="time-container">
-    <button
-      v-for="(time, index) in timeSlots"
-      :key="index"
-      @click="selectTime(time)"
-      class="time-slot"
-      :class="{ 'time-slot-selected': isSelected(time) }">
+    <button v-for="(time, index) in timeSlots" :key="index" @click="selectTime(time)" class="time-slot"
+      :class="{ 'time-slot-selected': isSelected(time) || selectedTimes.includes(time) }">
       {{ time }}
     </button>
   </div>
 </template>
 <script>
 export default {
-  props: ['selectedDate'],
+  props: ['selectedDate', 'selectedTimes'],
   data() {
     return {
-      selectedTime: [],
+      selectedTime: this.selectedTimes || [],
       timeSlots: this.generateTimeSlots()
+    }
+  },
+  watch: {
+    selectedDate(newDate, oldDate) {
+      if (newDate !== oldDate) {
+        this.selectedTime = []
+      }
     }
   },
   computed: {
@@ -36,14 +39,11 @@ export default {
       return times
     },
     selectTime(time) {
-      if (this.selectedTime.includes(time)) {
-        // Remove the time if already selected
-        this.selectedTime = this.selectedTime.filter(t => t !== time)
+      if (this.selectedTimes.includes(time)) {
+        this.$emit('time-delete-request', time)
       } else {
-        // Add the time if not already selected
-        this.selectedTime.push(time)
+        this.$emit('time-selected', time)
       }
-      this.$emit('time-selected', this.selectedTime)
     }
   }
 }
@@ -63,9 +63,15 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s;
 
-  &:hover, &.time-slot-selected {
+  &:hover,
+  &.time-slot-selected {
     background-color: #E7A35630;
   }
+}
+
+.time-slot.time-slot-selected:hover {
+  // Your hover styles here, e.g.
+  background-color: #E7A35670; // slightly transparent
 }
 
 .time-slot-selected {
