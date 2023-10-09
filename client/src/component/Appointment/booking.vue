@@ -3,21 +3,29 @@
     <h1 class="page-header">Book Your Appointment</h1>
 
     <div class="under-cal">
-      <v-calendar :events="events" :disabled-days="disabledDays" :highlight="highlightDays" @event-clicked="eventClicked"
-        @day-clicked="dayClicked" @period-clicked="periodClicked" @period-context-menu="periodContextMenu"
-        @event-context-menu="eventContextMenu" class="vue-calendar">
-      </v-calendar>
-      <h1 class="availability">Available Slot</h1>
+      <v-calendar :events="events" @dayclick="dayClicked" class="vue-calendar"></v-calendar>
+    </div>
+    <div v-if="selectedDate" class="barber-table">
+      <div class="table-header">
+        <div class="table-cell" v-for="barber in barbers" :key="barber.phone">{{ barber.name }}</div>
+      </div>
+
+      <div class="table-row">
+        <div class="table-cell" v-for="barber in barbers" :key="barber.phone">
+          <ul>
+            <li v-for="time in barber.availability" :key="time">{{ time }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="button-container">
       <button>Continue</button>
     </div>
   </div>
 </template>
-
 <script>
 import { Calendar } from 'v-calendar'
-
+import axios from 'axios'
 export default {
   name: 'setAvailability',
   components: {
@@ -28,19 +36,28 @@ export default {
       selectedDate: null,
       events: [],
       disabledDays: [],
-      highlightDays: []
+      highlightDays: [],
+      barbers: []
     }
   },
   methods: {
-    dayClicked(day) {
-      console.log('Day Clicked:', day)
-      this.selectedDate = day.date
-    },
-    setAvailability() {
-      if (this.selectedDate) {
-        console.log(`Selected Date: ${this.selectedDate}`)
-      } else {
-        console.log('Please select a date.')
+    async dayClicked(dateInfo) {
+      this.selectedDate = dateInfo.date
+      const calendarDate = [
+        this.selectedDate.getFullYear(),
+        String(this.selectedDate.getMonth() + 1).padStart(2, '0'),
+        String(this.selectedDate.getDate()).padStart(2, '0')
+      ].join('-')
+      try {
+        const response = await axios.get(`http://localhost:3000/api/v1/barbers/allavailability/${calendarDate}`)
+        this.barbers = response.data.map(barber => ({
+          name: barber.name,
+          phone: barber.barberPhone,
+          availability: barber.times
+        }))
+        console.log(this.barbers)
+      } catch (error) {
+        console.error("Error fetching barbers' availability:", error)
       }
     }
   }
@@ -90,8 +107,15 @@ export default {
     flex-direction: row;
 
     .vue-calendar {
-      width: 35%;
-      background: #ffffff;
+      width: 100%;
+    }
+
+    p {
+      color: black;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      padding-top: 0.25rem;
     }
 
     .horizontal {
@@ -103,6 +127,42 @@ export default {
       box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
       border-radius: 10px;
 
+      p {
+        color: black;
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        padding-top: 0.25rem;
+      }
+    }
+
+  }
+
+  .barber-table {
+    width: 65%;
+    margin-left: 2%;
+    margin-top: 10px; // Added a bit of margin on top to separate it from the horizontal div
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .table-header,
+    .table-row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .table-cell {
+      flex: 1;
+      padding: 10px;
+      // Removed border for columns
+      border-bottom: 1px solid #e0e0e0; // Just a bottom border to separate rows
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
     }
   }
 

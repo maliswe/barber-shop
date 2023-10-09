@@ -1,46 +1,56 @@
 <template>
-    <div>
-      <div class="container" v-if="admins.length > 0">
-        <h1>Admin accounts</h1>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
+  <div>
+    <div class="container" v-if="admins.length > 0">
+      <h1>Admin accounts</h1>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
             <th>
-                <button class="add-button" @click="showAddAdminForm">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(admin, index) in admins" :key="admin._id" :class="index % 2 === 0 ? 'gray-row' : 'white-row'">
-              <td>{{ admin.name }}</td>
-              <td>{{ admin.email }}</td>
-              <td>{{ admin.phone }}</td>
-              <td>
+              <button class="add-button" @click="showAddAdminForm">
+                <i class="fas fa-plus"></i>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(admin, index) in admins" :key="admin._id" :class="index % 2 === 0 ? 'gray-row' : 'white-row'">
+            <td>{{ admin.name }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.phone }}</td>
+            <td>
               <button class="edit-button" @click="editAdmin(admin)"><i class="fas fa-edit"></i></button>
               <button class="delete-button" @click="deleteAdmin((admin.phone))"><i class="fas fa-trash-alt"></i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="form-overlay" v-if="showUpdateAdminFormModal">
-        <updateAdminForm ref="updateAdminForm" :showEdit="showUpdateAdminFormModal" :currentAdmin="currentAdmin" @admin-updated="onAdminUpdated" @close-modal="closeUpdateAdminForm" />
-      </div>
-      <div class="form-overlay" v-if="showAddAdminFormModal">
-        <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated" @close-modal="closeAddAdminForm" />
-      </div>
-      <div>
-        <b-col lg="4" class="pb-2"><b-button variant="warning" href="barber-controller" size="lg">Barber Accounts</b-button></b-col>
-        <b-col lg="4" class="pb-2"><b-button variant="warning" href="customer-controller" size="lg">Customer Accounts</b-button></b-col>
-      </div>
-
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </template>
+    <div class="form-overlay" v-if="showUpdateAdminFormModal">
+      <updateAdminForm ref="updateAdminForm" :showEdit="showUpdateAdminFormModal" :currentAdmin="currentAdmin"
+        @admin-updated="onAdminUpdated" @close-modal="closeUpdateAdminForm" />
+    </div>
+    <div class="form-overlay" v-if="showAddAdminFormModal">
+      <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated"
+        @close-modal="closeAddAdminForm" />
+    </div>
+    <div>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'BarberController' }">
+          <b-button variant="warning" size="lg">Barber Accounts</b-button>
+        </router-link>
+      </b-col>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'CustomerController' }">
+          <b-button variant="warning" size="lg">Customer Accounts</b-button>
+        </router-link>
+      </b-col>
+    </div>
+
+  </div>
+</template>
 
 <script>
 import { admin } from '@/api/adminApi'
@@ -126,13 +136,15 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 50px;
 }
 
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
   padding: 10px;
   border: 1px solid #ccc;
 }
@@ -164,10 +176,10 @@ export default {
 .add-button {
   width: fill;
   height: fill;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
+  /* Adjust the button background color */
   border: none;
   color: white;
   border-radius: 5px;
 }
-
 </style>
