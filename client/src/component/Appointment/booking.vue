@@ -1,16 +1,14 @@
 <template>
   <div class="book-container">
+    <h1 class="page-header">Book Your Appointment</h1>
 
     <div class="under-cal">
       <v-calendar :events="events" :disabled-days="disabledDays" :highlight="highlightDays" @event-clicked="eventClicked"
         @day-clicked="dayClicked" @period-clicked="periodClicked" @period-context-menu="periodContextMenu"
         @event-context-menu="eventContextMenu" class="vue-calendar">
       </v-calendar>
-      <div class="horizontal">
-        <p>Availbility Time</p>
-      </div>
+      <h1 class="availability">Available Slot</h1>
     </div>
-
     <div class="button-container">
       <button>Continue</button>
     </div>
@@ -55,6 +53,33 @@ export default {
 .book-container {
   width: 100%;
 
+  .availability {
+    color: black;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 48px;
+    letter-spacing: 0.02em;
+    margin-left: 1%;
+    margin-right: auto;
+    max-width: 100%;
+    margin-top: -.5rem;
+  }
+
+  .page-header {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 48px;
+    text-align: left;
+    letter-spacing: 0.02em;
+    color: #333;
+    padding-left: 3.5rem;
+    margin-bottom: 20px;
+  }
+
   .under-cal {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.759);
@@ -70,7 +95,7 @@ export default {
     }
 
     .horizontal {
-      margin-left: 2%;
+      margin-left: 1%;
       width: 65%;
       height: 2rem;
       padding-left: 10px;
@@ -78,13 +103,6 @@ export default {
       box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
       border-radius: 10px;
 
-      p {
-        color: black;
-        text-align: center;
-        font-family: 'Roboto', sans-serif;
-        font-style: normal;
-        padding-top: 0.25rem;
-      }
     }
   }
 
@@ -95,8 +113,8 @@ export default {
   button {
     width: 18rem;
     height: 4rem;
-    background: #e7a356;
-    border-radius: 5px;
+    background: #ef952f;
+    border-radius: 10px;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
@@ -105,12 +123,12 @@ export default {
     text-align: center;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.01);
+    box-shadow: none;
+    border: none;
     color: #ffffff;
-    border-color: #e7a356;
 
     &:hover {
-      background-color: #e7a356c5;
+      background-color: #ff8800c5;
     }
   }
 }
