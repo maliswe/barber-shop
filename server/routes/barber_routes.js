@@ -13,5 +13,7 @@ router.get('/availability/:id/:date', controller.getOneAvailability);
 router.get('/availability/:id', controller.getAllAvailabilities); 
 router.delete('/availability/:id/:date', controller.deleteAvailability);
 router.delete('/availability/delete-time/:phone/:date', controller.deleteTimeSlot);
+router.get('/allavailability/:date', controller.getAllOnDate);
+
 
 module.exports = router;

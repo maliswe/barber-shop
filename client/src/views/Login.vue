@@ -21,6 +21,7 @@ export default {
         const response = await axios.post('http://localhost:3000/api/login', { email, password })
 
         console.log('API Response User Data:', response.data.phone)
+        console.log(localStorage.getItem('token'))
 
         if (response.data && response.data.token) {
           localStorage.setItem('token', response.data.token)
@@ -41,7 +42,6 @@ export default {
     },
     updateStoreState(user, role, phone) {
       this.$store.commit('SET_USER', phone)
-      console.log('User Data Set:', this.$store.state.phone)
       this.$store.commit('SET_LOGIN_STATUS', true)
       this.$store.commit('SET_ROLE', role)
     },

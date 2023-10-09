@@ -91,6 +91,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.state.isLoggedIn
   const userRole = store.state.role
+  console.log('isAuthenticated:', isAuthenticated)
+  console.log('userRole:', userRole)
+  console.log('Navigating to:', to.path)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!isAuthenticated) {
       next('/login')

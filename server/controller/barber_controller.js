@@ -233,6 +233,41 @@ const deleteTimeSlot = async (req, res) => {
     }
 };
 
+const getAllOnDate = async (req, res) => {
+    try {
+        const targetDate = new Date(req.params.date);
+
+        // Fetch all barbers' availabilities for this date
+        const barbersWithAvailability = await Barber.find({
+            availability: {
+                $elemMatch: {
+                    date: targetDate
+                }
+            }
+        }, 'name phone availability.$');
+
+        if (!barbersWithAvailability || barbersWithAvailability.length === 0) {
+            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+        }
+
+        // Transform the data to the desired format
+        const transformedData = barbersWithAvailability.map(barber => {
+            const targetAvailability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
+
+            return {
+                barberPhone: barber.phone,
+                name: barber.name,
+                date: targetAvailability.date,
+                times: targetAvailability.times
+            };
+        });
+
+        res.status(200).send(transformedData);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching availabilities.', error: error.message });
+    }
+};
+
 
 
 
@@ -246,5 +281,6 @@ module.exports = {
     getOneAvailability,
     getAllAvailabilities,
     deleteAvailability,
-    deleteTimeSlot
+    deleteTimeSlot,
+    getAllOnDate
 };
