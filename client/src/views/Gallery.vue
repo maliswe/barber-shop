@@ -6,7 +6,6 @@
         :key="gallery._id"
         :gallery="gallery"
         @gallery-deleted="handleGalleryDeleted"
-        @edit-gallery="handleEditGallery"
         @click="openPopup"
         />
       </div>
@@ -15,6 +14,12 @@
       :image="popupImage"
       @close="closeModal"
       />
+      <div class="addHolder" v-if="isLoggedIn && (role === 'Admin')">
+        <button class="rectangle-button" @click="showFormModel">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <galleryAddForm :showFormModel="showAdd" @close-modal="closeModal" @fetch-galleries="fetchGalleries"/>
   </div>
 </template>
 
@@ -22,19 +27,26 @@
 
 import headerPhoto from '../component/Gallery/galleryPhoto.vue'
 import Popup from '../component/Gallery/popUp.vue'
+import galleryAddForm from '../component/Gallery/galleryAddForm.vue'
 import { galleries } from '@/api/galleryApi'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Gallery',
   components: {
     headerPhoto,
-    Popup
+    Popup,
+    galleryAddForm
+  },
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
   },
   data() {
     return {
       galleries: [],
       showModel: false,
-      popupImage: ''
+      popupImage: '',
+      showAdd: false
     }
   },
   async created() {
@@ -52,7 +64,10 @@ export default {
     },
     closeModal() {
       this.showModel = false
-      this.showEdit = false
+      this.showAdd = false
+    },
+    showFormModel() {
+      this.showAdd = true
     },
     async handleGalleryDeleted(galleryId) {
       this.galleries = this.galleries.filter(gallery => gallery._id !== galleryId)
@@ -66,6 +81,11 @@ export default {
 </script>
 
 <style>
+.addHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .gallery-container {
     display: block;
     padding-top: 200px;

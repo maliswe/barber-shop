@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" v-if="showModel">
+  <div class="modal-overlay" v-if="showFormModel">
     <div class="modal-content">
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
@@ -19,7 +19,7 @@
 import { galleries } from '@/api/galleryApi'
 
 export default {
-  props: ['showModel'],
+  props: ['showFormModel'],
   data() {
     return {
       form: {
