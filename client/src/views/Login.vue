@@ -20,9 +20,12 @@ export default {
       try {
         const response = await axios.post('http://localhost:3000/api/login', { email, password })
 
+        console.log('API Response User Data:', response.data.phone)
+        console.log(localStorage.getItem('token'))
+
         if (response.data && response.data.token) {
           localStorage.setItem('token', response.data.token)
-          this.updateStoreState(response.data.user, response.data.__t)
+          this.updateStoreState(response.data.user, response.data.__t, response.data.phone)
           this.redirectBasedOnRole(response.data.__t)
         } else {
           console.error(response.data.message)
@@ -37,8 +40,8 @@ export default {
         }
       }
     },
-    updateStoreState(user, role) {
-      this.$store.commit('SET_USER', user)
+    updateStoreState(user, role, phone) {
+      this.$store.commit('SET_USER', phone)
       this.$store.commit('SET_LOGIN_STATUS', true)
       this.$store.commit('SET_ROLE', role)
     },
