@@ -1,15 +1,15 @@
 <template>
   <div class="container">
-    <booking />
+    <selectedServices/>
   </div>
 </template>
 
 <script>
-import booking from '../component/Appointment/booking.vue'
+import selectedServices from '../component/Appointment/serviceSelecting.vue'
 export default {
   name: 'Book',
   components: {
-    booking
+    selectedServices
   }
 }
 </script>

@@ -76,6 +76,6 @@ export default {
 
 .time-slot-selected {
   background-color: #E7A356;
-  color: white;
+  color: black;
 }
 </style>
