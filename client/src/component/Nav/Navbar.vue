@@ -27,7 +27,6 @@
         </div>
         <transition name="mobile-nav">
           <ul v-show="mobileNav" class="dropdown-nav">
-            <li v-if="true"><router-link class="link" :to="{ name: 'Dashboard' }">Dashboard</router-link></li>
             <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
             <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
             <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>

@@ -1,14 +1,16 @@
 <template>
   <div class="gallery" @click="handleImageClick">
-    <div v-if="false" class="delete-button" @click="handleDelete">
+    <div class="delete-button" v-if="isLoggedIn && (role === 'Admin')" @click="handleDelete">
       <i class="fas fa-times-circle"></i>
     </div>
-    <img :src="getImageUrl(gallery.image, gallery.name, gallery.description)" alt="Gallery Image" />
+    <img :src="getImageUrl(gallery.image)" alt="Gallery Image" />
   </div>
 </template>
 
 <script>
 import { galleries } from '@/api/galleryApi'
+import { mapState } from 'vuex'
+
 export default {
   props: {
     gallery: {
@@ -16,28 +18,27 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
+  },
   data() {
     return {
-      imageURL: '',
-      imageName: '',
-      imageDescription: ''
+      imageURL: ''
     }
   },
 
   methods: {
-    getImageUrl(imageBufferObject, imageName, imageDescription) {
+    getImageUrl(imageBufferObject) {
       if (!imageBufferObject || !imageBufferObject.data || !Array.isArray(imageBufferObject.data)) {
         return null
       }
-
       const blob = new Blob([new Uint8Array(imageBufferObject.data)], { type: imageBufferObject.type })
       const dataUrl = URL.createObjectURL(blob)
       this.imageURL = dataUrl
-      this.imageName = imageName
-      this.imageDescription = imageDescription
       return dataUrl
     },
-    async handleDelete() {
+    async handleDelete(event) {
+      event.stopPropagation()
       const confirmation = window.confirm('Do you really want to delete?')
       if (confirmation) {
         try {
@@ -48,11 +49,8 @@ export default {
         }
       }
     },
-    async handleEdit() {
-      this.$emit('edit-gallery', this.gallery)
-    },
     async handleImageClick() {
-      this.$emit('click', this.imageURL, this.imageName, this.imageDescription)
+      this.$emit('click', this.imageURL)
     }
   }
 }
@@ -67,6 +65,14 @@ export default {
 .gallery img {
   max-width: fill;
   cursor: pointer;
+}
+
+.delete-button {
+  position: absolute;
+  border-radius: 20px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 23px;
 }
 
 .delete-button i {

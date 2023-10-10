@@ -1,9 +1,9 @@
 <template>
   <div class="service-card">
-    <div v-if="true" class="delete-button" @click="handleDelete">
+    <div v-if="isLoggedIn && (role === 'Admin')" class="delete-button" @click="handleDelete">
       <i class="fas fa-times-circle"></i>
     </div>
-    <div v-if="true" class="delete-button" style="margin-left: 30px;" @click="handleEdit">
+    <div v-if="isLoggedIn && (role === 'Admin')" class="delete-button" style="margin-left: 30px;" @click="handleEdit">
       <i class="fas fa-pencil-alt"></i>
     </div>
     <img :src="getImageUrl(service.image)" alt="Service Image" />
@@ -20,7 +20,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { services } from '@/api/serviceApi'
+
 export default {
   props: {
     service: {
@@ -28,7 +30,9 @@ export default {
       required: true
     }
   },
-
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
+  },
   methods: {
     getImageUrl(imageBufferObject) {
       if (!imageBufferObject || !imageBufferObject.data || !Array.isArray(imageBufferObject.data)) {
