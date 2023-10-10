@@ -1,51 +1,959 @@
 {
 	"info": {
-		"_postman_id": "f7ee95b5-9cb9-442f-a6a9-42de46138872",
-		"name": "server",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "0aeb1c1e-dcc4-4da6-a82a-1f8f01ebc857",
+		"name": "Server",
+		"description": "Test the routes of the backend and the database and the Error handling",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29410658"
 	},
 	"item": [
 		{
-			"name": "GET /api",
-			"event": [
+			"name": "Barber",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "b58d92ec-5214-450c-adb0-28e068aa71b9",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
+					"name": "Create Barber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test test\",\n   \"experties\": \"Yes\",\n  \"phone\": 1234567,\n  \"email\": \"test@test.com\",\n  \"password\": \"1234\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one Customer by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"1234567"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit the barber information",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Micheal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"1234567"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post/ Edit availbility times",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/availability/1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"availability",
+								"1234567"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post/ Get all availability times for the barber",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/availability/1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"availability",
+								"1234567"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post/ Get availability for specific date",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/availability/1234567?date=2023-10-06",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"availability",
+								"1234567"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-10-06"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete barber",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test test\",\n   \"experties\": \"Yes\",\n  \"phone\": 1234567,\n  \"email\": \"test@test.com\",\n  \"password\": \"1234\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"1234567"
+							]
+						}
+					},
+					"response": []
 				}
 			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api",
-					"host": [
-						"{{host}}"
+			"description": "Test the endpoint of the barber routes"
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Create admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
 					],
-					"path": [
-						"api"
-					]
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admins/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All admins",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admins/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get admin by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admins/14005",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"14005"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get admin by id Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Micheal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admins/14005",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"14005"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete admin account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Micheal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admins/14005",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admins",
+								"14005"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"description": "Test hte endpoints of the admin routes"
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Create a customer account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"customer\",\n    \"phone\": 1234566,\n    \"email\": \"customer@customer.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all customers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"customer\",\n    \"phone\": 1234566,\n    \"email\": \"customer@customer.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a customer by the id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"customer\",\n    \"phone\": 1234566,\n    \"email\": \"customer@customer.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/1234566",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"1234566"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the customer info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Gustav\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/1234566",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"1234566"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a customer by the id Copy 2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Gustav\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/1234566",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"1234566"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Test the endpoints of the customer routes"
+		},
+		{
+			"name": "Service",
+			"item": [
+				{
+					"name": "Create a service",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all services",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a service by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								"651f47c049c06f509de356a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the service info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test2\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								"651f47c049c06f509de356a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a service",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test2\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								"651f47c049c06f509de356a2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Test the endpoints of the service routes"
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an appointment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/5614248",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"5614248"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the appointment info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Cancelled\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/5614248",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"5614248"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a appointment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Cancelled\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/5614248",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"5614248"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Test the endpoints of the appointment routes"
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "05864cff-5cba-4070-bac3-a59328954ebf",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -55,7 +963,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e9c319be-3306-4fc5-ba34-fcf64391213a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -65,11 +972,9 @@
 	],
 	"variable": [
 		{
-			"id": "cd185905-a834-4211-8030-583d17702534",
 			"key": "host",
 			"value": "http://localhost:3000",
 			"type": "string"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

@@ -7,7 +7,7 @@ export const services = {
     return axios.get(`${BASE_URL}`)
   },
 
-  getUserByService(userId) {
+  getService(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
   },
 

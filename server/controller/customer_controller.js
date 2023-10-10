@@ -1,7 +1,5 @@
 const Customer = require('../schema/customer_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
-const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { fieldsMapper, recSkipper, sort } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
 
@@ -19,10 +17,10 @@ const create = async (req, res) => {
         });
 
         // Save the new customer document to the database
-        const savedCustomer = await newCustomer.save();
+        await newCustomer.save();
 
         // Send the saved customer data as a response
-        res.status(201).json(savedCustomer); // 201 Created status code
+        res.status(201).json({ message: 'User created successfully'});
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -42,7 +40,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.json(customers);
+        res.status(201).json(customers);
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -50,7 +48,8 @@ const getAll = async (req, res) => {
     }
 };
 
-const getOne = async (req, res, id) => {
+const getOne = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for customer data
         const customer = await Customer.findOne({ phone: id });
@@ -69,7 +68,8 @@ const getOne = async (req, res, id) => {
     }
 };
 
-const update = async (req, res, id) => {
+const update = async (req, res) => {
+    const id = req.params.id;
     try {
         // Find the customer by ID
         const customer = await Customer.findOne({ phone: id });
@@ -86,14 +86,15 @@ const update = async (req, res, id) => {
         await customer.save();
 
         // Send the updated customer data as a response
-        res.status(200).json(customer);
+        res.status(200).json({ message: 'User updated'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for customer data
         const result = await Customer.deleteOne({ phone: id });
@@ -110,23 +111,24 @@ const remove = async (req, res, id) => {
     }
 };
 
-const register = async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        
-        const newUser = new User({
-            ...req.body,
-            password: hashedPassword
-        });
+const removeAll = async (req, res) => {
+    try{
 
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
+        const count = await Customer.countDouments();
+
+        if (count === 0) {
+            return res.status(404).send({ message: 'No Customers found in the database.' });
+        }
+
+        await Customer.deleteMany();
+        res.status.status(200).json({ message: 'Customers deleted'});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error'});
     }
-};
+     
+}
+
 
 
 module.exports = {
@@ -135,5 +137,5 @@ module.exports = {
     getOne,
     remove,
     update,
-    register
+    removeAll
 };

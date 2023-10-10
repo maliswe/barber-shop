@@ -1,10 +1,9 @@
 const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
-const Generator = require('../mongodbService/confNumberGenerator.js');
 const Customer = require('../schema/customer_schema.js');
 const Barber = require('../schema/barber_schema.js');
 const Service = require('../schema/services_schema.js');
-const { fieldsMapper } = require('./utilityMethod.js');
+const { fieldsMapper, Generator} = require('./utilityMethod.js');
 
 
 

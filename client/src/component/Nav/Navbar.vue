@@ -5,18 +5,23 @@
         <Logo />
       </div>
       <nav>
-        <ul v-show="!mobile" class="navigation">
-          <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-          <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Service' }">Services</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-          <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-          <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
+        <ul v-show="!mobile" v-if="!isLoggedIn" class="navigation">
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
         </ul>
-        <button @click="goToRegisterPage" class="buttons">
-          Register
-        </button>
+        <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') " class="navigation">
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+          <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
+        </ul>
+        <ul v-if="isLoggedIn && role === 'Barber'" class="navigation">
+          <!-- ... no links -->
+        </ul>
         <div class="icon">
           <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
         </div>
@@ -26,10 +31,9 @@
             <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
             <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
             <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Team' }">Team</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Testimonials' }">Testimonials</router-link></li>
-            <li><router-link class="link" :to="{ name: ' Contact' }">Contact</router-link></li>
-            <li><router-link class="link" :to="{ name: ' ' }">Book</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Book' }">Book</router-link></li>
+            <li><router-link class="link" :to="{ name: 'Login' }">Sign In</router-link></li>
           </ul>
         </transition>
       </nav>
@@ -38,6 +42,7 @@
   </header>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Logo from './Logo.vue'
 import Bookbtn from './Bookbtn.vue'
 export default {
@@ -54,10 +59,10 @@ export default {
       windowWidth: null
     }
   },
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
+  },
   methods: {
-    goToRegisterPage() {
-      this.$router.push({ name: 'Register' })
-    },
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
     },
@@ -103,7 +108,7 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 5%;
+    padding-right: 5%;
   }
 
   nav {
@@ -145,6 +150,7 @@ header {
         color: #E7A356;
         border-color: reds;
       }
+
     }
 
     .navigation {
@@ -152,6 +158,8 @@ header {
       align-items: center;
       justify-content: center;
       flex: 1;
+      padding-left: 0;
+      padding-right: 3rem;
     }
 
     .icon {
@@ -161,6 +169,7 @@ header {
       top: 0;
       right: 24px;
       height: 100%;
+      color: aliceblue;
 
       i {
         cursor: pointer;
@@ -189,6 +198,10 @@ header {
 
         .link {
           color: #000000;
+
+          &:hover {
+            color: #E7A356;
+          }
         }
       }
     }
@@ -208,31 +221,8 @@ header {
     }
   }
 
-  .buttons {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    background-color: white;
+  .link.active-link {
     color: #E7A356;
-    border: 1px solid black;
-    /* Corrected from 'border: black;' */
-    border-radius: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-
-    i {
-      margin-right: 8px;
-      font-size: 16px;
-    }
-
-    &:hover {
-      background-color: darken(#E7A356, 10%);
-    }
-
-    @media (max-width: 758px) {
-      display: none;
-    }
   }
 }
 

@@ -1,20 +1,14 @@
 const Admin = require('../schema/admin_schema.js')
-const { fieldsMapper } = require('./utilityMethod.js');
-const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { fieldsMapper, sort, recSkipper } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
 
 const create = async (req, res) => {
     try {
-        // Check if the user has the role of 'admin'
-        if (req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'You do not have permission to perform this action.' });
-        }
-
         //Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(req.body.password, salt);
+
         // Create a new admin document based on the request body
         const newAdmin = new Admin({
             ...req.body,
@@ -54,7 +48,8 @@ const getAll = async (req, res) => {
     }
 };
 
-const getOne = async (req, res, id) => {
+const getOne = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for admin data
         const admin = await Admin.findOne({ phone: id });
@@ -85,7 +80,8 @@ const getOne = async (req, res, id) => {
     }
 };
 
-const update = async (req, res, id) => {
+const update = async (req, res) => {
+    const id = req.params.id;
     try {
         // Find the admin by ID
         const admin = await Admin.findOne({ phone: id });
@@ -94,8 +90,8 @@ const update = async (req, res, id) => {
             return res.status(404).json({ message: 'Admin not found' });
         }
 
-
-        fieldsMapper(customer, req.body);
+        // Call method to update the body
+        fieldsMapper(admin, req.body);
 
         // Save the updated admin document
         await admin.save();
@@ -108,7 +104,8 @@ const update = async (req, res, id) => {
     }
 };
 
-const remove = async (req, res, id) => {
+const remove = async (req, res) => {
+    const id = req.params.id;
     try {
         // Use Mongoose to query the MongoDB database for admin data
         const result = await Admin.deleteOne({ phone: id });
@@ -123,6 +120,7 @@ const remove = async (req, res, id) => {
     }
 };
 
+// Overrided method for the old version browsers
 const methodDispatch = async (req, res, id) => {
     methodType = req.headers['_method']
     try {

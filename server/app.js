@@ -13,7 +13,7 @@ var mongoURI = process.env.MONGODB_URI;
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://ali:ali@aslan.im1wsjq.mongodb.net/BarberShop").catch(function(err) {
+mongoose.connect(mongoURI).catch(function(err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
         console.error(err.stack);
@@ -21,6 +21,7 @@ mongoose.connect("mongodb+srv://ali:ali@aslan.im1wsjq.mongodb.net/BarberShop").c
     }
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
+
 
 // Create Express app
 var app = express();
@@ -30,16 +31,31 @@ app.use(express.json());
 // HTTP request logger
 app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
-app.use(cors({
-    origin: 'http://localhost:8080', // replace with your frontend application's URL
-    credentials: true // this allows cookies to be sent
-  }));
+const corsOptions = {
+    origin: function (origin, callback) {
+        const whitelist = [
+            'http://localhost:8080',        ];
+        
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'HEAD'],
+    credentials: true,
+    allowedHeaders: ['authToken', 'Content-Type'],
+    optionsSuccessStatus: 200, 
+};
+
+app.use(cors(corsOptions));
+
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 
 // Import routes
-app.get('/api', function(req, res) {
-    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
+app.get('/api', function (req, res) {
+    res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!' });
 });
 
 customerRouter = require('./routes/customer_routes.js');
@@ -51,14 +67,17 @@ app.use('/api/v1/barbers', barberRouter);
 adminRouter = require('./routes/admin_routes.js');
 app.use('/api/v1/admins', adminRouter);
 
-appointmentRouter = require ('./routes/appointment_routes.js');
+appointmentRouter = require('./routes/appointment_routes.js');
 app.use('/api/v1/appointments', appointmentRouter);
 
 servicesRouter = require('./routes/services_routes.js');
-app.use('/api/v1/services',servicesRouter)
+app.use('/api/v1/services', servicesRouter)
 
-loginRouter = require('./routes/auth_routes.js');
-app.use('/api', loginRouter)
+galleryRouter = require('./routes/gallery_routes.js');
+app.use('/api/v1/galleries', galleryRouter)
+
+authRouter = require('./routes/auth_routes.js');
+app.use('/api', authRouter)
 
 
 // Configuration for serving frontend in production mode
@@ -72,7 +91,7 @@ app.use(express.static(client));
 // Error handler (i.e., when exception is thrown) must be registered last
 var env = app.get('env');
 // eslint-disable-next-line no-unused-vars
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     console.error(err.stack);
     var err_res = {
         'message': err.message,
@@ -86,7 +105,7 @@ app.use(function(err, req, res, next) {
     res.json(err_res);
 });
 
-app.listen(port, function(err) {
+app.listen(port, function (err) {
     if (err) throw err;
     console.log(`Express server listening on port ${port}, in ${env} mode`);
     console.log(`Backend: http://localhost:${port}/api/`);

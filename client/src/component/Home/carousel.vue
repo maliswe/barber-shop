@@ -58,7 +58,7 @@ export default {
   .carousel-overlay {
     position: absolute; // This makes the text overlay the carousel
     top: 60%; // Center it vertically
-    left: 25%; // Center it horizontally
+    left: 30%; // Center it horizontally
     transform: translate(-50%, -50%); // Adjust for exact centering
     z-index: 10; // Make sure the text is above the images
     color: #fff; // Making the text color white for visibility
