@@ -8,7 +8,7 @@
       @service-deleted="handleServiceDeleted"
       @edit-service="handleEditService"
       />
-      <div class="holder">
+      <div class="holder" v-if="isLoggedIn && (role === 'Admin')">
         <button class="rectangle-button" @click="showFormModel">
           <i class="fas fa-plus"></i>
         </button>
@@ -25,6 +25,7 @@ import serviceCard from '../component/Service/serviceCard.vue'
 import headerPhoto from '../component/Service/headerPhoto.vue'
 import serviceForm from '../component/Service/serviceForm.vue'
 import serviceUpdate from '../component/Service/serviceUpdate.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Service',
@@ -33,6 +34,9 @@ export default {
     headerPhoto,
     serviceForm,
     serviceUpdate
+  },
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
   },
   data() {
     return {
@@ -100,7 +104,7 @@ export default {
 .rectangle-button {
   width: 100px;
   height: 80px;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 5px;
@@ -114,7 +118,7 @@ export default {
   width: max(7rem, 350px);
   height: max(9rem, 350px);
   box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
-  backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
+  backdrop-filter: blur(10px);
 }
 
 </style>

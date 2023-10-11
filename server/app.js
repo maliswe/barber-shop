@@ -73,6 +73,9 @@ app.use('/api/v1/appointments', appointmentRouter);
 servicesRouter = require('./routes/services_routes.js');
 app.use('/api/v1/services', servicesRouter)
 
+galleryRouter = require('./routes/gallery_routes.js');
+app.use('/api/v1/galleries', galleryRouter)
+
 authRouter = require('./routes/auth_routes.js');
 app.use('/api', authRouter)
 

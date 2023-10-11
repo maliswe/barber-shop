@@ -1,19 +1,26 @@
 <template>
     <div class="asd">
         <contactPhoto class="photo"/>
-        <messageBoxNonUser class="message"/>
+        <messageBoxNonUser v-if="!isLoggedIn" class="message"/>
+        <messageBox v-if="isLoggedIn" class="message"/>
     </div>
 </template>
 
 <script>
 import contactPhoto from '../component/contactUs/contactInfo.vue'
 import messageBoxNonUser from '../component/contactUs/messageBoxNonUser.vue'
+import messageBox from '../component/contactUs/messageBox.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'About',
+  computed: {
+    ...mapState(['isLoggedIn', 'role'])
+  },
   components: {
     contactPhoto,
-    messageBoxNonUser
+    messageBoxNonUser,
+    messageBox
   }
 }
 </script>
