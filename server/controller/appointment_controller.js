@@ -3,7 +3,7 @@ const Appointment = require('../schema/appointment_schema.js');
 const Customer = require('../schema/customer_schema.js');
 const Barber = require('../schema/barber_schema.js');
 const Service = require('../schema/services_schema.js');
-const { fieldsMapper, Generator} = require('./utilityMethod.js');
+const { fieldsMapper, generator, confNumberChecker} = require('./utilityMethod.js');
 
 
 
@@ -34,7 +34,6 @@ const getAppointment = async (req, res, confNumber, customerID = undefined) => {
             query = {customer: customerID}
         };
 
-        // Use the (...) to merge the confNumber filter and the properties of the query object into a single object.
         const appointment = await Appointment.findOne({ confNumber: confNumber, ...query});
 
         if (!appointment) {
@@ -50,10 +49,8 @@ const getAppointment = async (req, res, confNumber, customerID = undefined) => {
 
 const createAppointment = async (req, res, customerID = undefined) => {
     try {
-        let customId = await Generator.generator();
-        const currentDate = moment().format('YYYY-MM-DD');
+        let customId = await generator();
 
-        req.body['date'] = currentDate;
         req.body['confNumber'] = customId;
 
         // Used for create appointment from the customer route
@@ -62,7 +59,7 @@ const createAppointment = async (req, res, customerID = undefined) => {
         }
 
         // Verify if customer exists
-        const customer = await Customer.findOne({ phone: req.body['customer'] });
+        /*const customer = await Customer.findOne({ phone: req.body['customer'] });
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' });
         }
@@ -73,7 +70,7 @@ const createAppointment = async (req, res, customerID = undefined) => {
         const service = await Service.findOne({ _id: req.body['service'] });
         if (!service) {
             return res.status(404).json({ message: 'Service not found' });
-        }
+        }*/
 
         // Create the appointment
         const newAppointment = new Appointment(req.body);

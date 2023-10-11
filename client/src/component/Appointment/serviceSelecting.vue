@@ -51,9 +51,6 @@ export default {
       }
     },
     proceed() {
-      // Navigate to the next page with the selected services.
-      // Depending on your router setup and where you want to navigate,
-      // this can be something like:
       this.$router.push({
         name: 'Booking',
         query: { selectedServices: JSON.stringify(this.selectedServices) }

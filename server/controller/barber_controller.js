@@ -63,7 +63,7 @@ const getOne = async (req, res) => {
 const update = async (req, res) => {
     try {
         const barberId = req.params.id
-         // Find the barber by phone
+        // Find the barber by phone
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
@@ -116,8 +116,7 @@ const removeAll = async (req, res) => {
 const setAvailability = async (req, res, next) => {
     try {
         const barberId = req.params.id;
-
-        const { date, times } = req.body;
+        const { date, timeSlots } = req.body;
 
         const barber = await mongoose.model('Barber').findOne({ phone: barberId });
 
@@ -127,11 +126,37 @@ const setAvailability = async (req, res, next) => {
 
         const availabilityIndex = barber.availability.findIndex(avail => avail.date.toISOString() === new Date(date).toISOString());
 
+        console.log(`Input Date: ${date}`);
+        timeSlots.forEach(slot => {
+            console.log(`Start Time Input: ${slot.startTime}`);
+            console.log(`End Time Input: ${slot.endTime}`);
+            console.log(`Start Time Input: ${slot.startTime}`);
+            console.log(`End Time Input: ${slot.endTime}`);
+
+        });
+
+        // Transform times to Date objects
+        const transformedTimeSlots = timeSlots.map(slot => {
+            const startTime = slot.startTime;
+            const endTime = slot.endTime;
+
+            // Validation (ensure the provided time format is correct)
+            if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime) || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
+                throw new Error('Invalid time format provided. Expected HH:mm.');
+            }
+
+            return {
+                startTime: startTime, // it will be like "12:30"
+                endTime: endTime      // it will be like "13:30"
+            };
+        });
+
         if (availabilityIndex > -1) {
-            barber.availability[availabilityIndex].times = times;
+            barber.availability[availabilityIndex].timeSlots = transformedTimeSlots;
         } else {
-            barber.availability.push({ date, times });
+            barber.availability.push({ date: new Date(date), timeSlots: transformedTimeSlots });
         }
+
         await barber.save();
 
         res.status(200).send({ message: 'Availability updated successfully.', availability: barber.availability });
@@ -139,6 +164,7 @@ const setAvailability = async (req, res, next) => {
         res.status(500).send({ message: 'Error updating availability.', error: error.message });
     }
 };
+
 
 const getOneAvailability = async (req, res) => {
     try {
@@ -209,9 +235,9 @@ const deleteTimeSlot = async (req, res) => {
     try {
         const phone = req.params.phone;
         const targetDate = new Date(req.params.date);
-        const timeToDelete = req.body.timeToDelete;
+        const { startTime, endTime } = req.body;
 
-        const barber = await mongoose.model('Barber').findOne({ phone });
+        const barber = await Barber.findOne({ phone });
 
         if (!barber) {
             return res.status(404).send({ message: 'Barber not found.' });
@@ -219,11 +245,14 @@ const deleteTimeSlot = async (req, res) => {
 
         const availability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
 
-        if (!availability || !availability.times) {
+        if (!availability || !availability.timeSlots) {
             return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
         }
 
-        availability.times = availability.times.filter(time => time !== timeToDelete);
+        availability.timeSlots = availability.timeSlots.filter(slot =>
+            !(slot.startTime.toISOString() === new Date(`${targetDate}T${startTime}.000Z`).toISOString() &&
+                slot.endTime.toISOString() === new Date(`${targetDate}T${endTime}.000Z`).toISOString())
+        );
 
         await barber.save();
 
@@ -239,11 +268,7 @@ const getAllOnDate = async (req, res) => {
 
         // Fetch all barbers' availabilities for this date
         const barbersWithAvailability = await Barber.find({
-            availability: {
-                $elemMatch: {
-                    date: targetDate
-                }
-            }
+            "availability.date": targetDate
         }, 'name phone availability.$');
 
         if (!barbersWithAvailability || barbersWithAvailability.length === 0) {
@@ -258,7 +283,7 @@ const getAllOnDate = async (req, res) => {
                 barberPhone: barber.phone,
                 name: barber.name,
                 date: targetAvailability.date,
-                times: targetAvailability.times
+                timeSlots: targetAvailability.timeSlots
             };
         });
 

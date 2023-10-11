@@ -31,6 +31,7 @@
 import { Calendar } from 'v-calendar'
 import axios from 'axios'
 import { calculateTotalPrice } from './serviceUtil'
+import service from '../../api/serviceApi.js'
 export default {
   name: 'setAvailability',
   components: {
@@ -64,38 +65,65 @@ export default {
         String(this.selectedDate.getMonth() + 1).padStart(2, '0'),
         String(this.selectedDate.getDate()).padStart(2, '0')
       ].join('-')
+
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/barbers/allavailability/${calendarDate}`)
+        const info = await service.getService(this.selectedServices)
+        this.selectedServices = info.data
+        console.log(this.selectedServices)
 
-        this.barbers = response.data.map(barber => ({
-          name: barber.name,
-          phone: barber.barberPhone,
-          availability: this.filterAvailableTimes(barber.times, this.totalDuration)
-        }))
+        // Check if the response is an array
+        if (Array.isArray(response.data)) {
+          // If it's an array, loop through each item
+          this.barbers = response.data.map(barberData => {
+            const timeSlots = barberData.timeSlots || []
+            const serviceDuration = this.selectedServices[0].duration // Assuming you have only one selected service
+            const availability = this.calculateAvailableTimes(timeSlots, serviceDuration)
+
+            return {
+              name: barberData.name,
+              phone: barberData.barberPhone,
+              availability: availability || [] // Check if availability is defined, otherwise provide an empty array
+            }
+          })
+        }
+
+        console.log('Barber availability:', this.barbers)
       } catch (error) {
         console.error("Error fetching barbers' availability:", error)
       }
     },
-    filterAvailableTimes(times, duration) {
-      const slotsRequired = duration / 15
-      return times.filter((time, index) => {
-        if (index + slotsRequired > times.length) return false
+    calculateAvailableTimes(timeSlots, serviceDuration) {
+      // Filter time slots based on service duration
+      const availableTimes = timeSlots.filter(timeSlot => {
+        const startTime = new Date(timeSlot.startTime)
+        const endTime = new Date(timeSlot.endTime)
 
-        const nextTimes = times.slice(index, index + slotsRequired)
-        for (let i = 1; i < nextTimes.length; i++) {
-          const currTime = new Date(`1970-01-01T${nextTimes[i]}:00Z`)
-          const prevTime = new Date(`1970-01-01T${nextTimes[i - 1]}:00Z`)
-          if ((currTime - prevTime) / (60 * 1000) > 15) {
-            return false
-          }
-        }
-        return true
+        // Calculate the duration of the time slot in minutes
+        const slotDuration = (endTime - startTime) / (60 * 1000)
+
+        // Check if the slot duration is greater than or equal to the service duration
+        return slotDuration >= serviceDuration
       })
+
+      return availableTimes // Return the array of available time slots
     },
     createAppointment(barber, time) {
-      // Logic to create a new appointment
-      console.log(`Creating an appointment with ${barber.name} at ${time}`)
-      // Further implementation to interact with your backend, if needed
+      const [hour, minute] = time.split(':').map(num => parseInt(num))
+
+      const combinedDate = new Date(Date.UTC(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate(), hour, minute, 0, 0))
+      const dateTimeISO = combinedDate.toISOString()
+      // Serialize the barber object and selected time
+      const serializedBarber = encodeURIComponent(JSON.stringify(barber))
+
+      // Navigate to the details page with the serialized data
+      this.$router.push({
+        name: 'Details',
+        query: {
+          barberData: serializedBarber,
+          selectedTime: dateTimeISO
+        }
+      })
     },
     totalDuration() {
       const duration = this.selectedServices.reduce((total, service) => {

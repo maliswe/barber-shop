@@ -1,3 +1,4 @@
+process.env.TZ = 'UTC'; 
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
