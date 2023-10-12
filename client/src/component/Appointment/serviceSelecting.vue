@@ -39,6 +39,20 @@ export default {
       error: null
     }
   },
+  computed: {
+    totalPrice() {
+      return this.selectedServices.reduce((total, serviceId) => {
+        const service = this.services.find(s => s._id === serviceId)
+        return total + (service ? service.price : 0)
+      }, 0)
+    },
+    totalDuration() {
+      return this.selectedServices.reduce((total, serviceId) => {
+        const service = this.services.find(s => s._id === serviceId)
+        return total + (service ? service.duration : 0)
+      }, 0)
+    }
+  },
   mounted() {
     this.fetchServices()
   },
@@ -53,7 +67,11 @@ export default {
     proceed() {
       this.$router.push({
         name: 'Booking',
-        query: { selectedServices: JSON.stringify(this.selectedServices) }
+        query: {
+          selectedServices: JSON.stringify(this.selectedServices),
+          totalPrice: this.totalPrice,
+          totalDuration: this.totalDuration
+        }
       })
     },
     async fetchServices() {

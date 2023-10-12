@@ -16,22 +16,21 @@
         <div class="table-cell" v-for="barber in barbers" :key="barber.phone">
           <ul>
             <li v-for="time in barber.availability" :key="time">
-              <button @click="createAppointment(barber, time)">{{ time }}</button>
+              <button :class="{ 'selected-time': selectedTimeSlot === time }" @mouseover="hoverTimeSlot(time)"
+                @mouseout="leaveTimeSlot" @click="selectTimeSlot(time)">{{ time }}</button>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="button-container">
-      <button>Continue</button>
+      <button v-if="selectedTimeSlot" @click="proceedToForm">Continue</button>
     </div>
   </div>
 </template>
 <script>
 import { Calendar } from 'v-calendar'
 import axios from 'axios'
-import { calculateTotalPrice } from './serviceUtil'
-import service from '../../api/serviceApi.js'
 export default {
   name: 'setAvailability',
   components: {
@@ -45,18 +44,25 @@ export default {
       highlightDays: [],
       barbers: [],
       selectedServicesDetails: [],
-      selectedServices: []
+      selectedServices: [],
+      totalPrice: 0,
+      totalDuration: 0,
+      hoveredTimeSlot: null,
+      selectedTimeSlot: null,
+      phone: 0
     }
   },
   mounted() {
     if (this.$route.query.selectedServices) {
       this.selectedServices = JSON.parse(this.$route.query.selectedServices)
-      console.log(this.selectedServices)
+      this.totalPrice = parseFloat(this.$route.query.totalPrice) || 0
+      this.totalDuration = parseInt(this.$route.query.totalDuration) || 0
+      console.log('Total Price:', this.totalPrice)
+      console.log('Total Duration (minutes):', this.totalDuration)
     }
   },
   methods: {
     async dayClicked(dateInfo) {
-      // Set barbers to an empty array to force a reactivity update
       this.barbers = []
 
       this.selectedDate = dateInfo.date
@@ -68,78 +74,90 @@ export default {
 
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/barbers/allavailability/${calendarDate}`)
-        const info = await service.getService(this.selectedServices)
-        this.selectedServices = info.data
-        console.log(this.selectedServices)
 
         // Check if the response is an array
         if (Array.isArray(response.data)) {
-          // If it's an array, loop through each item
           this.barbers = response.data.map(barberData => {
             const timeSlots = barberData.timeSlots || []
-            const serviceDuration = this.selectedServices[0].duration // Assuming you have only one selected service
-            const availability = this.calculateAvailableTimes(timeSlots, serviceDuration)
-
+            const availability = this.calculateAvailableTimes(timeSlots, this.totalDuration)
+            this.phone = barberData.barberPhone
             return {
               name: barberData.name,
               phone: barberData.barberPhone,
-              availability: availability || [] // Check if availability is defined, otherwise provide an empty array
+              availability: availability || []
             }
           })
         }
 
         console.log('Barber availability:', this.barbers)
       } catch (error) {
-        console.error("Error fetching barbers' availability:", error)
+        console.error('Error fetching barbers" availability:', error)
       }
     },
-    calculateAvailableTimes(timeSlots, serviceDuration) {
-      // Filter time slots based on service duration
-      const availableTimes = timeSlots.filter(timeSlot => {
-        const startTime = new Date(timeSlot.startTime)
-        const endTime = new Date(timeSlot.endTime)
+    canAccommodate(timeSlots, startTime, serviceDuration) {
+      let availableDuration = 0
+      let nextStartTime = startTime
 
-        // Calculate the duration of the time slot in minutes
-        const slotDuration = (endTime - startTime) / (60 * 1000)
+      for (const slot of timeSlots) {
+        if (slot.startTime === nextStartTime) {
+          availableDuration += this.getTimeDifference(slot.startTime, slot.endTime)
 
-        // Check if the slot duration is greater than or equal to the service duration
-        return slotDuration >= serviceDuration
-      })
+          if (availableDuration >= serviceDuration) {
+            return true
+          }
 
-      return availableTimes // Return the array of available time slots
-    },
-    createAppointment(barber, time) {
-      const [hour, minute] = time.split(':').map(num => parseInt(num))
-
-      const combinedDate = new Date(Date.UTC(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate(), hour, minute, 0, 0))
-      const dateTimeISO = combinedDate.toISOString()
-      // Serialize the barber object and selected time
-      const serializedBarber = encodeURIComponent(JSON.stringify(barber))
-
-      // Navigate to the details page with the serialized data
-      this.$router.push({
-        name: 'Details',
-        query: {
-          barberData: serializedBarber,
-          selectedTime: dateTimeISO
+          nextStartTime = slot.endTime
         }
-      })
+      }
+
+      return false
     },
-    totalDuration() {
-      const duration = this.selectedServices.reduce((total, service) => {
-        // Assuming each service has a 'duration' property in minutes
-        return total + service.duration
-      }, 0)
+    getTimeDifference(start, end) {
+      const [startHour, startMinute] = start.split(':').map(Number)
+      const [endHour, endMinute] = end.split(':').map(Number)
+      return (endHour - startHour) * 60 + (endMinute - startMinute)
+    },
+    calculateAvailableTimes(timeSlots, serviceDuration) {
+      const availableTimes = []
 
-      console.log('Total Duration (minutes):', duration)
+      for (const slot of timeSlots) {
+        if (this.canAccommodate(timeSlots, slot.startTime, serviceDuration)) {
+          availableTimes.push(slot.startTime)
+        }
+      }
 
-      return duration
+      return availableTimes
+    },
+    hoverTimeSlot(time) {
+      this.hoveredTimeSlot = time
+    },
+    leaveTimeSlot() {
+      this.hoveredTimeSlot = null
+    },
+    selectTimeSlot(time) {
+      this.selectedTimeSlot = time
+    },
+    proceedToForm() {
+      console.log('barbers: ', this.barbers)
+
+      const combinedDateTime = new Date(this.selectedDate)
+      const [hour, minute] = this.selectedTimeSlot.split(':').map(Number)
+      combinedDateTime.setHours(hour, minute, 0, 0)
+
+      if (this.selectedTimeSlot) {
+        this.$router.push({
+          name: 'Details',
+          query: {
+            services: this.selectedServices,
+            price: this.totalPrice,
+            barberPhone: this.phone,
+            selectedTime: combinedDateTime.toISOString()
+          }
+        })
+      }
     }
   },
   computed: {
-    totalPrice() {
-      return calculateTotalPrice(this.selectedServices)
-    },
     noAvailableTimes() {
       return this.barbers.every(barber => barber.availability.length === 0)
     }
@@ -276,6 +294,11 @@ button {
   }
 }
 
+button:hover,
+.selected-time {
+  background-color: #E7A356;
+}
+
 @media screen and (max-width: 767px) {
   .book-container {
     .under-cal {
@@ -303,6 +326,6 @@ button {
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
-  color: #e74c3c; // Red color to highlight the unavailability
+  color: #e74c3c;
 }
 </style>

@@ -152,8 +152,8 @@ export default {
       }
 
       .image-content {
-        flex-basis: 45%; // Adjust the width allocation
-        max-width: 45%;
+        flex-basis: 20%; // Adjust the width allocation
+        max-width: 20%;
 
         img {
           top: 15%; // Adjust the top position slightly
@@ -202,36 +202,37 @@ export default {
       }
 
       .image-content {
-        flex-basis: 100%; // Take full width
+        flex-basis: 50%;
         max-width: 100%;
         padding: 2rem 0; // Adjust the padding for better spacing on mobile
 
         img {
-          top: 0; // Reset the top position of the image
-          height: auto; // Maintain aspect ratio
+          top: 0;
+          height: 80%;
         }
       }
     }
 
     h2 {
-      font-size: 2.5rem; // Decrease the font size for mobile
+      font-size: 2rem;
     }
 
     p {
-      font-size: 0.9rem; // Slightly decrease font size for better readability on mobile
+      font-size: 0.8rem;
     }
 
     .icons-grid {
-      justify-content: space-between; // Evenly space the icons
+      justify-content: space-between;
 
       .icon-item {
-        flex: 0 0 48%; // Make icons take up roughly half the width with a little space in between
-        max-width: 48%; // Set a max width of 48% to leave some space between
-        padding-right: 0; // Reset the padding
+        flex: 0 0 48%;
+        max-width: 48%;
+        padding-right: 0;
+        padding-left: 2%;
 
         .icon-text {
           h3 {
-            font-size: 1rem; // Decrease the font size a bit
+            font-size: 0.8rem;
           }
 
           p {

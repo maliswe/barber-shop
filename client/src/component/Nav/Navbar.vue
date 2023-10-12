@@ -162,7 +162,7 @@ header {
       top: 0;
       right: 24px;
       height: 100%;
-      color: aliceblue;
+      color: #E7A356;
 
       i {
         cursor: pointer;
@@ -217,6 +217,22 @@ header {
   .link.active-link {
     color: #E7A356;
   }
+}
+
+@media (max-width: 750px) {
+    header {
+        .navbar-container {
+            padding-right: 2%;
+        }
+
+        .branding img {
+            width: 60%;
+        }
+
+        nav .navigation {
+            display: none;
+        }
+    }
 }
 
 .scrolled-nav {

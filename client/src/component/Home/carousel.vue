@@ -106,7 +106,8 @@ export default {
   background-color: rgba(255, 255, 255, 0.5); // A transparent white background for non-active indicators
   border: 2px; // White border around the indicator
 
-  &.active { // This targets the currently active indicator
+  &.active {
+    // This targets the currently active indicator
     background-color: white; // Background color for active indicator
     border-color: white; // White border for active indicator
     outline: 4px solid #E7A356; // Adds an additional outer border
@@ -134,85 +135,97 @@ export default {
 }
 
 @media (max-width: 1140px) and (min-width: 999px) {
-    .carousel-container {
+  .carousel-container {
 
-        .carousel-overlay {
+    .carousel-overlay {
 
-            h1 {
-                font-size: 3.5rem;
-            }
+      h1 {
+        font-size: 3.5rem;
+      }
 
-            p {
-                font-size: 1.3rem;
-            }
+      p {
+        font-size: 1.3rem;
+      }
 
-            button {
-                font-size: 1.3rem;
-                padding: 9px 19px;
-            }
-        }
+      button {
+        font-size: 1.3rem;
+        padding: 9px 19px;
+      }
     }
+  }
 }
+
 @media (max-width: 998px) and (min-width: 799px) {
-    .carousel-container {
+  .carousel-container {
 
-        .carousel-overlay {
+    .carousel-overlay {
 
-            h1 {
-                font-size: 3rem;
-            }
+      h1 {
+        font-size: 3rem;
+      }
 
-            p {
-                font-size: 1.2rem;
-            }
+      p {
+        font-size: 1.2rem;
+      }
 
-            button {
-                font-size: 1.2rem;
-                padding: 8px 18px;
-            }
-        }
+      button {
+        font-size: 1.2rem;
+        padding: 8px 18px;
+      }
     }
+  }
 }
-@media (max-width: 798px) and (min-width: 413px){
-    .carousel-container {
 
-        .carousel-overlay {
+@media (max-width: 798px) and (min-width: 413px) {
+  .carousel-container {
 
-            h1 {
-                font-size: 2rem;
-            }
+    .carousel-overlay {
 
-            p {
-                font-size: 1rem;
-            }
+      h1 {
+        font-size: 2rem;
+      }
 
-            button {
-                font-size: 1rem;
-                padding: 6px 16px;
-            }
-        }
+      p {
+        font-size: 1rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 6px 16px;
+      }
     }
+  }
 }
 
 @media (max-width: 412px) {
-    .carousel-container {
+  .carousel-container {
 
-        .carousel-overlay {
+    .carousel-overlay {
+      padding: 10%;
+      margin-left: 10px;
+      margin-top: 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; // To align items to the left
 
-            h1 {
-                font-size: 1.8rem;
-            }
+      h1 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem; // reduce bottom margin
+        margin-top: 0; // remove top margin
+      }
 
-            p {
-                font-size: 0.9rem;
-            }
+      p {
+        font-size: 0.5rem;
+        margin-bottom: 0.5rem; // give it a small bottom margin
+        padding: 0;
+      }
 
-            button {
-                font-size: 0.9rem;
-                padding: 6px 12px;
-            }
-        }
+      button {
+        font-size: 0.9rem;
+        padding: 5px 10px; // some padding to make the button look good
+        margin-bottom: 0; // remove the huge bottom margin
+      }
     }
+  }
 }
-
 </style>
