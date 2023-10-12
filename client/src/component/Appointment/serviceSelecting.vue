@@ -19,7 +19,6 @@
                 </li>
         </ol>
         </div>
-        <!-- You can add a button or other components to proceed to the next step after selecting the services -->
         <button v-if="selectedServices.length > 0" @click="proceed">Proceed</button>
     </div>
 </template>
@@ -99,9 +98,16 @@ export default {
 <style lang="scss" scoped>
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // This ensures 3 columns
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 450px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
     div {
         padding: 10px;
         border: 1px solid #ccc;
@@ -109,7 +115,7 @@ export default {
         transition: background-color 0.3s;
 
         &.selected {
-            background-color: #e0e0e0; // Change this color as desired
+            background-color: #e0e0e0;
         }
     }
 }
@@ -121,20 +127,39 @@ export default {
         margin-bottom: 10px;
     }
 
-    ul {
+    ol {
         list-style-type: none;
         padding: 0;
+        margin: 0;
+
+        li {
+            padding: 10px 0;
+            position: relative;
+
+            .deselect-icon {
+                margin-left: 10px;
+                cursor: pointer;
+                transition: color 0.3s;
+                &:hover {
+                    color: red;
+                }
+            }
+        }
     }
 }
 
 button {
-    height: 50px;
-    width: 180px;
+    width: 100%;
     max-width: 180px;
-    max-height: 50px;
+    height: 50px;
+    margin-top: 20px;
     border-radius: 8px;
     background: rgba(231, 163, 86, 1);
     color: rgba(255, 255, 255, 1);
     border-color: rgba(231, 163, 86, 1);
+
+    @media (max-width: 480px) {
+        width: 100%;
+    }
 }
 </style>

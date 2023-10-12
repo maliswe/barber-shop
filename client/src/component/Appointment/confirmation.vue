@@ -1,21 +1,24 @@
 <template>
+  <div class="container">
     <div class="popup">
-        <h2>Appointment Confirmed!</h2>
-        <p>Your appointment with {{ barberName }} at {{ selectedTime }} has been confirmed!</p>
+      <h2>Appointment Confirmed!</h2>
+      <p>Your appointment at {{ selectedTime }} has been confirmed!</p>
     </div>
+  </div>
 </template>
 <script>
 export default {
-  props: ['barberName', 'selectedTime'],
+  props: ['selectedTime'],
   mounted() {
     setTimeout(() => {
       this.$router.push('/')
-    }, 10000)
+    }, 5000)
   }
 }
 </script>
-<style scoped>
-.popup {
+<style lang="scss" scoped>
+.container {
+  .popup {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -28,5 +31,6 @@ export default {
     width: 80%;
     max-width: 400px;
     text-align: center;
+  }
 }
 </style>

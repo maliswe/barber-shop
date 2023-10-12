@@ -49,7 +49,8 @@ export default {
       totalDuration: 0,
       hoveredTimeSlot: null,
       selectedTimeSlot: null,
-      phone: 0
+      phone: 0,
+      name: ''
     }
   },
   mounted() {
@@ -275,7 +276,7 @@ export default {
 button {
   width: 18rem;
   height: 4rem;
-  background: #ef952f;
+  background: rgba(231, 163, 86, 1);
   border-radius: 10px;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -290,13 +291,13 @@ button {
   color: #ffffff;
 
   &:hover {
-    background-color: #ff8800c5;
+    background-color: rgba(231, 163, 86, 1);
   }
 }
 
 button:hover,
 .selected-time {
-  background-color: #E7A356;
+  background-color: rgba(231, 163, 86, 1);
 }
 
 @media screen and (max-width: 767px) {
@@ -315,8 +316,48 @@ button:hover,
     }
 
     .button-container {
+      margin: 0;
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .book-container {
+    padding: 0 20px;
+
+    .page-header {
+      font-size: 20px;
+      padding-left: 1.5rem;
+      padding-top: 10%;
+    }
+
+    .under-cal {
+      flex-direction: column;
+    }
+
+    .barber-table {
+      width: 100%;
       margin-left: 0;
     }
+
+    .table-cell {
+      .table-cell button {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .button-container {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    height: 3rem;
+    font-size: 16px;
+    padding-bottom: 1rem;
   }
 }
 

@@ -27,19 +27,19 @@ export default {
   .separator {
     width: 1px;
     height: 26rem;
-    background-color: #534d4dbb; // light gray, adjust as needed
-    margin: 0 20px; // give some space between components
+    background-color: #534d4dbb;
+    margin: 0 20px;
   }
-    // Media query for phone size or smaller devices
     @media (max-width: 768px) {
-    flex-direction: column; // stack children vertically
-    justify-content: center; // center vertically
-    align-items: center; // center horizontally
+    padding-top: 45%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .separator {
-      width: 26rem; // make it horizontal for mobile
-      height: 1px; // thin line
-      margin: 60px 0; // give vertical space now instead of horizontal
+      width: 15rem;
+      height: 1px;
+      margin: 60px 0;
     }
   }
 
