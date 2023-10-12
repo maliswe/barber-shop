@@ -5,7 +5,6 @@
 
     <CustomTimePicker v-if="showTimePicker" @time-selected="selectTime" @time-delete-request="deleteTimeSlot"
       :selectedTimes="selectedTimes" />
-
     <div class="button-container" v-if="showTimePicker">
       <button @click="setAvailability">Save</button>
     </div>
@@ -39,9 +38,7 @@ export default {
   },
   methods: {
     dayClicked(dateInfo) {
-      console.log('Day clicked:', dateInfo.date)
       this.selectedDate = dateInfo.date
-      console.log(this.selectedDate)
       this.showTimePicker = true
       this.highlightDays = [{ date: this.selectedDate }]
       this.selectedTimes = []
@@ -56,8 +53,11 @@ export default {
       console.log('Calendar date sent to API:', calendarDate)
       axios.get(`http://localhost:3000/api/v1/barbers/availability/${userPhone}/${calendarDate}`)
         .then(response => {
-          this.selectedTimes = response.data.times || []
-          console.log('Fetched times:', this.selectedTimes)
+          const timeSlots = response.data.timeSlots || []
+          const transformedTimes = this.transformFetchedTimes(timeSlots)
+          this.selectedTimes = transformedTimes // <-- This line updates the selectedTimes variable with the transformed times
+          console.log('Transformed times for picker:', transformedTimes)
+          console.log('Transformed times for picker:', timeSlots)
         })
         .catch(error => {
           if (error.response && error.response.status === 200) {
@@ -77,6 +77,11 @@ export default {
     deleteTimeSlot(time) {
       this.selectedTimes = this.selectedTimes.filter(t => t !== time)
     },
+    transformFetchedTimes(fetchedTimes) {
+      return fetchedTimes.map(slot => {
+        return `${slot.startTime}-${slot.endTime}` // Directly use the startTime and endTime without any transformation.
+      })
+    },
     setAvailability() {
       const userPhone = this.$store.state.phone
 
@@ -88,11 +93,20 @@ export default {
 
       const flattenedTimes = [].concat(...this.selectedTimes)
 
+      const timeSlots = flattenedTimes.map(timeStr => {
+        const [startTime, endTime] = timeStr.split('-').map(time => time.trim())
+        return {
+          startTime: startTime,
+          endTime: endTime
+        }
+      })
+
       if (calendarDate) {
         const dateToSave = {
           date: calendarDate,
-          times: flattenedTimes
+          timeSlots: timeSlots
         }
+        console.log(dateToSave)
 
         if (flattenedTimes.length === 0) {
           // If there are no times, make a DELETE request

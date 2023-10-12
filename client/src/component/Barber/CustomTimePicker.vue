@@ -1,7 +1,7 @@
 <template>
   <div class="time-container">
     <button v-for="(time, index) in timeSlots" :key="index" @click="selectTime(time)" class="time-slot"
-      :class="{ 'time-slot-selected': isSelected(time) || selectedTimes.includes(time) }">
+      :class="{ 'time-slot-selected': selectedTimes.includes(time) }">
       {{ time }}
     </button>
   </div>
@@ -11,7 +11,6 @@ export default {
   props: ['selectedDate', 'selectedTimes'],
   data() {
     return {
-      selectedTime: this.selectedTimes || [],
       timeSlots: this.generateTimeSlots()
     }
   },
@@ -25,16 +24,23 @@ export default {
   computed: {
     isSelected() {
       return (time) => {
-        return this.selectedTime.includes(time)
+        return this.selectedTimes.includes(time)
       }
     }
   },
   methods: {
     generateTimeSlots() {
       const times = []
-      for (let i = 8; i < 20; i++) {
-        times.push(`${i}:00`)
-        times.push(`${i}:30`)
+      for (let i = 8; i < 19; i += 1.5) {
+        const startHour = Math.floor(i)
+        const startMin = (i % 1) * 60
+        const endHour = Math.floor(i + 1)
+        const endMin = (i + 1) % 1 * 60
+
+        const startTime = `${String(startHour).padStart(2, '0')}:${String(startMin).padStart(2, '0')}`
+        const endTime = `${String(endHour).padStart(2, '0')}:${String(endMin).padStart(2, '0')}`
+
+        times.push(`${startTime}-${endTime}`)
       }
       return times
     },
@@ -45,6 +51,9 @@ export default {
         this.$emit('time-selected', time)
       }
     }
+  },
+  mounted() {
+    console.log('Selected Times:', this.selectedTimes)
   }
 }
 </script>
@@ -76,6 +85,6 @@ export default {
 
 .time-slot-selected {
   background-color: #E7A356;
-  color: white;
+  color: black;
 }
 </style>

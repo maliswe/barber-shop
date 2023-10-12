@@ -5,14 +5,7 @@
         <Logo />
       </div>
       <nav>
-        <ul v-show="!mobile" v-if="!isLoggedIn" class="navigation">
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-          <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
-        </ul>
-        <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') " class="navigation">
+        <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') || !isLoggedIn" class="navigation">
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'About' }">About Us</router-link></li>
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Service' }">Services</router-link></li>
@@ -169,7 +162,7 @@ header {
       top: 0;
       right: 24px;
       height: 100%;
-      color: aliceblue;
+      color: #E7A356;
 
       i {
         cursor: pointer;
@@ -224,6 +217,22 @@ header {
   .link.active-link {
     color: #E7A356;
   }
+}
+
+@media (max-width: 750px) {
+    header {
+        .navbar-container {
+            padding-right: 2%;
+        }
+
+        .branding img {
+            width: 60%;
+        }
+
+        nav .navigation {
+            display: none;
+        }
+    }
 }
 
 .scrolled-nav {

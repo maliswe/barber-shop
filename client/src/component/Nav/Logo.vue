@@ -13,7 +13,7 @@ export default {
 <style lang="scss" scoped>
 .branding {
     position: relative;
-    width: 300px;
+    max-width: 300px;
     height: 100px;
     display: flex;
     align-items: center;
@@ -23,8 +23,12 @@ export default {
     margin-right: 20px;
     background-color: #292727;
 
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+
     img {
-        width: 40%;
+        width: 70%;
         transition: .5s ease all;
     }
 

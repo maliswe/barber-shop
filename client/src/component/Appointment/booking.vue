@@ -1,25 +1,36 @@
 <template>
   <div class="book-container">
+    <h1 class="page-header">Book Your Appointment</h1>
 
     <div class="under-cal">
-      <v-calendar :events="events" :disabled-days="disabledDays" :highlight="highlightDays" @event-clicked="eventClicked"
-        @day-clicked="dayClicked" @period-clicked="periodClicked" @period-context-menu="periodContextMenu"
-        @event-context-menu="eventContextMenu" class="vue-calendar">
-      </v-calendar>
-      <div class="horizontal">
-        <p>Availbility Time</p>
+      <v-calendar :events="events" @dayclick="dayClicked" class="vue-calendar"></v-calendar>
+    </div>
+    <div v-if="selectedDate && noAvailableTimes" class="no-time-message">
+      There are no available times for the selected date.
+    </div>
+    <div v-if="selectedDate && !noAvailableTimes" class="barber-table">
+      <div class="table-header">
+        <div class="table-cell" v-for="barber in barbers" :key="barber.phone">{{ barber.name }}</div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell" v-for="barber in barbers" :key="barber.phone">
+          <ul>
+            <li v-for="time in barber.availability" :key="time">
+              <button :class="{ 'selected-time': selectedTimeSlot === time }" @mouseover="hoverTimeSlot(time)"
+                @mouseout="leaveTimeSlot" @click="selectTimeSlot(time)">{{ time }}</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-
     <div class="button-container">
-      <button>Continue</button>
+      <button v-if="selectedTimeSlot" @click="proceedToForm">Continue</button>
     </div>
   </div>
 </template>
-
 <script>
 import { Calendar } from 'v-calendar'
-
+import axios from 'axios'
 export default {
   name: 'setAvailability',
   components: {
@@ -30,20 +41,125 @@ export default {
       selectedDate: null,
       events: [],
       disabledDays: [],
-      highlightDays: []
+      highlightDays: [],
+      barbers: [],
+      selectedServicesDetails: [],
+      selectedServices: [],
+      totalPrice: 0,
+      totalDuration: 0,
+      hoveredTimeSlot: null,
+      selectedTimeSlot: null,
+      phone: 0
+    }
+  },
+  mounted() {
+    if (this.$route.query.selectedServices) {
+      this.selectedServices = JSON.parse(this.$route.query.selectedServices)
+      this.totalPrice = parseFloat(this.$route.query.totalPrice) || 0
+      this.totalDuration = parseInt(this.$route.query.totalDuration) || 0
+      console.log('Total Price:', this.totalPrice)
+      console.log('Total Duration (minutes):', this.totalDuration)
     }
   },
   methods: {
-    dayClicked(day) {
-      console.log('Day Clicked:', day)
-      this.selectedDate = day.date
-    },
-    setAvailability() {
-      if (this.selectedDate) {
-        console.log(`Selected Date: ${this.selectedDate}`)
-      } else {
-        console.log('Please select a date.')
+    async dayClicked(dateInfo) {
+      this.barbers = []
+
+      this.selectedDate = dateInfo.date
+      const calendarDate = [
+        this.selectedDate.getFullYear(),
+        String(this.selectedDate.getMonth() + 1).padStart(2, '0'),
+        String(this.selectedDate.getDate()).padStart(2, '0')
+      ].join('-')
+
+      try {
+        const response = await axios.get(`http://localhost:3000/api/v1/barbers/allavailability/${calendarDate}`)
+
+        // Check if the response is an array
+        if (Array.isArray(response.data)) {
+          this.barbers = response.data.map(barberData => {
+            const timeSlots = barberData.timeSlots || []
+            const availability = this.calculateAvailableTimes(timeSlots, this.totalDuration)
+            this.phone = barberData.barberPhone
+            return {
+              name: barberData.name,
+              phone: barberData.barberPhone,
+              availability: availability || []
+            }
+          })
+        }
+
+        console.log('Barber availability:', this.barbers)
+      } catch (error) {
+        console.error('Error fetching barbers" availability:', error)
       }
+    },
+    canAccommodate(timeSlots, startTime, serviceDuration) {
+      let availableDuration = 0
+      let nextStartTime = startTime
+
+      for (const slot of timeSlots) {
+        if (slot.startTime === nextStartTime) {
+          availableDuration += this.getTimeDifference(slot.startTime, slot.endTime)
+
+          if (availableDuration >= serviceDuration) {
+            return true
+          }
+
+          nextStartTime = slot.endTime
+        }
+      }
+
+      return false
+    },
+    getTimeDifference(start, end) {
+      const [startHour, startMinute] = start.split(':').map(Number)
+      const [endHour, endMinute] = end.split(':').map(Number)
+      return (endHour - startHour) * 60 + (endMinute - startMinute)
+    },
+    calculateAvailableTimes(timeSlots, serviceDuration) {
+      const availableTimes = []
+
+      for (const slot of timeSlots) {
+        if (this.canAccommodate(timeSlots, slot.startTime, serviceDuration)) {
+          availableTimes.push(slot.startTime)
+        }
+      }
+
+      return availableTimes
+    },
+    hoverTimeSlot(time) {
+      this.hoveredTimeSlot = time
+    },
+    leaveTimeSlot() {
+      this.hoveredTimeSlot = null
+    },
+    selectTimeSlot(time) {
+      this.selectedTimeSlot = time
+    },
+    proceedToForm() {
+      console.log('barbers: ', this.barbers)
+
+      const combinedDateTime = new Date(this.selectedDate)
+      const [hour, minute] = this.selectedTimeSlot.split(':').map(Number)
+      combinedDateTime.setHours(hour, minute, 0, 0)
+
+      if (this.selectedTimeSlot) {
+        this.$router.push({
+          name: 'Details',
+          query: {
+            services: this.selectedServices,
+            price: this.totalPrice,
+            barberPhone: this.phone,
+            selectedTime: combinedDateTime.toISOString()
+          }
+        })
+      }
+    }
+  },
+  computed: {
+    noAvailableTimes() {
+      return this.barbers.every(barber => barber.availability.length === 0)
     }
   }
 }
@@ -55,6 +171,34 @@ export default {
 .book-container {
   width: 100%;
 
+  .availability {
+    color: black;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 48px;
+    letter-spacing: 0.02em;
+    margin-left: 1%;
+    margin-right: auto;
+    max-width: 100%;
+    margin-top: -.5rem;
+  }
+
+  .page-header {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 48px;
+    text-align: left;
+    letter-spacing: 0.02em;
+    color: #333;
+    padding-left: 3.5rem;
+    margin-bottom: 20px;
+    padding-top: 20%;
+  }
+
   .under-cal {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.759);
@@ -65,54 +209,94 @@ export default {
     flex-direction: row;
 
     .vue-calendar {
-      width: 35%;
-      background: #ffffff;
+      width: 100%;
     }
 
-    .horizontal {
-      margin-left: 2%;
-      width: 65%;
-      height: 2rem;
-      padding-left: 10px;
-      background-color: rgb(255, 255, 255);
-      box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
-      border-radius: 10px;
+    p {
+      color: black;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      padding-top: 0.25rem;
+    }
 
-      p {
-        color: black;
-        text-align: center;
-        font-family: 'Roboto', sans-serif;
-        font-style: normal;
-        padding-top: 0.25rem;
+  }
+
+  .barber-table {
+    width: 65%;
+    margin-left: 4%;
+    margin-top: 10px; // Added a bit of margin on top to separate it from the horizontal div
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .table-header,
+    .table-row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .table-cell {
+      flex: 1;
+      padding: 10px;
+      // Removed border for columns
+      border-bottom: 1px solid #e0e0e0; // Just a bottom border to separate rows
+
+      .table-cell button {
+        background-color: #E7A356;
+        border: none;
+        border-radius: 4px; // Slightly reduced for a sharper appearance
+        padding: 4px 8px; // Reduced padding for a smaller button
+        margin: 2px; // Slight margin adjustment
+        color: #fff;
+        font-size: 0.8rem; // Reduced font size for the smaller button
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: darken(#E7A356, 10%);
+        }
       }
     }
+
   }
 
-  .button-container {
-    margin-left: 74%;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
   }
+}
 
-  button {
-    width: 18rem;
-    height: 4rem;
-    background: #e7a356;
-    border-radius: 5px;
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 48px;
-    text-align: center;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.01);
-    color: #ffffff;
-    border-color: #e7a356;
+.button-container {
+  margin-left: 74%;
+}
 
-    &:hover {
-      background-color: #e7a356c5;
-    }
+button {
+  width: 18rem;
+  height: 4rem;
+  background: #ef952f;
+  border-radius: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  box-shadow: none;
+  border: none;
+  color: #ffffff;
+
+  &:hover {
+    background-color: #ff8800c5;
   }
+}
+
+button:hover,
+.selected-time {
+  background-color: #E7A356;
 }
 
 @media screen and (max-width: 767px) {
@@ -134,5 +318,14 @@ export default {
       margin-left: 0;
     }
   }
+}
+
+.no-time-message {
+  margin-left: 4%;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #e74c3c;
 }
 </style>

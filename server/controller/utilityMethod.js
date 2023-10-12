@@ -32,7 +32,7 @@ function recSkipper(page=1, pageSize=10) {
     return skip
 }
 
- async function generator () {
+async function generator () {
 
     let confNumber;
     const characters = '0123456789';
@@ -44,7 +44,7 @@ function recSkipper(page=1, pageSize=10) {
             const random = Math.floor(Math.random() * characters.length);
             confNumber += characters.charAt(random);
         }
-    } while (await this.confNumberChecker(confNumber));
+    } while (await confNumberChecker(confNumber));
 
     return confNumber;
 }

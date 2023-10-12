@@ -13,6 +13,9 @@ import BarberDashboard from '../component/Barber/barberDashboard.vue'
 import AdminDashboard from '../component/Admin/adminController/Dashboard.vue'
 import BarberController from '../component/Admin/barberController/Dashboard.vue'
 import CustomerController from '../component/Admin/customerController/Dashboard.vue'
+import BookingSub from '../component/Appointment/booking.vue'
+import EntryDetails from '../component/Appointment/detailsEnrty.vue'
+import confirmationMessage from '../component/Appointment/confirmatio.vue'
 
 Vue.use(VueRouter)
 
@@ -56,7 +59,23 @@ const routes = [
     path: '/book',
     name: 'Book',
     component: Book
-  }, {
+  },
+  {
+    path: '/booking',
+    name: 'Booking',
+    component: BookingSub
+  },
+  {
+    path: '/booking/details',
+    name: 'Details',
+    component: EntryDetails
+  },
+  {
+    path: '/booking/confirmation',
+    name: 'Confirmation',
+    component: confirmationMessage
+  },
+  {
     path: '/barber-dashboard',
     name: 'BarberDashoard',
     component: BarberDashboard,
