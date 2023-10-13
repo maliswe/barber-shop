@@ -157,3 +157,11 @@ button:hover {
   margin-left: 10px;
 }
 </style>
+
+* Component for updating an admin account.
+
+* This component emits the following events:
+* close-modal: When the modal is closed.
+* admin-updated: When the admin account is updated.
+* showEdit: Whether or not to show the modal.
+* currentAdmin: The current admin account.
