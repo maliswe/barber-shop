@@ -159,7 +159,7 @@ export default {
 .add-button {
   width: fill;
   height: fill;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 5px;

@@ -79,8 +79,7 @@ export default {
 }
 
 .time-slot.time-slot-selected:hover {
-  // Your hover styles here, e.g.
-  background-color: #E7A35670; // slightly transparent
+  background-color: #E7A35670;
 }
 
 .time-slot-selected {

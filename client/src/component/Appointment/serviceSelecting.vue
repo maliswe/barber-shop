@@ -86,7 +86,7 @@ export default {
       }
     },
     getServiceNameById(serviceId) {
-      const foundService = this.services.find(service => service._id === serviceId) // change from service.id to service._id
+      const foundService = this.services.find(service => service._id === serviceId)
       return foundService ? foundService.name : ''
     },
     deselectService(serviceId) {

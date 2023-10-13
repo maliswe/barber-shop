@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-// Variables
 var mongoURI = process.env.MONGODB_URI;
 
 if (!mongoURI) {
@@ -8,7 +7,6 @@ if (!mongoURI) {
     process.exit(1);
 }
 
-// Drop database
 mongoose.connect(mongoURI).catch(function (err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);

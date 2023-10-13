@@ -70,7 +70,6 @@ export default {
   watch: {
     currentService: {
       handler(newService) {
-        // Update form whenever currentService changes
         if (newService) {
           this.form.name = newService.name || ''
           this.form.phone = newService.phone || null
@@ -79,7 +78,7 @@ export default {
           this.form.service = newService.service || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {

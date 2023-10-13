@@ -55,7 +55,7 @@ export default {
         .then(response => {
           const timeSlots = response.data.timeSlots || []
           const transformedTimes = this.transformFetchedTimes(timeSlots)
-          this.selectedTimes = transformedTimes // <-- This line updates the selectedTimes variable with the transformed times
+          this.selectedTimes = transformedTimes
           console.log('Transformed times for picker:', transformedTimes)
           console.log('Transformed times for picker:', timeSlots)
         })
@@ -79,7 +79,7 @@ export default {
     },
     transformFetchedTimes(fetchedTimes) {
       return fetchedTimes.map(slot => {
-        return `${slot.startTime}-${slot.endTime}` // Directly use the startTime and endTime without any transformation.
+        return `${slot.startTime}-${slot.endTime}`
       })
     },
     setAvailability() {
@@ -109,7 +109,6 @@ export default {
         console.log(dateToSave)
 
         if (flattenedTimes.length === 0) {
-          // If there are no times, make a DELETE request
           axios.delete(`http://localhost:3000/api/v1/barbers/availability/${userPhone}/${calendarDate}`)
             .then(response => {
               console.log('Date with no times removed: ', response.data)
@@ -119,7 +118,6 @@ export default {
               console.log('Error removing date with no times: ', error)
             })
         } else {
-          // If there are times, make a PUT request
           axios.put(`http://localhost:3000/api/v1/barbers/availability/${userPhone}`, dateToSave)
             .then(response => {
               console.log('Data saved: ', response.data)

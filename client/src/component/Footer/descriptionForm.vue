@@ -6,19 +6,17 @@
         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
             labore et dolore magna aliqua.</p>
         <div class="social-media">
-            <!-- Here you can use SVG icons or font-awesome icons for social media links -->
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-youtube"></i></a>
-            <!-- ... more icons -->
         </div>
     </div>
 </template>
 <style lang="scss" scoped>
 .footer-logo {
     display: flex;
-    justify-content: center; // Center the children horizontally
-    align-items: center; // Center the children vertically
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     margin-left: 0px;
     padding: 10px 20px;
@@ -42,7 +40,7 @@
     justify-content: center;
     width: 100%;
     margin-top: 30px;
-    margin-bottom: 30px; // Adding space below the logo
+    margin-bottom: 30px;
 }
 
 .description,
@@ -73,7 +71,7 @@
     align-self: flex-start;
 
     @media (max-width: 768px) {
-        align-items: center; // Center them horizontally
+        align-items: center;
     }
 }
 
@@ -91,6 +89,6 @@
 }
 
 .social-media a i {
-    color: #fff; // Icon color, adjust if necessary
+    color: #fff;
 }
 </style>

@@ -58,14 +58,13 @@ export default {
   watch: {
     currentAdmin: {
       handler(newAdmin) {
-        // Update form whenever currentAdmin changes
         if (newAdmin) {
           this.form.name = newAdmin.name || ''
           this.form.phone = newAdmin.phone || null
           this.form.email = newAdmin.email || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {

@@ -32,8 +32,8 @@ const login = async (req, res) => {
         await refreshTokenInstance.save();
 
         res.cookie('authToken', token, { httpOnly: true, secure: true, expires: new Date(Date.now() + 300000) });
-        res.status(200).json({ 
-            token: token, 
+        res.status(200).json({
+            token: token,
             refreshToken: refreshToken,
             __t: loggedUser.__t,
             phone: loggedUser.phone
@@ -68,10 +68,8 @@ const logout = async (req, res) => {
     try {
         const refreshToken = req.body.refreshToken;
 
-        // Remove the refresh token from the database
         await RefreshToken.findOneAndDelete({ token: refreshToken });
 
-        // Clear the auth token cookie
         res.clearCookie('authToken');
 
         return res.status(200).json({ message: 'Logged out successfully' });

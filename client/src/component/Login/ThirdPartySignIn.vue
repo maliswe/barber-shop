@@ -8,10 +8,8 @@
 export default {
   methods: {
     handleGoogleSignIn() {
-      // Logic for Google sign-in
     },
     handleAppleSignIn() {
-      // Logic for Apple sign-in
     }
   }
 }
@@ -26,7 +24,6 @@ export default {
   margin-top: 0.5rem;
 
   button {
-    // styling for the buttons'
     background-color: #E7A356;
     padding: 10px 100px;
     border: none;
@@ -44,7 +41,7 @@ export default {
     button {
       margin-top: 2%;
       margin-left: 0;
-      width: 100%; // Make the button take the full width on mobile for easier tapping
+      width: 100%;
     }
   }
 

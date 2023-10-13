@@ -33,7 +33,6 @@ export default {
     images: {
       type: Array,
       default: () => [
-        // Update these paths with your new images:
         require('../../assets/barber-1.png'),
         require('../../assets/barber-2.png'),
         require('../../assets/barber-3.png')
@@ -53,15 +52,15 @@ export default {
 
 <style lang="scss" scoped>
 .carousel-container {
-  position: relative; // This makes sure the absolute positioned child is relative to this container
+  position: relative;
 
   .carousel-overlay {
-    position: absolute; // This makes the text overlay the carousel
-    top: 60%; // Center it vertically
-    left: 30%; // Center it horizontally
-    transform: translate(-50%, -50%); // Adjust for exact centering
-    z-index: 10; // Make sure the text is above the images
-    color: #fff; // Making the text color white for visibility
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: #fff;
     font-size: 4rem;
     font-weight: 800;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -83,7 +82,7 @@ export default {
     margin-top: 7.5%;
     padding: 10px 20px;
     background-color: #ffffff00;
-    border: 2px solid #E7A356; // This will give the button a border
+    border: 2px solid #E7A356;
     border-radius: 5px;
     color: #ffffff;
     font-weight: bold;
@@ -99,19 +98,18 @@ export default {
 }
 
 .carousel-indicators li {
-  border-radius: 50%; // Makes the shape circular
-  width: 10px; // Define the width of the actual circle
-  height: 10px; // Define the height of the actual circle
-  margin: 1px 8px; // Adjust spacing if needed
-  background-color: rgba(255, 255, 255, 0.5); // A transparent white background for non-active indicators
-  border: 2px; // White border around the indicator
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: 1px 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px;
 
   &.active {
-    // This targets the currently active indicator
-    background-color: white; // Background color for active indicator
-    border-color: white; // White border for active indicator
-    outline: 4px solid #E7A356; // Adds an additional outer border
-    outline-offset: 2px; // Adjusts the space between the border and the outline
+    background-color: white;
+    border-color: white;
+    outline: 4px solid #E7A356;
+    outline-offset: 2px;
   }
 }
 
@@ -125,12 +123,12 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.637); // Black shape with 30% opacity
-    z-index: 5; // Ensuring it's above the image but below any other content (like text)
+    background-color: rgba(0, 0, 0, 0.637);
+    z-index: 5;
   }
 
   img {
-    z-index: 1; // This ensures the image is beneath the overlay
+    z-index: 1;
   }
 }
 
@@ -206,24 +204,23 @@ export default {
       margin-top: 5%;
       display: flex;
       flex-direction: column;
-      align-items: flex-start; // To align items to the left
-
+      align-items: flex-start;
       h1 {
         font-size: 1rem;
-        margin-bottom: 0.5rem; // reduce bottom margin
-        margin-top: 0; // remove top margin
+        margin-bottom: 0.5rem;
+        margin-top: 0;
       }
 
       p {
         font-size: 0.5rem;
-        margin-bottom: 0.5rem; // give it a small bottom margin
+        margin-bottom: 0.5rem;
         padding: 0;
       }
 
       button {
         font-size: 0.9rem;
-        padding: 5px 10px; // some padding to make the button look good
-        margin-bottom: 0; // remove the huge bottom margin
+        padding: 5px 10px;
+        margin-bottom: 0;
       }
     }
   }

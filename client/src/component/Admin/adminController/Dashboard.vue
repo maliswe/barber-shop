@@ -177,7 +177,6 @@ export default {
   width: fill;
   height: fill;
   background-color: #3498db;
-  /* Adjust the button background color */
   border: none;
   color: white;
   border-radius: 5px;

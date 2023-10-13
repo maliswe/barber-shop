@@ -76,7 +76,6 @@ export default {
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/barbers/allavailability/${calendarDate}`)
 
-        // Check if the response is an array
         if (Array.isArray(response.data)) {
           this.barbers = response.data.map(barberData => {
             const timeSlots = barberData.timeSlots || []
@@ -226,7 +225,7 @@ export default {
   .barber-table {
     width: 65%;
     margin-left: 4%;
-    margin-top: 10px; // Added a bit of margin on top to separate it from the horizontal div
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -240,17 +239,16 @@ export default {
     .table-cell {
       flex: 1;
       padding: 10px;
-      // Removed border for columns
-      border-bottom: 1px solid #e0e0e0; // Just a bottom border to separate rows
+      border-bottom: 1px solid #e0e0e0;
 
       .table-cell button {
         background-color: #E7A356;
         border: none;
-        border-radius: 4px; // Slightly reduced for a sharper appearance
-        padding: 4px 8px; // Reduced padding for a smaller button
-        margin: 2px; // Slight margin adjustment
+        border-radius: 4px;
+        padding: 4px 8px;
+        margin: 2px;
         color: #fff;
-        font-size: 0.8rem; // Reduced font size for the smaller button
+        font-size: 0.8rem;
         cursor: pointer;
         transition: background-color 0.3s;
 

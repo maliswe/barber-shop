@@ -58,14 +58,13 @@ export default {
   watch: {
     currentCustomer: {
       handler(newCustomer) {
-        // Update form whenever currentCustomer changes
         if (newCustomer) {
           this.form.name = newCustomer.name || ''
           this.form.phone = newCustomer.phone || null
           this.form.email = newCustomer.email || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {

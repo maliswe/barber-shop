@@ -72,7 +72,7 @@ export default {
     height: min(10rem, 450px);
     height: 100%;
     box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
-    backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
+    backdrop-filter: blur(10px);
 }
 
 .service-card img {
