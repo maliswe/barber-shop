@@ -197,3 +197,9 @@ button {
   }
 }
 </style>
+
+
+// Book container serves as a scheduling and availability management tool for barbers.
+// It integrates a customizable calendar component (V-Calendar) that allows the barber to select specific dates for which they want to manage their availability.
+// Upon selecting a date in the calendar, the component reveals a custom time picker (CustomTimePicker) where the barber can choose specific time slots for appointments.
+// Selected time slots are highlighted and can be deselected.

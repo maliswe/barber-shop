@@ -87,3 +87,10 @@ export default {
   color: black;
 }
 </style>
+
+// Time container is responsible for rendering a list of time slots.
+// Users can interact with these time slots, selecting or deselecting them by clicking.
+// The selected time slots are highlighted in a different background color, allowing users to see their choices.
+// The component also provides the ability to generate time slots and monitor selected time slots based on user actions.
+// Additionally, it emits events when a time slot is selected or requested for deletion.
+// It is a fundamental part of scheduling and appointment booking in a time-based context.

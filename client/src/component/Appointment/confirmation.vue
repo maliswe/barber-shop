@@ -34,3 +34,7 @@ export default {
   }
 }
 </style>
+
+* This component displays a confirmation message to the user for their booked appointment. It
+* shows the selected time for the appointment and automatically redirects the user back to the
+* home page after a specified delay.

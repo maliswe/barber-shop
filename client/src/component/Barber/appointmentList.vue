@@ -122,3 +122,7 @@ div {
   }
 }
 </style>
+
+
+* This component fetches and displays a list of appointments for today. It shows the time, customer name,
+* message, and services for each appointment. Appointments are retrieved from an API.

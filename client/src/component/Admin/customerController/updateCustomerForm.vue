@@ -157,3 +157,8 @@ button:hover {
   margin-left: 10px;
 }
 </style>
+
+ * This component is used to display a modal for updating customer details. It includes a form for
+ * editing the customer's name, phone, email, and password. The form data is populated with the
+ * current customer's information, if provided. Upon submission, the form data is sent to the API
+ * for updating the customer record.

@@ -368,3 +368,8 @@ button:hover,
   color: #e74c3c;
 }
 </style>
+
+
+ * This component provides a user interface for booking appointments. Users can select a date on the
+ * calendar and view available time slots for different barbers. Once a time slot is chosen, users
+ * can proceed to a form to complete the booking.
