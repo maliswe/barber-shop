@@ -115,3 +115,6 @@ module.exports = {
     update,
     upload
 };
+
+//Module for managing galleries and handling image uploads.
+//This module provides functions for creating, retrieving, updating, and deleting galleries.

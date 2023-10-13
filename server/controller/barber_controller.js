@@ -302,3 +302,7 @@ module.exports = {
     deleteTimeSlot,
     getAllOnDate
 };
+
+//Module for managing barbers, their availability, and appointments.
+//This module provides functions for creating, retrieving, updating, and deleting barbers,
+//managing their availability, and handling appointments.

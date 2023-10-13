@@ -84,3 +84,7 @@ module.exports = {
     refresh,
     logout
 };
+
+//Module for user authentication, login, token refresh, and logout.
+//This module provides functions for user login, token refresh, and logout, using JWT tokens
+//and managing refresh tokens.

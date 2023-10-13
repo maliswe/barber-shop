@@ -94,3 +94,7 @@ button {
   }
 }
 </style>
+
+* The "Login" component is responsible for user authentication and login. It displays a login form and provides options for third-party sign-in.
+* It communicates with the "LoginForm" and "ThirdPartySignIn" child components.
+* It also handles user authentication by making an API request to log in a user and updating the application state based on the user's role.

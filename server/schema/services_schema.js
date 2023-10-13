@@ -11,3 +11,6 @@ const services_schema = new Schema({
 
 const Service = mongoose.model("Services", services_schema);
 module.exports = Service;
+
+//This schema defines the structure and properties for service offerings, including
+//their name, description, price, duration, and an optional image.

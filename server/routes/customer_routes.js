@@ -12,3 +12,8 @@ router.delete('/', controller.removeAll);
 
 
 module.exports = router;
+
+//Router for managing customer-related routes and appointments.
+//This router defines routes for various customer-related actions, including
+//creating, updating, retrieving, and deleting customer profiles, as well as
+//managing appointments associated with customers.

@@ -18,3 +18,7 @@ mongoose.connection.dropDatabase().then(function () {
     console.log(`Dropped database: ${mongoURI}`);
     process.exit(0);
 });
+
+//The MongoDB connection URI retrieved from the environment variable.
+//Connect to the MongoDB database using the provided URI.
+//Drop the connected MongoDB database and exit the script.

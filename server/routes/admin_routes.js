@@ -14,3 +14,7 @@ router.put('/:id', controller.update);
 
 
 module.exports = router;
+
+//Router for handling administrative operations.
+//This router defines routes for various administrative actions, such as creating,
+//updating, retrieving, and deleting resources.

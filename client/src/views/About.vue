@@ -75,3 +75,5 @@ export default {
   width: auto;
 }
 </style>
+
+*This component is responsible for displaying and, if the user has 'Admin' role, editing text content.

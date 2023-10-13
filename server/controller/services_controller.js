@@ -113,3 +113,6 @@ module.exports = {
     update,
     upload
 };
+
+//Module for managing services and handling image uploads.
+//This module provides functions for creating, retrieving, updating, and deleting services.

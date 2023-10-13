@@ -115,3 +115,6 @@ module.exports = {
     update,
     removeAll
 };
+
+//Module for managing customers.
+//This module provides functions for creating, retrieving, updating, and deleting customers.

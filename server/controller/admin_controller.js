@@ -124,3 +124,6 @@ module.exports = {
     update,
     methodDispatch
 };
+
+//Module for Admin-related actions and routes.
+//This module provides functions for creating, retrieving, updating, and deleting admin profiles.

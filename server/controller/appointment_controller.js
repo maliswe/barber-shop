@@ -132,3 +132,8 @@ module.exports = {
     remove,
     getBarberAppointments
 }
+
+
+//Module for handling appointments and scheduling.
+//This module provides functions for creating, retrieving, updating, and deleting appointments,
+//as well as getting appointments for a specific barber.

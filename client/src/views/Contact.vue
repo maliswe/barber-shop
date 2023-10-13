@@ -49,3 +49,5 @@ export default {
   }
 }
 </style>
+
+* The "ContactUs" component is responsible for displaying the contact information.
