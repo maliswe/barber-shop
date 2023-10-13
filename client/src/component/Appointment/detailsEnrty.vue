@@ -1,19 +1,31 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <input class="form-control my-2" v-model="name" placeholder="Name" />
-        <input class="form-control my-2" v-model="phoneNumber" placeholder="Phone Number" />
-        <textarea class="form-control my-2" v-model="message" placeholder="Message to Barber"></textarea>
-        <button class="btn btn-primary w-100 my-2" @click="finalizeAppointment">Submit</button>
+  <div class="appo-form">
+    <form>
+      <!-- Only show if user isn't logged in -->
+      <div v-if="!isLoggedIn" class="input-group">
+        <input v-model="name" placeholder="Name">
       </div>
-    </div>
+      <div v-if="!isLoggedIn" class="input-group">
+        <input type="tel" v-model="phoneNumber" placeholder="Phone Number" />
+      </div>
+      <div class="input-group">
+        <textarea class="form-control my-2" v-model="message" placeholder="Message to Barber"></textarea>
+      </div>
+      <div class="input-group">
+        <button type="button" @click="finalizeAppointment" class="submit-btn">Submit</button>
+      </div>
+    </form>
+    <ConfirmationPopup v-if="showPopup" :barberName="barberName" :selectedTime="selectedTime" />
   </div>
 </template>
 <script>
 import axios from 'axios'
+import ConfirmationPopup from './confirmation.vue'
 
 export default {
+  components: {
+    ConfirmationPopup
+  },
   props: ['barber', 'time', 'services'],
   data() {
     return {
@@ -23,8 +35,14 @@ export default {
       Phone: null,
       selectedTime: null,
       selectedServices: [],
-      totalPrice: 0
+      totalPrice: 0,
+      showPopup: false
 
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn // Assuming your store has a property 'isLoggedIn'
     }
   },
   mounted() {
@@ -45,13 +63,15 @@ export default {
   },
   methods: {
     async finalizeAppointment() {
+      const customerPhone = this.isLoggedIn ? this.$store.state.userPhone : this.phoneNumber
+
       const appointmentData = {
         price: this.totalPrice,
         date: new Date(this.selectedTime),
         message: this.message,
         service: this.selectedServices,
         barber: this.Phone,
-        customer: this.phoneNumber
+        customer: customerPhone
       }
 
       // Step 2: Log the data to console
@@ -62,7 +82,7 @@ export default {
         const response = await axios.post('http://localhost:3000/api/v1/appointments', appointmentData)
 
         if (response.status === 201) {
-          this.$router.push('/booking/confirmation')
+          this.showPopup = true
         } else {
           console.error('Error while booking:', response.data.message)
         }
@@ -73,13 +93,65 @@ export default {
   }
 }
 </script>
-<style scoped>
-/* You can add additional styles or change the colors here */
-/* Example color style: */
-textarea.form-control {
-  height: 150px;
-  /* adjust based on your preference */
+<style lang="scss" scoped>
+.appo-form {
+  padding: 14% 20%;
+
+  input,
+  textarea {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    box-shadow: 0cqmax;
+
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .submit-btn {
+    // styling for the buttons'
+    background-color: #E7A356;
+    margin-top: 5%;
+    margin-left: 45%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d68c3f;
+    }
+  }
+
+  i {
+    color: #d68c3f;
+
+    &:hover {
+      color: rgb(85, 85, 231);
+    }
+  }
+
+  p {
+    padding-top: 8%;
+  }
 }
 
-/* Any other custom styles go here */
+@media (max-width: 413px) {
+  .appo-form {
+    padding: 30% 20%;
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    .submit-btn {
+      margin-top: 10%;
+      margin-left: 0;
+      padding-left: 2%;
+      width: 100%;
+    }
+  }
+}
 </style>

@@ -1,15 +1,18 @@
 <template>
     <div class="service-card" @click="selectService" :class="{ 'selected-service': isSelected }">
         <img :src="getImageUrl(service.image)" alt="Service Image" />
-        <div class="NamePrice">
-            <h2 class="name">{{ service.name }}</h2>
-            <p class="price">${{ service.price }}</p>
+        <div class="content-wrap">
+            <div class="NamePrice">
+                <h2 class="name">{{ service.name }}</h2>
+                <p class="price">${{ service.price }}</p>
+            </div>
+            <div class="bottom-section">
+                <p class="duration"> {{ service.duration }} min</p>
+                <button @click.stop="selectService" class="booking" :disabled="isSelected">
+                    {{ isSelected ? "Selected" : "Select" }}
+                </button>
+            </div>
         </div>
-        <p class="duration"> {{ service.duration }} min</p>
-        <button @click.stop="selectService" class="booking" :disabled="isSelected">
-            {{ isSelected ? "Deselect" : "Select" }}
-        </button>
-
     </div>
 </template>
 <script>
@@ -49,19 +52,45 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
-    max-width: auto;
     width: 100%;
-    height: auto; // Default to 450px
     box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
-    backdrop-filter: blur(10px); // Adjust the blur intensity as needed
+    backdrop-filter: blur(10px);
 
     @media (max-width: 768px) {
-        height: 160px; // Change height to 160px for smaller screens
+        img {
+            max-width: 50%;
+        }
+
+        .content-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .NamePrice {
+            flex-direction: column;
+            align-items: flex-start;
+            h2, p {
+                margin: 10px 0;
+            }
+        }
+
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .duration, .booking {
+            margin-left: 8%;
+        }
     }
 
     img {
-        max-width: fill;
-        max-height: 200px;
+        width: 100%;
+        height: auto;
     }
 
     .name {
@@ -79,7 +108,7 @@ export default {
     }
 
     .price {
-        font-size: 0.9rem; // Note: I changed this from vw to rem for consistency
+        font-size: 0.9rem;
         letter-spacing: 0em;
         font-weight: 650;
     }
@@ -93,16 +122,17 @@ export default {
 
     .booking {
         height: 50px;
-        width: 180px;
+        width: 100%;
         max-width: 180px;
         max-height: 50px;
         border-radius: 8px;
         background: rgba(231, 163, 86, 1);
         color: rgba(255, 255, 255, 1);
         border-color: rgba(231, 163, 86, 1);
+        margin-top: 20px;
 
         &:disabled {
-            background: rgba(200, 200, 200, 1); // A faded grey color
+            background: rgba(200, 200, 200, 1);
             cursor: not-allowed;
         }
     }

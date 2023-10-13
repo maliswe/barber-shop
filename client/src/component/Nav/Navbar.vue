@@ -13,20 +13,48 @@
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Contact' }">Contact</router-link></li>
         </ul>
         <ul v-if="isLoggedIn && role === 'Barber'" class="navigation">
-          <!-- ... no links -->
         </ul>
         <div class="icon">
           <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{ 'icon-active': mobileNav }"></i>
         </div>
         <transition name="mobile-nav">
-          <ul v-show="mobileNav" class="dropdown-nav">
-            <li><router-link class="link" :to="{ name: 'Home' }">Home</router-link></li>
-            <li><router-link class="link" :to="{ name: 'About' }">About Us</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Services' }">Services</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Book' }">Book</router-link></li>
-            <li><router-link class="link" :to="{ name: 'Login' }">Sign In</router-link></li>
+          <ul v-if="mobileNav && isLoggedIn && role === 'Customer'" class="dropdown-nav">
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Home' }">Home</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'About' }">About Us</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Service' }">Services</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Book' }">Book</router-link></li>
+            <li @click="logout" class="logout-btn">Logout</li>
+          </ul>
+        </transition>
+        <transition name="mobile-nav">
+          <ul v-if="mobileNav && !isLoggedIn" class="dropdown-nav">
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Home' }">Home</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'About' }">About Us</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Service' }">Services</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Book' }">Book</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Login' }">Sign In</router-link></li>
+          </ul>
+        </transition>
+        <transition name="mobile-nav">
+          <ul v-if="mobileNav && isLoggedIn && role === 'Barber'" class="dropdown-nav">
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'BarberDashoard' }">Dashboard</router-link></li>
+            <li @click="logout" class="logout-btn">Logout</li>
+          </ul>
+        </transition>
+        <transition name="mobile-nav">
+          <ul v-if="mobileNav && isLoggedIn && role === 'Admin'" class="dropdown-nav">
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Home' }">Home</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'About' }">About Us</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Service' }">Services</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Gallery' }">Gallery</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Contact' }">Contact</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'Book' }">Book</router-link></li>
+            <li><router-link @click.native="closeMobileNav" class="link" :to="{ name: 'AdminDashboard' }">Dashoard</router-link></li>
+            <li @click="logout" class="logout-btn">Logout</li>>
           </ul>
         </transition>
       </nav>
@@ -59,6 +87,12 @@ export default {
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav
     },
+    logout() {
+      this.$store.commit('SET_LOGIN_STATUS', false)
+      this.$store.commit('SET_ROLE', null)
+      this.$router.push({ name: 'Home' })
+      this.mobileNav = false
+    },
     checkScreen() {
       this.windowWidth = window.innerWidth
       if (this.windowWidth <= 750) {
@@ -75,6 +109,9 @@ export default {
         return
       }
       this.scrollNav = false
+    },
+    closeMobileNav() {
+      this.mobileNav = false
     }
   },
   created() {
@@ -186,6 +223,22 @@ header {
       top: 0;
       left: 0;
 
+      .logout-btn {
+        color: black !important;
+        font-size: 13px;
+
+        a {
+          color: black !important;
+          text-decoration: none;
+
+          &:hover,
+          &:active,
+          &:visited {
+            color: #E7A356;
+          }
+        }
+      }
+
       li {
         margin-left: 0;
 
@@ -220,19 +273,19 @@ header {
 }
 
 @media (max-width: 750px) {
-    header {
-        .navbar-container {
-            padding-right: 2%;
-        }
-
-        .branding img {
-            width: 60%;
-        }
-
-        nav .navigation {
-            display: none;
-        }
+  header {
+    .navbar-container {
+      padding-right: 2%;
     }
+
+    .branding img {
+      width: 60%;
+    }
+
+    nav .navigation {
+      display: none;
+    }
+  }
 }
 
 .scrolled-nav {

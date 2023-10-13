@@ -15,7 +15,7 @@ import BarberController from '../component/Admin/barberController/Dashboard.vue'
 import CustomerController from '../component/Admin/customerController/Dashboard.vue'
 import BookingSub from '../component/Appointment/booking.vue'
 import EntryDetails from '../component/Appointment/detailsEnrty.vue'
-import confirmationMessage from '../component/Appointment/confirmatio.vue'
+import confirmationMessage from '../component/Appointment/confirmation.vue'
 
 Vue.use(VueRouter)
 
