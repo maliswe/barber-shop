@@ -64,15 +64,15 @@ export default {
 
 <style scoped>
 .service-card {
-    display: flex;
-    flex-direction: column;
-    background-color:rgb(255, 255, 255);
-    max-width: 300px;
-    width: 100%;
-    height: min(10rem, 450px);
-    height: 100%;
-    box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
-    backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  max-width: 300px;
+  width: 100%;
+  height: min(10rem, 450px);
+  height: 100%;
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
+  backdrop-filter: blur(10px);
 }
 
 .service-card img {
@@ -80,67 +80,73 @@ export default {
   max-height: 200px;
 }
 
-.name{
+.name {
   font-size: max(1.0rem, 17px);
   font-weight: 650;
 }
 
-.NamePrice{
-    margin-top: 5%;
-    margin-left: 8%;
-    margin-right: 8%;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+.NamePrice {
+  margin-top: 5%;
+  margin-left: 8%;
+  margin-right: 8%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
-.price{
-    color: rgba(231, 163, 86, 1);
-    font-size: max(0.9vw, 12px);
-    letter-spacing: 0em;
-    font-weight: 650;
+.price {
+  color: rgba(231, 163, 86, 1);
+  font-size: max(0.9vw, 12px);
+  letter-spacing: 0em;
+  font-weight: 650;
 }
 
-.description{
-    display: flex;
-    justify-content: center;
-    color: rgba(136, 135, 143, 1);
-    font-weight: 400;
-    font-size: max(0.8vw, 13px);
-    padding-bottom: 5%;
-    padding-left: 5%;
-    padding-right: 5%;
+.description {
+  display: flex;
+  justify-content: center;
+  color: rgba(136, 135, 143, 1);
+  font-weight: 400;
+  font-size: max(0.8vw, 13px);
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.durationBook{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-left: 4%;
-    margin-right: 4%;
-    margin-bottom: 50px;
+.durationBook {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-left: 4%;
+  margin-right: 4%;
+  margin-bottom: 50px;
 }
 
-.duration{
-    background-color: rgba(255, 235, 212, 1);
-    color: rgba(231, 163, 86, 1);
-    border-radius: 26px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 1px;
-    padding-bottom: 2px;
+.duration {
+  background-color: rgba(255, 235, 212, 1);
+  color: rgba(231, 163, 86, 1);
+  border-radius: 26px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+  padding-bottom: 2px;
 }
 
-.booking{
-    height: 50px;
-    width: 180px;
-    max-width: 180px;
-    max-height: 50px;
-    border-radius: 8px;
-    background: rgba(231, 163, 86, 1);
-    color: rgba(255, 255, 255, 1);
-    border-color: rgba(231, 163, 86, 1);
+.booking {
+  height: 50px;
+  width: 180px;
+  max-width: 180px;
+  max-height: 50px;
+  border-radius: 8px;
+  background: rgba(231, 163, 86, 1);
+  color: rgba(255, 255, 255, 1);
+  border-color: rgba(231, 163, 86, 1);
+  border: none;
 }
+
+.booking:hover {
+  background: rgb(255, 162, 0);
+}
+
 .delete-button {
   position: absolute;
   border-radius: 20px;
@@ -154,7 +160,7 @@ export default {
   transition: color 0.3s ease-in-out;
 }
 
-.delete-button:hover i{
+.delete-button:hover i {
   color: red;
   font-size: 30px;
 }
@@ -164,17 +170,19 @@ export default {
     width: min(100%, 8rem);
     height: min(70%, 10rem);
   }
+
   .service-card img {
     width: fill;
     height: fill;
   }
-  .book{
+
+  .book {
     max-width: 3rem;
     max-height: 2rem;
   }
+
   .description {
     font-size: min(5vw, 11);
     line-height: min(3vw, 7);
   }
-}
-</style>
+}</style>
