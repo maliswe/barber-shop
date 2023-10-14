@@ -92,8 +92,8 @@ export default {
 }
 .gallery-container {
     display: block;
-    padding-top: 200px;
-    padding-bottom: 100px;
+    padding-top: 20%;
+    padding-bottom: 20%;
 }
 .gallery-row {
     display: flex;
