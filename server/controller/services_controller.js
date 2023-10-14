@@ -1,7 +1,7 @@
 const Services = require('../schema/services_schema.js')
-const { fieldsMapper, Generator } = require('./utilityMethod.js');
+const { Generator } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { recSkipper, generator } = require('./utilityMethod.js');
 const multer = require('multer');
 
 const upload = multer({
@@ -10,12 +10,9 @@ const upload = multer({
       fileSize: 8 * 1024 * 1024,  // Limit file size to 8MB (adjust as needed)
     },
   });
-
+// Create a service
 const create = async (req, res) => {
     try {
-
-        // Create custom id 
-        let customId = await Generator.generator();
         // Create a new services document based on the request body
         const { name, description, price, duration } = req.body;
 
@@ -27,7 +24,6 @@ const create = async (req, res) => {
         }
 
         const newService = new Services({
-            _id: customId,
             name,
             description,
             price,
@@ -35,16 +31,15 @@ const create = async (req, res) => {
             image,
           });
         
-        const savedService = await newService.save();
-        // Send the saved services data as a response
-        res.status(201).json(savedService); // 201 Created status code
+        const data = await newService.save();
+        res.status(200).json(data);
     } catch (error) {
-        // Handle any errors
-        console.error(error);
+             console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
+// Get all the services
 const getAll = async (req, res) => {
     try {
 
@@ -65,6 +60,7 @@ const getAll = async (req, res) => {
     }
 };
 
+// Get a service
 const getOne = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for services data
@@ -84,6 +80,7 @@ const getOne = async (req, res, id) => {
     }
 };
 
+// Update the service info
 const update = async (req, res, id) => {
     try {
         // Find the services by ID
@@ -107,14 +104,14 @@ const update = async (req, res, id) => {
         // Save the updated services document
         await services.save();
 
-        // Send the updated services data as a response
-        res.status(200).json(services);
+        res.status(200).json({ message: 'Updated successfully!'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Remove a service
 const remove = async (req, res, id) => {
     try {
         // Use Mongoose to query the MongoDB database for Services data

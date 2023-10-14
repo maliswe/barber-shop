@@ -9,5 +9,4 @@ const services_schema = new Schema({
     image: { type: Buffer, required: false }
 });
 
-const Service = mongoose.model("Services", services_schema);
-module.exports = Service;
+module.exports = mongoose.model('Services', services_schema);

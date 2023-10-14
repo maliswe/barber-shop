@@ -1,8 +1,9 @@
 const Customer = require('../schema/customer_schema.js')
 const { fieldsMapper, recSkipper, sort } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
+const appointment = require('../schema/appointment_schema.js');
 
-
+// Create new user
 const create = async (req, res) => {
     try {
 
@@ -26,8 +27,9 @@ const create = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
+// Get all the customer accounts
 const getAll = async (req, res) => {
     try {
 
@@ -48,6 +50,7 @@ const getAll = async (req, res) => {
     }
 };
 
+// Get a customer account
 const getOne = async (req, res) => {
     const id = req.params.id;
     try {
@@ -68,6 +71,7 @@ const getOne = async (req, res) => {
     }
 };
 
+// Update the custoemr info
 const update = async (req, res) => {
     const id = req.params.id;
     try {
@@ -111,6 +115,7 @@ const remove = async (req, res) => {
     }
 };
 
+// Remove all the customers account
 const removeAll = async (req, res) => {
     try{
 
@@ -127,7 +132,35 @@ const removeAll = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error'});
     }
      
-}
+};
+
+const createAppointmentForCustomer = async (req, res) => {
+    try {
+        const customerId = req.params.customer_id;
+
+        // Find the customer using the provided ID
+        const customer = await Customer.findById(customerId);
+
+        // If the customer doesn't exist, return an error
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found.' });
+        }
+
+        // Create a new appointment using the provided data
+        const newAppointment = new Appointment(req.body);
+        await newAppointment.save();
+
+        // Add the appointment's ID to the customer's appointments array
+        customer.appointments.push(newAppointment._id);
+        await customer.save();
+
+        // Return the new appointment's data
+        res.status(201).json(newAppointment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
 
 
 
@@ -137,5 +170,6 @@ module.exports = {
     getOne,
     remove,
     update,
-    removeAll
+    removeAll,
+    createAppointmentForCustomer
 };

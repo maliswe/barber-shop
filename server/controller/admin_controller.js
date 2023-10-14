@@ -2,7 +2,7 @@ const Admin = require('../schema/admin_schema.js')
 const { fieldsMapper, sort, recSkipper } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
-
+// Create a new admin account
 const create = async (req, res) => {
     try {
         //Hash the password
@@ -27,6 +27,7 @@ const create = async (req, res) => {
     }
 };
 
+// Get all the admins accounts
 const getAll = async (req, res) => {
     try {
         // Use Mongoose to query the MongoDB database for admin data
@@ -48,6 +49,7 @@ const getAll = async (req, res) => {
     }
 };
 
+// Get the admin accocunt
 const getOne = async (req, res) => {
     const id = req.params.id;
     try {
@@ -80,6 +82,7 @@ const getOne = async (req, res) => {
     }
 };
 
+// Update admin information
 const update = async (req, res) => {
     const id = req.params.id;
     try {
@@ -97,13 +100,14 @@ const update = async (req, res) => {
         await admin.save();
 
         // Send the updated admin data as a response
-        res.status(200).json(admin);
+        res.status(200).json({ message: 'Information updated successfully'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Delete the admin account
 const remove = async (req, res) => {
     const id = req.params.id;
     try {
