@@ -1,3 +1,7 @@
+<!--
+* The "Home" component is the landing page of your application, consisting of a carousel, featured content, and a section showcasing the best services.
+* It communicates with the "Carousel," "Features," and "OurBestServices" child components.
+-->
 <template>
   <div class="container-fluid">
     <div>
@@ -34,6 +38,3 @@ export default {
 }
 
 </style>
-
-* The "Home" component is the landing page of your application, consisting of a carousel, featured content, and a section showcasing the best services.
-* It communicates with the "Carousel," "Features," and "OurBestServices" child components.

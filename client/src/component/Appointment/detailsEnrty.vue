@@ -1,3 +1,7 @@
+<!--
+* This component displays a form for booking appointments with a barber. It allows customers to
+* input their name, phone number, a message to the barber, and submit the appointment request.
+-->
 <template>
   <div class="appo-form">
     <form>
@@ -151,6 +155,3 @@ export default {
   }
 }
 </style>
-
-* This component displays a form for booking appointments with a barber. It allows customers to
-* input their name, phone number, a message to the barber, and submit the appointment request.

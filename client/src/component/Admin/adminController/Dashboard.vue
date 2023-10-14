@@ -1,3 +1,9 @@
+<!--
+* This component displays a table of all admin accounts, with the ability to edit and delete accounts.
+  It also has a button to open a modal for adding a new admin account.
+* This component emits the following events:
+* admin-updated: When an admin account is updated.
+-->
 <template>
   <div>
     <div class="container" v-if="admins.length > 0">
@@ -183,9 +189,3 @@ export default {
   border-radius: 5px;
 }
 </style>
-
-* This component displays a table of all admin accounts, with the ability to edit and delete accounts.
-  It also has a button to open a modal for adding a new admin account.
-
-* This component emits the following events:
-* admin-updated: When an admin account is updated.

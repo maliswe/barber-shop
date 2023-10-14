@@ -1,3 +1,8 @@
+<!--
+* This component fetches a list of services and allows users to select multiple services.
+* Selected services are displayed in a list, and the component calculates the total price and duration of the selected services.
+* Users can proceed to the booking page with the selected services and details.
+-->
 <template>
     <div>
 
@@ -163,8 +168,3 @@ button {
     }
 }
 </style>
-
-
-* This component fetches a list of services and allows users to select multiple services.
-* Selected services are displayed in a list, and the component calculates the total price and duration of the selected services.
-* Users can proceed to the booking page with the selected services and details.

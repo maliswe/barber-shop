@@ -1,3 +1,6 @@
+<!--
+component for adding a new barber.
+-->
 <template>
   <div class="modal-overlay" v-if="showModel">
     <div class="modal-content">
@@ -147,6 +150,3 @@ button:hover {
   margin-left: 10px;
 }
 </style>
-
-
-// component for adding a new barber.

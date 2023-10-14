@@ -1,3 +1,8 @@
+<!--
+This component displays a list of barbers with their details in a table format. Users can
+add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberForm' and
+'updateBarberForm', for adding and updating barber information.
+-->
 <template>
     <div>
       <div class="container" v-if="barbers.length > 0">
@@ -188,7 +193,3 @@ export default {
 }
 
 </style>
-
-// This component displays a list of barbers with their details in a table format. Users can
-add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberForm' and
-'updateBarberForm', for adding and updating barber information.

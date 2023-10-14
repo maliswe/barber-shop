@@ -1,3 +1,8 @@
+<!--
+* This component displays a list of customer accounts with their details in a table format. Users
+* can add, edit, or delete customer records. It utilizes two subcomponents, 'addCustomerForm' and
+* 'updateCustomerForm', for adding and updating customer information.
+-->
 <template>
     <div>
       <div class="container" v-if="customers.length > 0">
@@ -185,8 +190,3 @@ export default {
 }
 
 </style>
-
-
-* This component displays a list of customer accounts with their details in a table format. Users
-* can add, edit, or delete customer records. It utilizes two subcomponents, 'addCustomerForm' and
-* 'updateCustomerForm', for adding and updating customer information.
