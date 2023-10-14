@@ -185,4 +185,5 @@ export default {
     font-size: min(5vw, 11);
     line-height: min(3vw, 7);
   }
-}</style>
+}
+</style>
