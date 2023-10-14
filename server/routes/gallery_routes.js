@@ -18,7 +18,7 @@ router.delete('/:id', async (req, res) => {
     controller.remove(req, res);
 })
 
-router.put('/:id', controller.upload.single('image'),async (req, res) => {
+router.patch('/:id', controller.upload.single('image'),async (req, res) => {
     controller.update(req, res);
 })
 

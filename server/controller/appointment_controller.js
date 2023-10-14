@@ -85,18 +85,16 @@ const createAppointment = async (req, res, customerID = undefined) => {
 //Update the appointment status
 const updateAppointment = async (req, res, confNumber) => {
     try {
-
         const appointment = await Appointment.findOne({ confNumber: confNumber });
 
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        fieldsMapper(appointment, req.body);
+        appointment.status = req.body.status;
         await appointment.save();
 
-        res.status(200).json({ message: 'Appointment updated successfully!'});
-
+        res.status(200).json({ message: 'Appointment status updated successfully!' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });

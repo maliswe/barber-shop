@@ -16,7 +16,7 @@ export const galleries = {
   },
 
   updateGallery(id, userData) {
-    return axios.put(`${BASE_URL}/${id}`, userData)
+    return axios.patch(`${BASE_URL}/${id}`, userData)
   },
 
   deleteGallery(id) {

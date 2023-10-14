@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     controller.createAppointment(req, res);
 }); // Create new appointment
 
-router.put('/:confNumber', async (req, res) => {
+router.patch('/:confNumber/status', async (req, res) => {
     controller.updateAppointment(req, res, req.params.confNumber);
 }); // Update an appoinment info
 
