@@ -44,8 +44,13 @@ const getAll = async (req, res) => {
     try {
 
         sortFilter = sort(req.query.sort)
+        const pageSize = Number(req.query.pageSize) || 10;
         recSkipper(req.query.page, req.query.pageSize);
-        const services = await Services.find().skip(skip).limit(Number(req.query.pageSize));
+        const services = await Services.find().skip(skip).limit(pageSize);
+
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
+        }
 
         if (services.length < 1) {
             return res.status(404).json({ message: 'services not found' });

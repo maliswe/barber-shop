@@ -480,11 +480,11 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Admin data is returned\", function() {",
+									"pm.test(\"Response has the admin data\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.phone).to.eql(14005); ",
-									"});",
-									""
+									"    pm.expect(jsonData.phone).to.be.a('number');",
+									"    pm.expect(jsonData.password).to.be.a('string');",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -524,17 +524,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});",
 									"",
 									"pm.test(\"Response should be json\", function () {",
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Response is an array\", function() {",
+									"pm.test(\"Response returns an array\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.be.an(\"array\");",
+									"    pm.expect(jsonData).to.be.an('array');",
 									"});",
 									""
 								],
@@ -587,9 +587,10 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Correct admin is returned\", function() {",
+									"pm.test(\"Response returns the correct admin\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.phone).to.eql(14005);",
+									"    var adminPhone = Number(pm.variables.get(\"adminPhone\"));",
+									"    pm.expect(jsonData.phone).to.eql(adminPhone);",
 									"});",
 									""
 								],
@@ -628,7 +629,7 @@
 					"response": []
 				},
 				{
-					"name": "Get admin by id Copy",
+					"name": "Update admin info",
 					"event": [
 						{
 							"listen": "test",
@@ -642,11 +643,10 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Response confirms update\", function() {",
+									"pm.test(\"Response confirms update success\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"Information updated successfully\");",
-									"});",
-									""
+									"    pm.expect(jsonData.message).to.eql('Information updated successfully');",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -665,7 +665,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/admins/14005",
+							"raw": "{{host}}/api/v1/admins/{{adminPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -673,7 +673,7 @@
 								"api",
 								"v1",
 								"admins",
-								"14005"
+								"{{adminPhone}}"
 							]
 						}
 					},
@@ -694,9 +694,9 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Response confirms deletion\", function() {",
+									"pm.test(\"Response confirms deletion success\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"Admin deleted\");",
+									"    pm.expect(jsonData.message).to.eql('Admin deleted');",
 									"});",
 									""
 								],

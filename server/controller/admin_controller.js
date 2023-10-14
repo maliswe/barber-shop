@@ -41,7 +41,7 @@ const getAll = async (req, res) => {
         }
 
         // Send the data as a response to the client
-        res.status(200).json(admins);
+        res.status(201).json(admins);
     } catch (error) {
         // Handle any errors
         console.error(error);
