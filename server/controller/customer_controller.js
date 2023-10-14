@@ -21,7 +21,7 @@ const create = async (req, res) => {
         await newCustomer.save();
 
         // Send the saved customer data as a response
-        res.status(201).json({ message: 'User created successfully'});
+        res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         // Handle any errors
         console.error(error);
@@ -29,21 +29,21 @@ const create = async (req, res) => {
     }
 };
 
-// Get all the customer accounts
 const getAll = async (req, res) => {
     try {
-
-        sortFilter = sort(req.query.sort)
+        sortFilter = sort(req.query.sort);
         const pageSize = Number(req.query.pageSize) || 10;
+
+        // Validate before making a database call
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
+        }
+
         recSkipper(req.query.page, req.query.pageSize);
         const customers = await Customer.find().skip(skip).limit(pageSize);
 
         if (customers.length < 1) {
             return res.status(404).json({ message: 'customer not found' });
-        }
-
-        if (skip < 0 || pageSize < 0) {
-            return res.status(400).json({ message: 'Invalid query parameters' });
         }
 
         // Send the data as a response to the client
@@ -95,7 +95,7 @@ const update = async (req, res) => {
         await customer.save();
 
         // Send the updated customer data as a response
-        res.status(200).json({ message: 'User updated'});
+        res.status(200).json({ message: 'User updated' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -122,7 +122,7 @@ const remove = async (req, res) => {
 
 // Remove all the customers account
 const removeAll = async (req, res) => {
-    try{
+    try {
 
         const count = await Customer.countDouments();
 
@@ -131,12 +131,12 @@ const removeAll = async (req, res) => {
         }
 
         await Customer.deleteMany();
-        res.status.status(200).json({ message: 'Customers deleted'});
+        res.status.status(200).json({ message: 'Customers deleted' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error'});
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-     
+
 };
 
 const createAppointmentForCustomer = async (req, res) => {
