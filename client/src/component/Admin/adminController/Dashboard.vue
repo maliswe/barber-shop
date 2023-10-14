@@ -36,7 +36,7 @@
       <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated"
         @close-modal="closeAddAdminForm" />
     </div>
-    <div>
+    <div class="container">
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'BarberController' }">
           <b-button variant="warning" size="lg">Barber Accounts</b-button>
@@ -124,6 +124,7 @@ export default {
 </script>
 
 <style scoped>
+
 .form-overlay {
   position: fixed;
   top: 0;

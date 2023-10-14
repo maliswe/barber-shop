@@ -109,6 +109,9 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  padding-bottom: 20%;
+}
 .form-overlay {
   position: fixed;
   top: 0;
@@ -163,6 +166,22 @@ export default {
   border: none;
   color: white;
   border-radius: 5px;
+}
+
+@media (max-width: 767px) {
+  .customer-table {
+    width: 90%;
+    overflow-x: none; /* Enable horizontal scrolling on small screens */
+  }
+
+  .customer-table th, .customer-table td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 0.6rem; /* Adjust font size for smaller screens */
+  }
+
+  .edit-button i, .delete-button i {
+    font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
 }
 
 </style>
