@@ -4,8 +4,8 @@
       <h1>Admin accounts</h1>
       <!-- Add a search input field -->
       <div class="search-bar">
-        <input type="text" v-model="searchTerm" placeholder="Search by phone number..." />
-        <button @click="searchAdmins">
+        <input type="text" v-model="searchTerm" placeholder="Search by phone number..." :text="searchValue" />
+        <button @click="searchAdmins()">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           <!-- Update the v-for loop to use the filteredAdmins computed property -->
-          <tr v-for="(admin, index) in filteredAdmins" :key="admin._id" :class="index % 2 === 0 ? 'gray-row' : 'white-row'">
+          <tr v-for="(admin, index) in admins" :key="admin._id" :class="index % 2 === 0 ? 'gray-row' : 'white-row'">
             <td>{{ admin.name }}</td>
             <td>{{ admin.email }}</td>
             <td>{{ admin.phone }}</td>
@@ -78,7 +78,8 @@ export default {
       searchTerm: '', // Initialize the search term
       showAddAdminFormModal: false,
       showUpdateAdminFormModal: false,
-      currentAdmin: null
+      currentAdmin: null,
+      searchValue: null
     }
   },
   created() {
@@ -87,14 +88,6 @@ export default {
   components: {
     addAdminForm,
     updateAdminForm
-  },
-  computed: {
-    filteredAdmins() {
-      // Use the searchTerm to filter admins by phone number
-      return this.admins.filter((admin) => {
-        return admin.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
-      })
-    }
   },
   methods: {
     getAllAdmins() {
@@ -138,7 +131,9 @@ export default {
     onAdminUpdated() {
       this.getAllAdmins()
     },
-    searchAdmins() {
+    searchAdmins(value) {
+      this.searchValue = value
+      console.log(value)
     }
   }
 }
