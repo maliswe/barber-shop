@@ -178,9 +178,14 @@ export default {
   width: fill;
   height: fill;
   background-color: #3498db;
-  /* Adjust the button background color */
   border: none;
   color: white;
   border-radius: 5px;
 }
 </style>
+
+* This component displays a table of all admin accounts, with the ability to edit and delete accounts.
+  It also has a button to open a modal for adding a new admin account.
+
+* This component emits the following events:
+* admin-updated: When an admin account is updated.

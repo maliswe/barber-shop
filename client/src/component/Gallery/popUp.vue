@@ -28,10 +28,9 @@ export default {
     adjustImageDimensions() {
       const popupImage = this.$refs.popupImage
       if (popupImage) {
-        const maxHeight = window.innerHeight * 0.8 // 80% of the window height
-        const maxWidth = window.innerWidth * 0.8 // 80% of the window width
+        const maxHeight = window.innerHeight * 0.8
+        const maxWidth = window.innerWidth * 0.8
 
-        // Set image dimensions based on aspect ratio
         if (popupImage.naturalHeight > maxHeight) {
           popupImage.style.height = `${maxHeight}px`
           popupImage.style.width = 'auto'

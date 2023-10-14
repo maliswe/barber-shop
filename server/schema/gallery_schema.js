@@ -7,3 +7,6 @@ const gallery_schema = new Schema({
 
 const Gallery = mongoose.model("Gallery", gallery_schema);
 module.exports = Gallery;
+
+//This schema defines the structure and properties for storing images in a gallery,
+//including the binary image data.

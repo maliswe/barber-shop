@@ -45,3 +45,7 @@ export default {
 
 }
 </style>
+
+* The "Register Page" component serves as the registration page of the application.
+* It displays the registration form for users and provides options for third-party registration.
+* It consists of two child components, "RegisterForm" and "ThirdPartyRegister," which handle the registration process.

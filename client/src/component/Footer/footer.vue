@@ -34,12 +34,11 @@ export default {
     background-position: center;
     background-size: contain;
     background-color: #292727;
-    // Mobile view adjustments
     @media (max-width: 768px) {
         flex-direction: column;
         align-items: center;
 
-        > * {  // Targeting direct children
+        > * {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -64,13 +63,12 @@ export default {
         content: "";
         position: absolute;
         top: 0;
-        left: 10%; // Adjust to set the starting point of the line
-        right: 10%; // Adjust to set the ending point of the line
+        left: 10%;
+        right: 10%;
         height: 2px;
         background-color: rgba(147, 146, 144, 0.2);
     }
 
-    // Mobile view adjustments
     @media (max-width: 768px) {
         font-size: 0.9rem;
         padding: 8px 0;

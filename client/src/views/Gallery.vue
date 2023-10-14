@@ -116,3 +116,6 @@ export default {
   }
 
 </style>
+
+* The "Gallery" component displays a collection of images and provides the ability to view them in a popup, add new images (for Admins), and delete images.
+* It communicates with the "headerPhoto," "Popup," and "galleryAddForm" child components.

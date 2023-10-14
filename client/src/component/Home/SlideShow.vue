@@ -35,10 +35,10 @@ export default {
       images: ['first.png', 'second.png', 'third.png', 'forth.png'],
       currentIndex: 0,
       imagePositions: [
-        { left: '50px', bottom: '-1500px' }, // Update positions here
-        { left: '500px', bottom: '-1500px' }, // Adjust as needed
-        { left: '950px', bottom: '-1500px' }, // Adjust as needed
-        { left: '1350px', bottom: '-1500px' } // Adjust as needed
+        { left: '50px', bottom: '-1500px' },
+        { left: '500px', bottom: '-1500px' },
+        { left: '950px', bottom: '-1500px' },
+        { left: '1350px', bottom: '-1500px' }
       ]
     }
   },
@@ -82,15 +82,15 @@ export default {
   position: absolute;
   width: 360px;
   height: 482px;
-  margin-right: 20px; /* Added margin for spacing */
+  margin-right: 20px;
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; /* Updated width to 100% */
-  height: 100%; /* Updated height to 100% */
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
   transition: opacity 0.3s;
@@ -100,9 +100,8 @@ export default {
   display: block;
 }
 
-/* Updated styles for resizable images */
 .resizable-image {
-  width: 400px; /* Updated width */
-  height: 500px; /* Updated height */
+  width: 400px;
+  height: 500px;
 }
 </style>

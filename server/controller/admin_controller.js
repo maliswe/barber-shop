@@ -5,23 +5,18 @@ const bcrypt = require('bcryptjs');
 
 const create = async (req, res) => {
     try {
-        //Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(req.body.password, salt);
 
-        // Create a new admin document based on the request body
         const newAdmin = new Admin({
             ...req.body,
             password: hashPass
         });
 
-        // Save the new admin document to the database
         const savedAdmin = await newAdmin.save();
 
-        // Send the saved admin data as a response
-        res.status(201).json(savedAdmin); // 201 Created status code
+        res.status(201).json(savedAdmin);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -29,7 +24,6 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for admin data
 
         sortFilter = sort(req.query.sort)
         recSkipper(req.query.page, req.query.pageSize);
@@ -39,10 +33,8 @@ const getAll = async (req, res) => {
             return res.status(404).json({ message: 'Admin not found' });
         }
 
-        // Send the data as a response to the client
         res.status(200).json(admins);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -51,11 +43,9 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
     const id = req.params.id;
     try {
-        // Use Mongoose to query the MongoDB database for admin data
         const admin = await Admin.findOne({ phone: id });
 
         if (!admin) {
-            // If no admin with the given ID is found, return a 404 response
             return res.status(404).json({ message: 'Admin not found' });
         }
         const links = [
@@ -70,11 +60,9 @@ const getOne = async (req, res) => {
                 type: 'DELETE'
             }
         ]
-        // Send the data as a response to the client
         res.status(200).json({ ...admin._doc, links });
 
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -83,20 +71,16 @@ const getOne = async (req, res) => {
 const update = async (req, res) => {
     const id = req.params.id;
     try {
-        // Find the admin by ID
         const admin = await Admin.findOne({ phone: id });
 
         if (!admin) {
             return res.status(404).json({ message: 'Admin not found' });
         }
 
-        // Call method to update the body
         fieldsMapper(admin, req.body);
 
-        // Save the updated admin document
         await admin.save();
 
-        // Send the updated admin data as a response
         res.status(200).json(admin);
     } catch (error) {
         console.error(error);
@@ -107,20 +91,16 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
     const id = req.params.id;
     try {
-        // Use Mongoose to query the MongoDB database for admin data
         const result = await Admin.deleteOne({ phone: id });
         if (result.deletedCount === 0) {
-            // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Admin not found' });
         }
-        // Send the data as a response to the client
         res.status(200).json({ message: 'Admin deleted' });
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
-// Overrided method for the old version browsers
 const methodDispatch = async (req, res, id) => {
     methodType = req.headers['_method']
     try {
@@ -144,3 +124,6 @@ module.exports = {
     update,
     methodDispatch
 };
+
+//Module for Admin-related actions and routes.
+//This module provides functions for creating, retrieving, updating, and deleting admin profiles.

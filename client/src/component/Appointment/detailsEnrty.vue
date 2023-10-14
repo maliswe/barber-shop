@@ -1,7 +1,6 @@
 <template>
   <div class="appo-form">
     <form>
-      <!-- Only show if user isn't logged in -->
       <div v-if="!isLoggedIn" class="input-group">
         <input v-model="name" placeholder="Name">
       </div>
@@ -42,7 +41,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return this.$store.state.isLoggedIn // Assuming your store has a property 'isLoggedIn'
+      return this.$store.state.isLoggedIn
     }
   },
   mounted() {
@@ -74,10 +73,8 @@ export default {
         customer: customerPhone
       }
 
-      // Step 2: Log the data to console
       console.log('"Sending data:"', appointmentData)
 
-      // Step 3: Send the data to the server
       try {
         const response = await axios.post('http://localhost:3000/api/v1/appointments', appointmentData)
 
@@ -109,7 +106,6 @@ export default {
   }
 
   .submit-btn {
-    // styling for the buttons'
     background-color: #E7A356;
     margin-top: 5%;
     margin-left: 45%;
@@ -155,3 +151,6 @@ export default {
   }
 }
 </style>
+
+* This component displays a form for booking appointments with a barber. It allows customers to
+* input their name, phone number, a message to the barber, and submit the appointment request.

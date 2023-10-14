@@ -22,3 +22,5 @@ export default {
   width: 100%;
 }
 </style>
+
+*The "Book" component is responsible for displaying and managing the selection of services for booking appointments.

@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-// Variables
 var mongoURI = process.env.MONGODB_URI;
 
 if (!mongoURI) {
@@ -8,7 +7,6 @@ if (!mongoURI) {
     process.exit(1);
 }
 
-// Drop database
 mongoose.connect(mongoURI).catch(function (err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
@@ -20,3 +18,7 @@ mongoose.connection.dropDatabase().then(function () {
     console.log(`Dropped database: ${mongoURI}`);
     process.exit(0);
 });
+
+//The MongoDB connection URI retrieved from the environment variable.
+//Connect to the MongoDB database using the provided URI.
+//Drop the connected MongoDB database and exit the script.

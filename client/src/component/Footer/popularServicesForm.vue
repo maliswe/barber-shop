@@ -45,9 +45,7 @@ h3::after {
     position: absolute;
     left: 10px;
     bottom: -5px;
-    /* adjust as needed */
     width: 20px;
-    /* width of the line to fit under "P" and "O" */
     height: 4px;
     background-color: #EBB273;
     transform: translateX(-50%);
