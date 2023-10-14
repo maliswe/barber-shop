@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { admin } from '@/api/adminApi'
+import axios from 'axios'
 
 export default {
   props: {
@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     handleSubmit() {
+      const baseurl = 'http://localhost:3000/'
       const formData = {
         name: this.form.name,
         phone: this.form.phone,
@@ -77,8 +78,7 @@ export default {
       if (this.form.password) {
         formData.password = this.form.password
       }
-
-      admin.updateAdmin(this.currentAdmin.phone, formData)
+      axios.put(`${baseurl}${this.currentAdmin.links.find(link => link.type === 'PUT').href}`, formData)
         .then(() => {
           this.$emit('close-modal')
           this.$emit('admin-updated')

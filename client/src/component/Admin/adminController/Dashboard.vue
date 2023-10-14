@@ -28,7 +28,7 @@
             <td>{{ admin.phone }}</td>
             <td>
               <button class="edit-button" @click="editAdmin(admin)"><i class="fas fa-edit"></i></button>
-              <button class="delete-button" @click="deleteAdmin((admin.phone))"><i class="fas fa-trash-alt"></i></button>
+              <button class="delete-button" @click="deleteAdmin((admin))"><i class="fas fa-trash-alt"></i></button>
             </td>
           </tr>
         </tbody>
@@ -62,7 +62,7 @@
 import { admin } from '@/api/adminApi'
 import addAdminForm from './addAdminForm.vue'
 import updateAdminForm from './updateAdminForm.vue'
-
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -80,32 +80,43 @@ export default {
     updateAdminForm
   },
   methods: {
-    getAllAdmins() {
-      admin.getAllAdmins()
-        .then(response => {
-          this.admins = response.data
+    async getAllAdmins() {
+      try {
+        const response = await admin.getAllAdmins()
+        this.admins = response.data
+
+        // Extract PUT and DELETE URLs from HATEOAS links
+        this.admins.forEach(admin => {
+          const putLink = admin.links.find(link => link.type === 'PUT')
+          const deleteLink = admin.links.find(link => link.type === 'DELETE')
+          if (putLink) {
+            admin.putUrl = putLink.href
+          }
+
+          if (deleteLink) {
+            admin.deleteUrl = deleteLink.href
+          }
         })
-        .catch(error => {
-          console.error('Error getting admins:', error)
-        })
+      } catch (error) {
+        console.error('Error getting admins:', error)
+      }
     },
     editAdmin(admin) {
       this.showUpdateAdminFormModal = true
       this.currentAdmin = admin
     },
-    async deleteAdmin(userPhone) {
-      console.log('Delete')
+    async deleteAdmin(admin) {
       const confirmation = window.confirm('Do you really want to delete?')
+      const baseurl = 'http://localhost:3000/'
       if (confirmation) {
-        admin.deleteAdmin(userPhone)
-          .then(() => {
-            this.admin = this.admins.filter(admins => admins.phone !== userPhone)
-            this.getAllAdmins()
-            console.log('Deleted an Admin')
-          })
-          .catch(error => {
-            console.error('Error deleting an admin:', error)
-          })
+        try {
+          // Use the HATEOAS delete link
+          await axios.delete(`${baseurl}${admin.links.find(link => link.type === 'DELETE').href}`)
+          this.getAllAdmins()
+          console.log('Deleted an Admin')
+        } catch (error) {
+          console.error('Error deleting an admin:', error)
+        }
       }
     },
     showAddAdminForm() {
