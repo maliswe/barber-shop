@@ -46,7 +46,6 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
     try {
         const barberId = req.params.id
-        // Find the barber by using the phone number
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
@@ -63,7 +62,6 @@ const getOne = async (req, res) => {
 const update = async (req, res) => {
     try {
         const barberId = req.params.id
-        // Find the barber by phone
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
@@ -83,7 +81,6 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
         const result = await Barber.deleteOne({ phone: req.params.id });
         if (result.deletedCount === 0) {
             return res.status(404).json({ message: 'Barber not found' });
@@ -135,19 +132,17 @@ const setAvailability = async (req, res, next) => {
 
         });
 
-        // Transform times to Date objects
         const transformedTimeSlots = timeSlots.map(slot => {
             const startTime = slot.startTime;
             const endTime = slot.endTime;
 
-            // Validation (ensure the provided time format is correct)
             if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime) || !/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
                 throw new Error('Invalid time format provided. Expected HH:mm.');
             }
 
             return {
-                startTime: startTime, // it will be like "12:30"
-                endTime: endTime      // it will be like "13:30"
+                startTime: startTime,
+                endTime: endTime
             };
         });
 
@@ -266,7 +261,6 @@ const getAllOnDate = async (req, res) => {
     try {
         const targetDate = new Date(req.params.date);
 
-        // Fetch all barbers' availabilities for this date
         const barbersWithAvailability = await Barber.find({
             "availability.date": targetDate
         }, 'name phone availability.$');
@@ -275,7 +269,6 @@ const getAllOnDate = async (req, res) => {
             return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
         }
 
-        // Transform the data to the desired format
         const transformedData = barbersWithAvailability.map(barber => {
             const targetAvailability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
 
@@ -309,3 +302,7 @@ module.exports = {
     deleteTimeSlot,
     getAllOnDate
 };
+
+//Module for managing barbers, their availability, and appointments.
+//This module provides functions for creating, retrieving, updating, and deleting barbers,
+//managing their availability, and handling appointments.

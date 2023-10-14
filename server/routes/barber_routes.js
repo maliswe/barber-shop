@@ -17,3 +17,8 @@ router.get('/allavailability/:date', controller.getAllOnDate);
 
 
 module.exports = router;
+
+//Router for managing barber-related routes and availability.
+//This router defines routes for various barber-related actions, including
+//creating, updating, retrieving, and deleting barbers, as well as managing
+//their availability and time slots.

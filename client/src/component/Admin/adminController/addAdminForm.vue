@@ -132,3 +132,11 @@ button:hover {
   margin-left: 10px;
 }
 </style>
+
+* This component can be used to add a new admin to your application.
+  It has a form with fields for the admin's name, phone number, email, and password.
+  When the user clicks the "Save" button, the form data is submitted to the API to create the new admin.
+*
+* This component emits the following events:
+* close-modal: When the modal is closed.
+* admin-added: When a new admin is successfully added.

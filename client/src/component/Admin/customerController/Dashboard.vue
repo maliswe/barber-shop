@@ -159,10 +159,15 @@ export default {
 .add-button {
   width: fill;
   height: fill;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 5px;
 }
 
 </style>
+
+
+* This component displays a list of customer accounts with their details in a table format. Users
+* can add, edit, or delete customer records. It utilizes two subcomponents, 'addCustomerForm' and
+* 'updateCustomerForm', for adding and updating customer information.

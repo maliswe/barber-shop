@@ -26,3 +26,7 @@ router.get('/barber/:phone', async (req, res) => {
 });
 
 module.exports = router;
+
+//This router defines routes for various appointment management actions, including
+//creating, updating, retrieving, and deleting appointments, as well as retrieving
+//appointments related to a specific barber.

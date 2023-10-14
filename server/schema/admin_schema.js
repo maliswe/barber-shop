@@ -6,3 +6,5 @@ const Admin = Base.discriminator('Admin', new mongoose.Schema({
 }));
 
 module.exports = mongoose.model('Admin');
+
+//Module for defining the "Admin" model.

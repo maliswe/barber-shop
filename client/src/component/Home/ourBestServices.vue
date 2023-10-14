@@ -71,7 +71,7 @@ export default {
       if (this.activeSlide > 1) {
         this.activeSlide--
       } else {
-        this.activeSlide = this.services.length // loop back to the last slide
+        this.activeSlide = this.services.length
       }
     },
 
@@ -79,7 +79,7 @@ export default {
       if (this.activeSlide < this.services.length) {
         this.activeSlide++
       } else {
-        this.activeSlide = 1 // loop back to the first slide
+        this.activeSlide = 1
       }
     },
     setActiveSlide(slideNumber) {
@@ -106,15 +106,15 @@ export default {
 
         h2 {
             font-weight: bold;
-            position: relative; // This ensures the pseudo-element is positioned relative to h2
+            position: relative;
             top: 5%;
             margin-bottom: 3rem;
 
             &::before {
                 content: "";
                 position: absolute;
-                top: 100%; // Center it vertically
-                transform: translateY(100%); // This moves the pseudo-element downward by its own height
+                top: 100%;
+                transform: translateY(100%);
                 left: 50%;
                 height: 6px;
                 width: calc(1.5ch + 1px);
@@ -128,7 +128,7 @@ export default {
             gap: 5px;
             margin-bottom: 20px;
             width: auto;
-            padding: 0 40px; // This adds space on the sides equal to the width of the arrows. Adjust the value as needed.
+            padding: 0 40px;
             position: relative;
         }
 
@@ -153,14 +153,14 @@ export default {
 
                 .slide-title {
                     position: absolute;
-                    bottom: 10px; // Adjust this value to position the title at your desired location from the bottom
+                    bottom: 10px;
                     left: 50%;
-                    transform: translateX(-50%); // This will center the title horizontally
+                    transform: translateX(-50%);
                     color: white;
-                    padding: 5px 10px; // Add some padding to the title
-                    border-radius: 5px; // Rounded corners
+                    padding: 5px 10px;
+                    border-radius: 5px;
                     font-weight: bold;
-                    transition: opacity 0.3s ease; // Optional: smooth fade-out effect
+                    transition: opacity 0.3s ease;
                 }
 
                 .slide-description {
@@ -172,21 +172,21 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: rgba(0, 0, 0, 0.7); // Semi-transparent black
-                    color: white; // Text color
+                    background-color: rgba(0, 0, 0, 0.7);
+                    color: white;
                     font-size: 1rem;
-                    transition: opacity 0.3s ease; // Smooth fade-in effect
-                    opacity: 1; // Already visible as we're only rendering it for active slides.
+                    transition: opacity 0.3s ease;
+                    opacity: 1;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    padding-top: 3px; // To center the icon and text vertically and horizontally
+                    padding-top: 3px;
 
                     .description-icon {
-                        width: 40px; // Adjust this as needed
-                        height: 40px; // Adjust this as needed
-                        margin-bottom: 10px; // Space between the icon and the description text
+                        width: 40px;
+                        height: 40px;
+                        margin-bottom: 10px;
                     }
                 }
             }
@@ -201,29 +201,29 @@ export default {
                 height: 10px;
                 width: 10px;
                 background-color: #bbb;
-                border-radius: 50%; // This makes the shape a circle
+                border-radius: 50%;
                 display: inline-block;
                 transition: background-color 0.3s ease;
-                box-sizing: border-box; // This ensures the border doesn't increase the size of the dot
+                box-sizing: border-box;
 
                 &.active {
                     background-color: #202020;
-                    border: 2px solid #EBB273; // Adding a border to the active dot
+                    border: 2px solid #EBB273;
                 }
             }
         }
     }
 
     .arrow {
-        background-color: rgba(255, 255, 255, 0.5); // This gives a white background with 50% opacity
-        border-radius: 50%; // This makes the background circular
-        width: 35px; // Adjust these values
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        width: 35px;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         font-size: 2rem;
         cursor: pointer;
-        z-index: 2; // ensure arrows are above the slides
+        z-index: 2;
 
         &.left-arrow {
             left: 18%;
@@ -236,42 +236,39 @@ export default {
 
 }
 
-//... Your existing styles
-
 @media (max-width: 798px) {
     .services-section {
 
         .features-content {
             h2 {
-                font-size: 1.5rem; // Reduced font size for h2
+                font-size: 1.5rem;
 
                 &::before {
-                    width: calc(1ch + 1px); // Adjust pseudo-element width
+                    width: calc(1ch + 1px);
                 }
             }
 
             .slider {
-                padding: 0 20px; // Reduced padding
+                padding: 0 20px;
             }
 
             .slide {
-                max-width: 250px; // Adjust the maximum width
+                max-width: 250px;
             }
 
             .slide-description {
-                font-size: 0.9rem; // Reduce font size of description
+                font-size: 0.9rem;
             }
         }
 
         .arrow {
-            font-size: 1.5rem; // Reduce arrow size
-
+            font-size: 1.5rem;
             &.left-arrow {
-                left: 10%; // Adjust position
+                left: 10%;
             }
 
             &.right-arrow {
-                right: 10%; // Adjust position
+                right: 10%;
             }
         }
     }
@@ -282,35 +279,35 @@ export default {
 
         .features-content {
             h2 {
-                font-size: 1.7rem; // Adjusted font size for h2
+                font-size: 1.7rem;
 
                 &::before {
-                    width: calc(1.3ch + 1px); // Adjust pseudo-element width
+                    width: calc(1.3ch + 1px);
                 }
             }
 
             .slider {
-                padding: 0 30px; // Adjusted padding
+                padding: 0 30px;
             }
 
             .slide {
-                max-width: 280px; // Adjust the maximum width
+                max-width: 280px;
             }
 
             .slide-description {
-                font-size: 1rem; // Adjust font size of description
+                font-size: 1rem;
             }
         }
 
         .arrow {
-            font-size: 1.8rem; // Adjust arrow size
+            font-size: 1.8rem;
 
             &.left-arrow {
-                left: 15%; // Adjust position
+                left: 15%;
             }
 
             &.right-arrow {
-                right: 15%; // Adjust position
+                right: 15%;
             }
         }
     }

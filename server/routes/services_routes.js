@@ -24,3 +24,7 @@ router.put('/:id', controller.upload.single('image'),async (req, res) => {
 
 
 module.exports = router;
+
+//Router for managing services and service-related images.
+//This router defines routes for various service-related actions, including
+//creating, updating, retrieving, and deleting services, along with the associated images.

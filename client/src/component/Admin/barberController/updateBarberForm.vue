@@ -70,7 +70,6 @@ export default {
   watch: {
     currentService: {
       handler(newService) {
-        // Update form whenever currentService changes
         if (newService) {
           this.form.name = newService.name || ''
           this.form.phone = newService.phone || null
@@ -79,7 +78,7 @@ export default {
           this.form.service = newService.service || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {
@@ -174,3 +173,8 @@ button:hover {
   margin-left: 10px;
 }
 </style>
+
+// This component is used to display a modal for updating barber details. It includes a form
+for editing the barber's name, phone, email, expertise, services, and password. The form
+data is populated with the current barber's information, if provided. Upon submission,
+the form data is sent to the API for updating the barber record.
