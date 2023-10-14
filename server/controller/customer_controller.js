@@ -34,11 +34,16 @@ const getAll = async (req, res) => {
     try {
 
         sortFilter = sort(req.query.sort)
+        const pageSize = Number(req.query.pageSize) || 10;
         recSkipper(req.query.page, req.query.pageSize);
-        const customers = await Customer.find().skip(skip).limit(Number(req.query.pageSize));
+        const customers = await Customer.find().skip(skip).limit(pageSize);
 
         if (customers.length < 1) {
             return res.status(404).json({ message: 'customer not found' });
+        }
+
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
         }
 
         // Send the data as a response to the client

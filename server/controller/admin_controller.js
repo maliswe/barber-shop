@@ -33,11 +33,16 @@ const getAll = async (req, res) => {
         // Use Mongoose to query the MongoDB database for admin data
 
         sortFilter = sort(req.query.sort)
+        const pageSize = Number(req.query.pageSize) || 10;
         recSkipper(req.query.page, req.query.pageSize);
-        const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
+        const admins = await Admin.find().skip(skip).limit(pageSize);
 
         if (admins.length < 1) {
-            return res.status(404).json({ message: 'Admin not found' });
+            return res.status(404).json({ message: 'admin not found' });
+        }
+        
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
         }
 
         // Send the data as a response to the client
