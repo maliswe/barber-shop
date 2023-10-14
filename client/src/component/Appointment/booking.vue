@@ -291,7 +291,7 @@ button {
   color: #ffffff;
 
   &:hover {
-    background-color: rgba(231, 163, 86, 1);
+    background: rgb(255, 162, 0);
   }
 }
 

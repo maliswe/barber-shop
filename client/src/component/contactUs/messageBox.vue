@@ -38,7 +38,7 @@ button {
 }
 
 button:hover {
-  background-color: rgb(155, 90, 16);
+  background: rgb(255, 162, 0);
 }
 
 .textarea{
