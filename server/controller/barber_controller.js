@@ -29,9 +29,16 @@ const create = async (req, res) => {
 const getAll = async (req, res) => {
     try {
 
-        sortFilter = sort(req.query.sort)
+        sortFilter = sort(req.query.sort);
+        const pageSize = Number(req.query.pageSize) || 10;
+
         recSkipper(req.query.page, req.query.pageSize);
-        const barbers = await Barber.find().skip(skip).limit(Number(req.query.pageSize));
+        const barbers = await Barber.find().skip(skip).limit(pageSize);
+
+        // Validate before making a database call
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
+        }
 
         if (barbers.length < 1) {
             return res.status(404).json({ message: 'No Barber registered yet' });

@@ -62,7 +62,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Customers",
+					"name": "Get All Barbers",
 					"event": [
 						{
 							"listen": "test",

@@ -1,7 +1,7 @@
 const Customer = require('../schema/customer_schema.js')
 const { fieldsMapper, recSkipper, sort } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
-const appointment = require('../schema/appointment_schema.js');
+const Appointment = require('../schema/appointment_schema.js');
 
 // Create new user
 const create = async (req, res) => {
