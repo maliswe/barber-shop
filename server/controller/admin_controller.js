@@ -24,21 +24,44 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-
-        sortFilter = sort(req.query.sort)
-        recSkipper(req.query.page, req.query.pageSize);
-        const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
-
-        if (admins.length < 1) {
-            return res.status(404).json({ message: 'Admin not found' });
-        }
-
-        res.status(200).json(admins);
+      sortFilter = sort(req.query.sort);
+      recSkipper(req.query.page, req.query.pageSize);
+  
+      const admins = await Admin.find().skip(skip).limit(Number(req.query.pageSize));
+  
+      if (admins.length < 1) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+  
+      // Add HATEOAS links for each admin
+      const adminsWithLinks = admins.map(admin => ({
+        ...admin._doc,
+        links: [
+          {
+            rel: 'self',
+            href: `api/v1/admins/${admin.phone}`,
+            type: 'GET'
+          },
+          {
+            rel: 'update',
+            href: `api/v1/admins/${admin.phone}`,
+            type: 'PUT'
+          },
+          {
+            rel: 'delete',
+            href: `api/v1/admins/${admin.phone}`,
+            type: 'DELETE'
+          }
+        ]
+      }));
+  
+      res.status(200).json(adminsWithLinks);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-};
+  };
+  
 
 const getOne = async (req, res) => {
     const id = req.params.id;

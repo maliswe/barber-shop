@@ -1,3 +1,8 @@
+<!--
+* This component is used to display a modal for adding a new customer. It includes a form for
+* entering the customer's name, phone, email, and password. Upon submission, the form data is sent
+* to the API to create a new customer record.
+-->
 <template>
   <div class="modal-overlay" v-if="showModel">
     <div class="modal-content">
@@ -132,7 +137,3 @@ button:hover {
   margin-left: 10px;
 }
 </style>
-
-//* This component is used to display a modal for adding a new customer. It includes a form for
-* entering the customer's name, phone, email, and password. Upon submission, the form data is sent
-* to the API to create a new customer record.

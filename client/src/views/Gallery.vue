@@ -1,3 +1,7 @@
+<!--
+* The "Gallery" component displays a collection of images and provides the ability to view them in a popup, add new images (for Admins), and delete images.
+* It communicates with the "headerPhoto," "Popup," and "galleryAddForm" child components.
+-->
 <template>
     <div class="gallery-container">
       <div class="gallery-row">
@@ -88,8 +92,8 @@ export default {
 }
 .gallery-container {
     display: block;
-    padding-top: 200px;
-    padding-bottom: 100px;
+    padding-top: 20%;
+    padding-bottom: 20%;
 }
 .gallery-row {
     display: flex;
@@ -116,6 +120,3 @@ export default {
   }
 
 </style>
-
-* The "Gallery" component displays a collection of images and provides the ability to view them in a popup, add new images (for Admins), and delete images.
-* It communicates with the "headerPhoto," "Popup," and "galleryAddForm" child components.

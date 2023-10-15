@@ -1,3 +1,8 @@
+<!--
+* This component displays information about a service, including its name, price, duration, and an image.
+* Users can click on the card to select the service. The "Select" button allows users to select the service,
+* and the button text changes to "Selected" when the service is selected. A "Selected" service cannot be selected again.ng.
+-->
 <template>
     <div class="service-card" @click="selectService" :class="{ 'selected-service': isSelected }">
         <img :src="getImageUrl(service.image)" alt="Service Image" />
@@ -138,7 +143,3 @@ export default {
     }
 }
 </style>
-
-* This component displays information about a service, including its name, price, duration, and an image.
-* Users can click on the card to select the service. The "Select" button allows users to select the service,
-* and the button text changes to "Selected" when the service is selected. A "Selected" service cannot be selected again.

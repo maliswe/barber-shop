@@ -1,3 +1,5 @@
+<!-- * The "Service" component represents a view that displays a collection of services. It allows users to view, edit, and delete services.
+* This component includes child components for displaying individual service cards and service management forms. -->
 <template>
   <div :class="{ 'container': true, 'blur-background': showModel }">
     <headerPhoto />
@@ -122,6 +124,3 @@ export default {
 }
 
 </style>
-
-* The "Service" component represents a view that displays a collection of services. It allows users to view, edit, and delete services.
-* This component includes child components for displaying individual service cards and service management forms.
