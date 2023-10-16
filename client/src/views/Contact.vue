@@ -37,13 +37,13 @@ export default {
 }
 
 .message{
-  margin-top: 50px;
+  margin-top: 20px;
   padding-left: 1rem;
 }
 
 @media (max-width: 768px) {
   .asd {
-    padding-top: 200px;
+    padding-top: 8rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
