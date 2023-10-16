@@ -106,6 +106,10 @@ export default {
       this.currentAdmin = admin
     },
     async deleteAdmin(admin) {
+      if (this.admins.length === 1) {
+        window.alert('Admin can not be deleted: You have to atleast have one admin.')
+        return
+      }
       const confirmation = window.confirm('Do you really want to delete?')
       const baseurl = 'http://localhost:3000/'
       if (confirmation) {

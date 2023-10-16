@@ -21,5 +21,9 @@ export const customer = {
 
   deleteCustomer(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
+  },
+
+  deleteAllCustomer() {
+    return axios.delete(`${BASE_URL}`)
   }
 }
