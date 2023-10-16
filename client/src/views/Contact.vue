@@ -33,10 +33,12 @@ export default {
   justify-content: space-evenly;
   flex-wrap: wrap;
   margin-bottom: 100px;
+  padding-left: 2%;
 }
 
 .message{
   margin-top: 50px;
+  padding-left: 1rem;
 }
 
 @media (max-width: 768px) {

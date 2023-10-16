@@ -190,8 +190,8 @@ header {
       align-items: center;
       justify-content: center;
       flex: 1;
-      padding-left: 0;
-      padding-right: 3rem;
+      padding-left: 5%;
+      padding-top: 1rem;
     }
 
     .icon {

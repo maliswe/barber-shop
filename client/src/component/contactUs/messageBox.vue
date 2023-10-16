@@ -22,6 +22,7 @@
     color: rgba(136, 135, 143, 1);
     width: 750px;
     height: 500px;
+    padding-right: 20%;
 }
 
 button {
