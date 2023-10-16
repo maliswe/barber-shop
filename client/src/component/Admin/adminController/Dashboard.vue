@@ -8,6 +8,13 @@
   <div>
     <div class="container" v-if="admins.length > 0">
       <h1>Admin accounts</h1>
+      <div class="message" v-if="message">{{ message }}</div>
+      <div class="search-bar">
+        <input type="text" v-model="searchTerm" placeholder="Search by phone number..."/>
+        <button @click="searchAdmins()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
       <table class="admin-table">
         <thead>
           <tr>
@@ -69,7 +76,9 @@ export default {
       admins: [],
       showAddAdminFormModal: false,
       showUpdateAdminFormModal: false,
-      currentAdmin: null
+      currentAdmin: null,
+      searchTerm: '',
+      message: ''
     }
   },
   created() {
@@ -116,7 +125,7 @@ export default {
         try {
           // Use the HATEOAS delete link
           await axios.delete(`${baseurl}${admin.links.find(link => link.type === 'DELETE').href}`)
-          this.getAllAdmins()
+          await this.getAllAdmins()
           console.log('Deleted an Admin')
         } catch (error) {
           console.error('Error deleting an admin:', error)
@@ -139,12 +148,52 @@ export default {
     },
     onAdminUpdated() {
       this.getAllAdmins()
+    },
+    showMessage(message) {
+      this.message = message
+      setTimeout(() => {
+        this.message = '' // Clear the message after 1 second
+      }, 1000)
+    },
+    async searchAdmins() {
+      if (!this.searchTerm) {
+        await this.getAllAdmins()
+        return
+      }
+      try {
+        const response = await admin.getAdmin(this.searchTerm)
+        this.admins = [response.data]
+        console.log(this.admins)
+      } catch (error) {
+        this.showMessage('User not found')
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.message {
+  color: red; /* or any color you want for the message */
+  margin-top: -5%;
+  margin-bottom: -5%;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.search-bar button {
+  color: #3498db;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 
 .form-overlay {
   position: fixed;
