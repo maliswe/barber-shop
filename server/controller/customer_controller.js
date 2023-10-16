@@ -121,10 +121,10 @@ const removeAll = async (req, res) => {
 
 const createAppointmentForCustomer = async (req, res) => {
     try {
-        const customerId = req.params.customer_id;
+        const id = req.params.customer.id;
 
         // Find the customer using the provided ID
-        const customer = await Customer.findById(customerId);
+        const customer = await Customer.findOne({ phone: id });
 
         // If the customer doesn't exist, return an error
         if (!customer) {

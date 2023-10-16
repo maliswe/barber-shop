@@ -9,6 +9,7 @@ router.get('/', controller.getAll); // Get the admin accounts
 router.get('/:id', controller.getOne); // Get a specific admin
 router.delete('/:id', controller.remove); // Remove sepcific admin account
 router.put('/:id', controller.update); // Update the admin information
+router.delete('/', controller.removeAll); // Remove all the admins!
 
 
 

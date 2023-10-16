@@ -80,7 +80,7 @@ export default {
       console.log('"Sending data:"', appointmentData)
 
       try {
-        const response = await axios.post('http://localhost:3000/api/v1/appointments', appointmentData)
+        const response = await axios.post('http://localhost:3000/api/v1/customers/${this.Phone}/appointments', appointmentData)
 
         if (response.status === 201) {
           this.showPopup = true
@@ -103,8 +103,6 @@ export default {
     width: 100%;
     border-radius: 15px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
-    box-shadow: 0cqmax;
-
     padding: 10px;
     margin: 10px 0;
   }
