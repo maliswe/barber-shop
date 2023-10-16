@@ -104,17 +104,17 @@ const remove = async (req, res) => {
 const removeAll = async (req, res) => {
     try {
 
-        const count = await Customer.countDouments();
+        const count = await Customer.countDocuments();
 
         if (count === 0) {
             return res.status(404).send({ message: 'No Customers found in the database.' });
         }
 
         await Customer.deleteMany();
-        res.status.status(200).json({ message: 'Customers deleted' });
+        res.status(200).json({ message: 'Customers deleted' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error: ', error});
     }
 
 };

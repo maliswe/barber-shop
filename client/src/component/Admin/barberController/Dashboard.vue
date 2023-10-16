@@ -43,6 +43,12 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
       <div class="form-overlay" v-if="showAddBarberFormModal">
         <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-updated="onBarberUpdated" @close-modal="closeAddBarberForm" />
       </div>
+      <div class="container" v-else>
+      <h1>No barbers added yet.</h1>
+      <button class="add-button" @click="showAddBarberForm">
+        <i class="fas fa-plus"></i> Add Barber
+      </button>
+    </div>
     </div>
   </template>
 

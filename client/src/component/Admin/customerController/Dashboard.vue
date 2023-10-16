@@ -7,6 +7,9 @@
     <div>
       <div class="container" v-if="customers.length > 0">
         <h1>Customers accounts</h1>
+        <button class="delete-all-button" @click="deleteAllCustomer">
+          <i class="fas fa-trash-alt"></i> Delete All Customers
+        </button>
         <table class="customer-table">
           <thead>
             <tr>
@@ -32,6 +35,12 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="container" v-else>
+      <h1>No customers added yet.</h1>
+      <button class="add-button" @click="showAddCustomerForm">
+        <i class="fas fa-plus"></i> Add Barber
+      </button>
       </div>
       <div class="form-overlay" v-if="showUpdateCustomerFormModal">
         <updateCustomerForm ref="updateCustomerForm" :showEdit="showUpdateCustomerFormModal" :currentCustomer="currentCustomer" @customer-updated="onCustomerUpdated" @close-modal="closeUpdateCustomerForm" />
@@ -108,12 +117,34 @@ export default {
     },
     onCustomerUpdated() {
       this.getAllCustomers()
+    },
+    async deleteAllCustomer() {
+      const confirmation = window.confirm('Do you really want to delete all customers?')
+      if (confirmation) {
+        await customer.deleteAllCustomer()
+        console.log('Deleted all customers')
+        this.customers = []
+      }
     }
+
   }
 }
 </script>
 
 <style scoped>
+.delete-all-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-all-button:hover {
+  background-color: #c0392b;
+}
 .container{
   padding-bottom: 20%;
 }
