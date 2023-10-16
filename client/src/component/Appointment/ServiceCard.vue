@@ -71,7 +71,9 @@ export default {
         .NamePrice {
             flex-direction: column;
             align-items: flex-start;
-            h2, p {
+
+            h2,
+            p {
                 margin: 10px 0;
             }
         }
@@ -83,7 +85,8 @@ export default {
             width: 100%;
         }
 
-        .duration, .booking {
+        .duration,
+        .booking {
             margin-left: 8%;
         }
     }
@@ -130,7 +133,8 @@ export default {
         color: rgba(255, 255, 255, 1);
         border-color: rgba(231, 163, 86, 1);
         margin-top: 20px;
-
+        box-shadow: none;
+        border: none;
         &:disabled {
             background: rgba(200, 200, 200, 1);
             cursor: not-allowed;
