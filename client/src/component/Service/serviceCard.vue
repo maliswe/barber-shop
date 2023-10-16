@@ -72,12 +72,12 @@ export default {
     height: min(10rem, 450px);
     height: 100%;
     box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
-    backdrop-filter: blur(10px); /* Adjust the blur intensity as needed */
+    backdrop-filter: blur(10px);
 }
 
 .service-card img {
   max-width: fill;
-  max-height: 200px;
+  max-height: 25rem;
 }
 
 .name{
@@ -168,13 +168,20 @@ export default {
     width: fill;
     height: fill;
   }
-  .book{
+  .booking{
     max-width: 3rem;
     max-height: 2rem;
+    font-size: 0.7rem;
   }
   .description {
     font-size: min(5vw, 11);
     line-height: min(3vw, 7);
   }
+  .duration{
+    border-radius: 1rem;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 0.8rem;
+}
 }
 </style>

@@ -18,7 +18,6 @@
     color: aliceblue;
     font-family: 'Roboto';
 
-    // Mobile view adjustments
     @media (max-width: 768px) {
         display: flex;
         flex-direction: column;
@@ -41,15 +40,12 @@ h3 {
     position: absolute;
     left: 10px;
     bottom: -5px;
-    /* adjust as needed */
     width: 20px;
-    /* width of the line to fit under "P" and "O" */
     height: 4px;
     background-color: #EBB273;
     transform: translateX(-50%);
 }
 
-    // Mobile view adjustments
     @media (max-width: 768px) {
         font-size: 18px;
         margin-top: 20px;
@@ -63,7 +59,6 @@ p {
     list-style-type: none;
     padding-left: 2;
     line-height: 3;
-        // Mobile view adjustments
     @media (max-width: 768px) {
         font-size: 13px;
         line-height: 2.5;

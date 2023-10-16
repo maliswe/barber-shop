@@ -18,3 +18,12 @@ const BarberSchema = Base.discriminator("Barber", new mongoose.Schema({
 }));
 
 module.exports = mongoose.model('Barber');
+
+//This schema defines the structure and properties for barber profiles
+//This allows adding specific properties for barber profiles.
+//Expertise or specialization of the barber.
+//Appointments associated with the barber.
+//Services offered by the barber.
+//Availability of the barber, including dates and time slots.
+
+

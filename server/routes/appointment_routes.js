@@ -34,3 +34,7 @@ router.delete('/:confNumber/services/:serviceId', async (req, res) => {
 }); // Delete the service from the appointment
 
 module.exports = router;
+
+//This router defines routes for various appointment management actions, including
+//creating, updating, retrieving, and deleting appointments, as well as retrieving
+//appointments related to a specific barber.

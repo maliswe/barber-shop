@@ -1,3 +1,6 @@
+<!--
+* The "ContactUs" component is responsible for displaying the contact information.
+-->
 <template>
     <div class="asd">
         <contactPhoto class="photo"/>

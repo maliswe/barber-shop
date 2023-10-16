@@ -5,9 +5,9 @@ const { recSkipper, generator } = require('./utilityMethod.js');
 const multer = require('multer');
 
 const upload = multer({
-    storage: multer.memoryStorage(),  // Store the image in memory as a buffer
+    storage: multer.memoryStorage(),
     limits: {
-      fileSize: 8 * 1024 * 1024,  // Limit file size to 8MB (adjust as needed)
+      fileSize: 8 * 1024 * 1024,
     },
   });
 // Create a service
@@ -15,10 +15,7 @@ const create = async (req, res) => {
     try {
         // Create a new services document based on the request body
         const { name, description, price, duration } = req.body;
-
         let image = null;
-
-        // If there's an image in the request, assign it. Otherwise, leave it as null.
         if (req.file) {
             image = req.file.buffer;
         }
@@ -55,11 +52,8 @@ const getAll = async (req, res) => {
         if (services.length < 1) {
             return res.status(404).json({ message: 'services not found' });
         }
-
-        // Send the data as a response to the client
         res.status(200).json(services);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -68,18 +62,13 @@ const getAll = async (req, res) => {
 // Get a service
 const getOne = async (req, res, id) => {
     try {
-        // Use Mongoose to query the MongoDB database for services data
         const services = await Services.findOne({_id:id});
 
         if (!services) {
-            // If no services with the given ID is found, return a 404 response
             return res.status(404).json({ message: 'services not found' });
         }
-
-        // Send the data as a response to the client
         res.status(200).json(services);
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -88,14 +77,10 @@ const getOne = async (req, res, id) => {
 // Update the service info
 const update = async (req, res, id) => {
     try {
-        // Find the services by ID
         const services = await Services.findOne({_id:id});
-
         if (!services) {
             return res.status(404).json({ message: 'services not found' });
         }
-
-        
         const { name, description, price, duration } = req.body;
 
         if (name) services.name = name;
@@ -105,8 +90,6 @@ const update = async (req, res, id) => {
         if (req.file) {
             services.image = req.file.buffer;
         }
-
-        // Save the updated services document
         await services.save();
 
         res.status(200).json({ message: 'Updated successfully!'});
@@ -119,16 +102,12 @@ const update = async (req, res, id) => {
 // Remove a service
 const remove = async (req, res, id) => {
     try {
-        // Use Mongoose to query the MongoDB database for Services data
         const result = await Services.deleteOne({_id:id});
         if (result.deletedCount === 0) {
-            // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'services not found' });
         }
-        // Send the data as a response to the client
         res.status(200).json({ message: 'services deleted' });
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -144,3 +123,6 @@ module.exports = {
     update,
     upload
 };
+
+//Module for managing services and handling image uploads.
+//This module provides functions for creating, retrieving, updating, and deleting services.

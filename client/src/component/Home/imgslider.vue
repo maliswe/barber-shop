@@ -9,8 +9,8 @@
                     <article v-for="(slotContent, index) in $slots.default" :key="index">
                         <slot :name="'img' + (index + 1)"></slot>
                     </article>
-                </div> <!-- .inner -->
-            </div> <!-- #overflow -->
+                </div>
+            </div>
         </div>
         <label for="slide1"></label>
         <label for="slide2"></label>

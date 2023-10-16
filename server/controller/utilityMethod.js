@@ -61,3 +61,6 @@ module.exports = {
     generator,
     confNumberChecker
 };
+
+//Utility functions for common operations.
+//This module provides various utility functions for working with data.

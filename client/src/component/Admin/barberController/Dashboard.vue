@@ -1,3 +1,8 @@
+<!--
+This component displays a list of barbers with their details in a table format. Users can
+add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberForm' and
+'updateBarberForm', for adding and updating barber information.
+-->
 <template>
     <div>
       <div class="container" v-if="barbers.length > 0">
@@ -113,6 +118,9 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  padding-bottom: 20%;
+}
 .form-overlay {
   position: fixed;
   top: 0;
@@ -163,10 +171,25 @@ export default {
 .add-button {
   width: fill;
   height: fill;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 5px;
+}
+@media (max-width: 767px) {
+  .barber-table {
+    width: 90%;
+    overflow-x: none; /* Enable horizontal scrolling on small screens */
+  }
+
+  .barber-table th, .barber-table td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 0.6rem; /* Adjust font size for smaller screens */
+  }
+
+  .edit-button i, .delete-button i {
+    font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
 }
 
 </style>

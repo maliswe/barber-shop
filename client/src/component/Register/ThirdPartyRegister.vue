@@ -9,13 +9,9 @@
 export default {
   name: 'ThirdPartyLogin',
   methods: {
-    // TODO
     handleGoogleRegister() {
-      // Logic for Google registration
     },
-    // TODO
     handleAppleRegister() {
-      // Logic for Apple registration
     }
   }
 }
@@ -29,7 +25,6 @@ export default {
   margin-top: 0.5rem;
 
   button {
-    // styling for the buttons'
     background-color: #E7A356;
     padding: 10px 100px;
     border: none;
@@ -47,7 +42,7 @@ export default {
     button {
       margin-top: 2%;
       margin-left: 0;
-      width: 100%; // Make the button take the full width on mobile for easier tapping
+      width: 100%;
     }
   }
 

@@ -65,20 +65,18 @@ export default {
   height: 100vh;
 
   @media screen and (max-width: 768px) {
-    // This is for tablet screens and below
-    margin: 0; // Reducing margin for smaller screens.
+    margin: 0;
     padding: 15px;
   }
 
   @media screen and (max-width: 480px) {
-    // This is for mobile screens
     margin: 0;
     padding: 10px;
   }
 }
 
 button {
-  background: linear-gradient(to right, #36D1DC, #5B86E5); // Gradient color for buttons
+  background: linear-gradient(to right, #36D1DC, #5B86E5);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -87,12 +85,16 @@ button {
   transition: background 0.3s, transform 0.3s;
 
   &:hover {
-    background: linear-gradient(to right, #5B86E5, #36D1DC); // Switch gradient direction on hover
-    transform: scale(1.05); // Slight scaling of the button to give a zoom effect on hover
+    background: linear-gradient(to right, #5B86E5, #36D1DC);
+    transform: scale(1.05);
   }
 
   &:focus {
-    outline: none; // Removes the default focus outline
+    outline: none;
   }
 }
 </style>
+
+* The "Login" component is responsible for user authentication and login. It displays a login form and provides options for third-party sign-in.
+* It communicates with the "LoginForm" and "ThirdPartySignIn" child components.
+* It also handles user authentication by making an API request to log in a user and updating the application state based on the user's role.

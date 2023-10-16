@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { admin } from '@/api/adminApi'
+import axios from 'axios'
 
 export default {
   props: {
@@ -58,18 +58,18 @@ export default {
   watch: {
     currentAdmin: {
       handler(newAdmin) {
-        // Update form whenever currentAdmin changes
         if (newAdmin) {
           this.form.name = newAdmin.name || ''
           this.form.phone = newAdmin.phone || null
           this.form.email = newAdmin.email || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {
     handleSubmit() {
+      const baseurl = 'http://localhost:3000/'
       const formData = {
         name: this.form.name,
         phone: this.form.phone,
@@ -78,8 +78,7 @@ export default {
       if (this.form.password) {
         formData.password = this.form.password
       }
-
-      admin.updateAdmin(this.currentAdmin.phone, formData)
+      axios.put(`${baseurl}${this.currentAdmin.links.find(link => link.type === 'PUT').href}`, formData)
         .then(() => {
           this.$emit('close-modal')
           this.$emit('admin-updated')
@@ -158,3 +157,11 @@ button:hover {
   margin-left: 10px;
 }
 </style>
+
+* Component for updating an admin account.
+
+* This component emits the following events:
+* close-modal: When the modal is closed.
+* admin-updated: When the admin account is updated.
+* showEdit: Whether or not to show the modal.
+* currentAdmin: The current admin account.

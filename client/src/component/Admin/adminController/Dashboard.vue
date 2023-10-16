@@ -1,3 +1,9 @@
+<!--
+* This component displays a table of all admin accounts, with the ability to edit and delete accounts.
+  It also has a button to open a modal for adding a new admin account.
+* This component emits the following events:
+* admin-updated: When an admin account is updated.
+-->
 <template>
   <div>
     <div class="container" v-if="admins.length > 0">
@@ -22,7 +28,7 @@
             <td>{{ admin.phone }}</td>
             <td>
               <button class="edit-button" @click="editAdmin(admin)"><i class="fas fa-edit"></i></button>
-              <button class="delete-button" @click="deleteAdmin((admin.phone))"><i class="fas fa-trash-alt"></i></button>
+              <button class="delete-button" @click="deleteAdmin((admin))"><i class="fas fa-trash-alt"></i></button>
             </td>
           </tr>
         </tbody>
@@ -36,7 +42,7 @@
       <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated"
         @close-modal="closeAddAdminForm" />
     </div>
-    <div>
+    <div class="container">
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'BarberController' }">
           <b-button variant="warning" size="lg">Barber Accounts</b-button>
@@ -56,7 +62,7 @@
 import { admin } from '@/api/adminApi'
 import addAdminForm from './addAdminForm.vue'
 import updateAdminForm from './updateAdminForm.vue'
-
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -74,32 +80,43 @@ export default {
     updateAdminForm
   },
   methods: {
-    getAllAdmins() {
-      admin.getAllAdmins()
-        .then(response => {
-          this.admins = response.data
+    async getAllAdmins() {
+      try {
+        const response = await admin.getAllAdmins()
+        this.admins = response.data
+
+        // Extract PUT and DELETE URLs from HATEOAS links
+        this.admins.forEach(admin => {
+          const putLink = admin.links.find(link => link.type === 'PUT')
+          const deleteLink = admin.links.find(link => link.type === 'DELETE')
+          if (putLink) {
+            admin.putUrl = putLink.href
+          }
+
+          if (deleteLink) {
+            admin.deleteUrl = deleteLink.href
+          }
         })
-        .catch(error => {
-          console.error('Error getting admins:', error)
-        })
+      } catch (error) {
+        console.error('Error getting admins:', error)
+      }
     },
     editAdmin(admin) {
       this.showUpdateAdminFormModal = true
       this.currentAdmin = admin
     },
-    async deleteAdmin(userPhone) {
-      console.log('Delete')
+    async deleteAdmin(admin) {
       const confirmation = window.confirm('Do you really want to delete?')
+      const baseurl = 'http://localhost:3000/'
       if (confirmation) {
-        admin.deleteAdmin(userPhone)
-          .then(() => {
-            this.admin = this.admins.filter(admins => admins.phone !== userPhone)
-            this.getAllAdmins()
-            console.log('Deleted an Admin')
-          })
-          .catch(error => {
-            console.error('Error deleting an admin:', error)
-          })
+        try {
+          // Use the HATEOAS delete link
+          await axios.delete(`${baseurl}${admin.links.find(link => link.type === 'DELETE').href}`)
+          this.getAllAdmins()
+          console.log('Deleted an Admin')
+        } catch (error) {
+          console.error('Error deleting an admin:', error)
+        }
       }
     },
     showAddAdminForm() {
@@ -124,6 +141,7 @@ export default {
 </script>
 
 <style scoped>
+
 .form-overlay {
   position: fixed;
   top: 0;
@@ -177,7 +195,6 @@ export default {
   width: fill;
   height: fill;
   background-color: #3498db;
-  /* Adjust the button background color */
   border: none;
   color: white;
   border-radius: 5px;

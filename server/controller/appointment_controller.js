@@ -61,19 +61,16 @@ const createAppointment = async (req, res, customerID = undefined) => {
         // Create the appointment
         const newAppointment = new Appointment(req.body);
 
-        // Update the Customer appointments
         const updatedCustomer = await Customer.findOneAndUpdate(
             { phone: req.body['customer'] },
             { $push: { appointments: newAppointment.confNumber } }
         );
 
-        // Update the Barber appointments
         const updatedBarber = await Barber.findOneAndUpdate(
             { phone: req.body['barber'] },
             { $push: { appointments: newAppointment.confNumber } }
         );
 
-        // save the appointment and send it back
         const savedAppointment = await newAppointment.save();
         res.status(201).json({ savedAppointment });
     } catch (error) {
@@ -82,7 +79,6 @@ const createAppointment = async (req, res, customerID = undefined) => {
     }
 };
 
-//Update the appointment status
 const updateAppointment = async (req, res, confNumber) => {
     try {
         const appointment = await Appointment.findOne({ confNumber: confNumber });
@@ -104,16 +100,12 @@ const updateAppointment = async (req, res, confNumber) => {
 // remove an appointment
 const remove = async (req, res, confNumber) => {
     try {
-        // Use Mongoose to query the MongoDB database for Appointment data
         const result = await Appointment.deleteOne({ confNumber: confNumber });
         if (result.deletedCount === 0) {
-            // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Appointment not found' });
         }
-        // Send the data as a response to the client
         res.status(200).json({ message: 'Appointment deleted' });
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }

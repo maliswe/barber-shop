@@ -25,7 +25,6 @@ export default new Vuex.Store({
       commit('SET_LOGIN_STATUS', status)
       commit('SET_ROLE', role)
 
-      // Store the state in localStorage
       localStorage.setItem('isLoggedIn', status)
       localStorage.setItem('role', role)
     },
@@ -33,7 +32,6 @@ export default new Vuex.Store({
       commit('SET_LOGIN_STATUS', false)
       commit('SET_ROLE', null)
 
-      // remove the state from the localStorage
       localStorage.removeItem('isLoggedIn')
       localStorage.removeItem('role')
     },

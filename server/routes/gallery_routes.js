@@ -24,3 +24,7 @@ router.patch('/:id', controller.upload.single('image'),async (req, res) => {
 
 
 module.exports = router;
+
+//Router for managing a gallery of images.
+//This router defines routes for various image gallery actions, including
+//creating, updating, retrieving, and deleting images in the gallery.

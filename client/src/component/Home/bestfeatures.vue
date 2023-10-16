@@ -57,21 +57,21 @@ export default {
   text-align: left;
 
   .features-content {
-    display: flex; // Enables the flexbox layout
-    justify-content: space-between; // Keeps a distance between the text and image
+    display: flex;
+    justify-content: space-between;
 
     .text-content {
-      flex: 1; // This ensures that the text takes the available space
-      padding-right: 2rem; // Adding some padding to separate the text from the image
+      flex: 1;
+      padding-right: 2rem;
     }
 
     .image-content {
-      flex-basis: 40%; // Takes up 40% of the available width
-      max-width: 40%; // Ensures the image doesn't take more than 40% of the width
+      flex-basis: 40%;
+      max-width: 40%;
       padding: 6rem 2rem;
 
       img {
-        max-width: 100%; // Ensures the image is responsive and fits within its container
+        max-width: 100%;
         height: 100%;
         top: 30%;
       }
@@ -82,15 +82,15 @@ export default {
     font-size: 3.5rem;
     margin-bottom: 2rem;
     font-weight: bold;
-    position: relative; // Set position to relative so the pseudo-element is positioned relative to this h2
+    position: relative;
 
     &::before {
-      content: ""; // This should be the first two letters of your h2
+      content: "";
       position: absolute;
       bottom: -10px;
       left: 0.5%;
-      height: 8px; // Adjust height as needed
-      width: calc(1.5ch + 1px); // Adjust width as needed; the `ch` unit represents the width of the "0" character
+      height: 8px;
+      width: calc(1.5ch + 1px);
       background-color: #EBB273;
     }
   }
@@ -109,14 +109,14 @@ export default {
 
     .icon-item {
       display: flex;
-      align-items: center; // vertically align the icon and text
-      max-width: calc(50% - 10px); // for two items side by side, considering a gap of 20px
+      align-items: center;
+      max-width: calc(50% - 10px);
       padding-right: 25%;
 
       img {
-        max-width: 50px; // adjust as necessary
+        max-width: 50px;
         height: auto;
-        margin-right: 1rem; // space between the icon and the text
+        margin-right: 1rem;
       }
 
       .icon-text {
@@ -129,9 +129,9 @@ export default {
           font-size: 1rem;
           color: black;
           font-weight: bold;
-          white-space: nowrap; // prevent text from wrapping to the next line
-          overflow: hidden; // optional: hides the overflowed text
-          text-overflow: ellipsis; // optional: adds an ellipsis when text overflows
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
@@ -142,47 +142,45 @@ export default {
 
 @media (max-width: 992px) {
   .features-section {
-    padding: 2rem 2rem; // Slightly reduce the horizontal padding for this breakpoint
+    padding: 2rem 2rem;
 
     .features-content {
-      // We'll keep the flex-direction as row but adjust some paddings and sizes
 
       .text-content {
-        padding-right: 1rem; // Slightly reduce the padding for better spacing
+        padding-right: 1rem;
       }
 
       .image-content {
-        flex-basis: 20%; // Adjust the width allocation
+        flex-basis: 20%;
         max-width: 20%;
 
         img {
-          top: 15%; // Adjust the top position slightly
+          top: 15%;
         }
       }
     }
 
     h2 {
-      font-size: 3rem; // Slightly reduce the font size
+      font-size: 3rem;
     }
 
     p {
-      font-size: 0.95rem; // Slightly decrease font size
+      font-size: 0.95rem;
     }
 
     .icons-grid {
-      // Adjustments to the icons grid if needed
 
       .icon-item {
-        flex: 0 0 49%; // Adjust width slightly
+        flex: 0 0 49%;
         max-width: 49%;
 
         .icon-text {
           h3 {
-            font-size: 1.1rem; // Adjust the font size a bit
+            font-size: 1.1rem;
           }
 
           p {
-            font-size: 0.95rem; // Adjust the font size
+            font-size: 0.95rem;
           }
         }
       }
@@ -192,19 +190,18 @@ export default {
 
 @media (max-width: 768px) {
   .features-section {
-    padding: 2rem 1rem; // Reduce the horizontal padding for smaller screens
-
+    padding: 2rem 1rem;
     .features-content {
-      flex-direction: column; // Stack .text-content and .image-content vertically
+      flex-direction: column;
 
       .text-content {
-        padding-right: 0; // Reset the padding as we are now stacking them
+        padding-right: 0;
       }
 
       .image-content {
         flex-basis: 50%;
         max-width: 100%;
-        padding: 2rem 0; // Adjust the padding for better spacing on mobile
+        padding: 2rem 0;
 
         img {
           top: 0;
@@ -236,7 +233,7 @@ export default {
           }
 
           p {
-            font-size: 0.9rem; // Slightly decrease font size for better readability on mobile
+            font-size: 0.9rem;
           }
         }
       }

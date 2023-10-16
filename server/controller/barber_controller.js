@@ -54,7 +54,6 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
     try {
         const barberId = req.params.id
-        // Find the barber by using the phone number
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
@@ -72,7 +71,6 @@ const getOne = async (req, res) => {
 const update = async (req, res) => {
     try {
         const barberId = req.params.id
-        // Find the barber by phone
         const barber = await Barber.findOne({ phone: barberId });
 
         if (!barber) {
@@ -93,7 +91,6 @@ const update = async (req, res) => {
 // Remove a barber account
 const remove = async (req, res) => {
     try {
-        // Use Mongoose to query the MongoDB database for barber data
         const result = await Barber.deleteOne({ phone: req.params.id });
         if (result.deletedCount === 0) {
             return res.status(404).json({ message: 'Barber not found' });
@@ -240,7 +237,6 @@ const getAllOnDate = async (req, res) => {
     try {
         const targetDate = new Date(req.params.date);
 
-        // Fetch all barbers' availabilities for this date
         const barbersWithAvailability = await Barber.find({
             "availability.date": targetDate
         }, 'name phone availability.$');
@@ -249,7 +245,6 @@ const getAllOnDate = async (req, res) => {
             return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
         }
 
-        // Transform the data to the desired format
         const transformedData = barbersWithAvailability.map(barber => {
             const targetAvailability = barber.availability.find(avail => avail.date.toISOString() === targetDate.toISOString());
 
@@ -283,3 +278,7 @@ module.exports = {
     deleteAvailability,
     getAllOnDate
 };
+
+//Module for managing barbers, their availability, and appointments.
+//This module provides functions for creating, retrieving, updating, and deleting barbers,
+//managing their availability, and handling appointments.

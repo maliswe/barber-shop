@@ -1,3 +1,9 @@
+<!--
+ * This component is used to display a modal for updating customer details. It includes a form for
+ * editing the customer's name, phone, email, and password. The form data is populated with the
+ * current customer's information, if provided. Upon submission, the form data is sent to the API
+ * for updating the customer record.
+-->
 <template>
   <div class="modal-overlay" v-if="showEdit">
     <div class="modal-content">
@@ -58,14 +64,13 @@ export default {
   watch: {
     currentCustomer: {
       handler(newCustomer) {
-        // Update form whenever currentCustomer changes
         if (newCustomer) {
           this.form.name = newCustomer.name || ''
           this.form.phone = newCustomer.phone || null
           this.form.email = newCustomer.email || ''
         }
       },
-      immediate: true // Call the handler immediately with the current value
+      immediate: true
     }
   },
   methods: {

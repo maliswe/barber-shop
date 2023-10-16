@@ -1,8 +1,11 @@
+<!--
+* This component fetches and displays a list of appointments for today. It shows the time, customer name,
+* message, and services for each appointment. Appointments are retrieved from an API.
+-->
 <template>
   <div>
     <h2>Today's Appointments</h2>
     <table>
-      <!-- Table header -->
       <thead>
         <tr>
           <th>Time</th>
@@ -67,7 +70,7 @@ export default {
   computed: {
     ...mapGetters(['userPhone']),
     todaysAppointments() {
-      const today = new Date().toISOString().split('T')[0]// Get today's date in 'YYYY-MM-DD' format
+      const today = new Date().toISOString().split('T')[0]
       return this.fetchedAppointments.filter(appointment => appointment.date.split('T')[0] === today)
     }
   },
