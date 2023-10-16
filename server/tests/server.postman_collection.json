@@ -495,7 +495,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 32145,\n\t\"email\": \"admin@test.test\",\n\t\"password\": \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1420,7 +1420,7 @@
 									"",
 									"pm.test(\"Response confirms update\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"Appointment updated successfully!\");",
+									"    pm.expect(jsonData.message).to.eql(\"Appointment status updated successfully!\");",
 									"});",
 									""
 								],
@@ -1429,7 +1429,7 @@
 						}
 					],
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -1441,7 +1441,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}",
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/status",
 							"host": [
 								"{{host}}"
 							],
@@ -1449,7 +1449,8 @@
 								"api",
 								"v1",
 								"appointments",
-								"{{createdAppointmentConfNumber}}"
+								"{{createdAppointmentConfNumber}}",
+								"status"
 							]
 						}
 					},
@@ -1543,7 +1544,7 @@
 		},
 		{
 			"key": "adminPhone",
-			"value": "14005",
+			"value": "32145",
 			"type": "string"
 		},
 		{
