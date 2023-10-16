@@ -157,6 +157,11 @@ button {
     background: rgba(231, 163, 86, 1);
     color: rgba(255, 255, 255, 1);
     border-color: rgba(231, 163, 86, 1);
+    border: none;
+    box-shadow: none;
+    &:hover {
+          background-color: darken(#E7A356, 10%);
+        }
 
     @media (max-width: 480px) {
         width: 100%;

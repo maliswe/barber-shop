@@ -1,9 +1,11 @@
 <template>
   <header :class="{ 'scrolled-nav': scrollNav }">
     <div class="navbar-container">
-      <div class="branding">
+      <router-link class="branding" active-class="active-link" :to="{ name: 'Home' }">
+        <div class="branding">
         <Logo />
       </div>
+    </router-link>
       <nav>
         <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') || !isLoggedIn" class="navigation">
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>

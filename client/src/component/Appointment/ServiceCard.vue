@@ -136,8 +136,11 @@ export default {
         box-shadow: none;
         border: none;
         &:disabled {
-            background: rgba(200, 200, 200, 1);
+            background: #E7A356;
             cursor: not-allowed;
+        }
+        &:hover {
+          background-color: darken(#E7A356, 10%);
         }
     }
 }
