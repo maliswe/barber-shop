@@ -2,7 +2,7 @@ const Admin = require('../schema/admin_schema.js')
 const { fieldsMapper, sort, recSkipper } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 
-
+// Create a new admin account
 const create = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
@@ -22,6 +22,7 @@ const create = async (req, res) => {
     }
 };
 
+// Get all the admins accounts
 const getAll = async (req, res) => {
     try {
       sortFilter = sort(req.query.sort);
@@ -63,6 +64,7 @@ const getAll = async (req, res) => {
   };
   
 
+// Get the admin accocunt
 const getOne = async (req, res) => {
     const id = req.params.id;
     try {
@@ -91,6 +93,7 @@ const getOne = async (req, res) => {
     }
 };
 
+// Update admin information
 const update = async (req, res) => {
     const id = req.params.id;
     try {
@@ -104,13 +107,15 @@ const update = async (req, res) => {
 
         await admin.save();
 
-        res.status(200).json(admin);
+        // Send the updated admin data as a response
+        res.status(200).json({ message: 'Information updated successfully'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Delete the admin account
 const remove = async (req, res) => {
     const id = req.params.id;
     try {

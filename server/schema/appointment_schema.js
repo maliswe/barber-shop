@@ -18,9 +18,4 @@ const appointmentSchema = new Schema({
     customer: { type: Number, ref: 'Customer', required: false }
 });
 
-const Appointment = mongoose.model("Appointments", appointmentSchema);
-module.exports = Appointment;
-
-//This schema defines the structure and properties for appointments, including
-//the confirmation number, status, price, date, and relationships with services,
-//barbers, and customers.
+module.exports = mongoose.model('Appointments', appointmentSchema);

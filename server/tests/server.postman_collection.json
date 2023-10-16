@@ -12,12 +12,34 @@
 			"item": [
 				{
 					"name": "Create Barber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response message is correct\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Barber created successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Test test\",\n   \"experties\": \"Yes\",\n  \"phone\": 1234567,\n  \"email\": \"test@test.com\",\n  \"password\": \"1234\"\n}\n",
+							"raw": "{\n  \"name\": \"Test test\",\n  \"experties\": \"Yes\",\n  \"phone\": 1234567,\n  \"email\": \"test@test.com\",\n  \"password\": \"1234\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,7 +62,24 @@
 					"response": []
 				},
 				{
-					"name": "Get All Customers",
+					"name": "Get All Barbers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -73,6 +112,27 @@
 				},
 				{
 					"name": "Get one Customer by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Returned barber has correct phone\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.phone).to.eql(1234567);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -89,7 +149,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/1234567",
+							"raw": "{{host}}/api/v1/barbers/{{barberPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -97,7 +157,7 @@
 								"api",
 								"v1",
 								"barbers",
-								"1234567"
+								"{{barberPhone}}"
 							]
 						}
 					},
@@ -105,6 +165,36 @@
 				},
 				{
 					"name": "Edit the barber information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Barber information is updated\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var updatedPhone = pm.environment.get(\"updatedBarberPhone\");",
+									"    pm.expect(jsonData.phone).to.eql(updatedPhone);",
+									"});",
+									"",
+									"pm.test(\"Update success message received\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Barber info updated\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -118,7 +208,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/1234567",
+							"raw": "{{host}}/api/v1/barbers/{{barberPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -126,7 +216,7 @@
 								"api",
 								"v1",
 								"barbers",
-								"1234567"
+								"{{barberPhone}}"
 							]
 						}
 					},
@@ -134,12 +224,34 @@
 				},
 				{
 					"name": "Post/ Edit availbility times",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Availability message is correct\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Availability updated successfully.');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"raw": "{\n\t\"date\": \"2023-10-20\",\n\t\"timeSlots\": [\n        {\n            \"startTime\": \"09:00\",\n            \"endTime\": \"10:00\"\n        },\n        {\n            \"startTime\": \"10:15\",\n            \"endTime\": \"11:15\"\n        }\n    ]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -147,7 +259,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/availability/1234567",
+							"raw": "{{host}}/api/v1/barbers/availability/{{barberPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -156,7 +268,7 @@
 								"v1",
 								"barbers",
 								"availability",
-								"1234567"
+								"{{barberPhone}}"
 							]
 						}
 					},
@@ -164,6 +276,23 @@
 				},
 				{
 					"name": "Post/ Get all availability times for the barber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -172,7 +301,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -180,7 +309,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/availability/1234567",
+							"raw": "{{host}}/api/v1/barbers/availability/{{barberPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -189,7 +318,7 @@
 								"v1",
 								"barbers",
 								"availability",
-								"1234567"
+								"{{barberPhone}}"
 							]
 						}
 					},
@@ -197,6 +326,50 @@
 				},
 				{
 					"name": "Post/ Get availability for specific date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Returned data is correct\", function() {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    if (pm.response.status === 404) {",
+									"        pm.expect(jsonData.message).to.eql('Barber not found.');",
+									"        return;",
+									"    }",
+									"",
+									"    if (jsonData.hasOwnProperty('message') && jsonData.message.includes('No availability found for date')) {",
+									"        pm.expect(jsonData.message).to.include('No availability found for date');",
+									"    } else {",
+									"        if (Array.isArray(jsonData)) {",
+									"            jsonData = jsonData[0];",
+									"        }",
+									"        pm.expect(jsonData).to.have.property('date');",
+									"        pm.expect(jsonData).to.have.property('timeSlots');",
+									"        pm.expect(jsonData.timeSlots).to.be.an('array');",
+									"        pm.expect(jsonData.timeSlots[0]).to.have.property('startTime');",
+									"        pm.expect(jsonData.timeSlots[0]).to.have.property('endTime');",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"No server errors\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.not.eql('Error fetching availability.');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -205,7 +378,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"date\": \"2023-10-06\",\n  \"times\": [\"10:00\", \"11:00\", \"13:00\", \"14:00\"]\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -213,7 +386,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/availability/1234567?date=2023-10-06",
+							"raw": "{{host}}/api/v1/barbers/availability/{{barberPhone}}?date={{date}}",
 							"host": [
 								"{{host}}"
 							],
@@ -222,12 +395,12 @@
 								"v1",
 								"barbers",
 								"availability",
-								"1234567"
+								"{{barberPhone}}"
 							],
 							"query": [
 								{
 									"key": "date",
-									"value": "2023-10-06"
+									"value": "{{date}}"
 								}
 							]
 						}
@@ -236,12 +409,35 @@
 				},
 				{
 					"name": "Delete barber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms deletion\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Barber deleted\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Test test\",\n   \"experties\": \"Yes\",\n  \"phone\": 1234567,\n  \"email\": \"test@test.com\",\n  \"password\": \"1234\"\n}\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -249,7 +445,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/barbers/1234567",
+							"raw": "{{host}}/api/v1/barbers/{{barberPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -257,7 +453,7 @@
 								"api",
 								"v1",
 								"barbers",
-								"1234567"
+								"{{barberPhone}}"
 							]
 						}
 					},
@@ -276,7 +472,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response has the admin data\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.phone).to.be.a('number');",
+									"    pm.expect(jsonData.password).to.be.a('string');",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -287,7 +495,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 32145,\n\t\"email\": \"admin@test.test\",\n\t\"password\": \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -316,6 +524,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response returns an array\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -330,7 +550,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,6 +579,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response returns the correct admin\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    var adminPhone = Number(pm.variables.get(\"adminPhone\"));",
+									"    pm.expect(jsonData.phone).to.eql(adminPhone);",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -373,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 14005,\n\t\"email\": \"admin@admin.com\",\n\t\"password\": \"1234\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -381,7 +614,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/admins/14005",
+							"raw": "{{host}}/api/v1/admins/{{adminPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -389,20 +622,31 @@
 								"api",
 								"v1",
 								"admins",
-								"14005"
+								"{{adminPhone}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get admin by id Copy",
+					"name": "Update admin info",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms update success\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Information updated successfully');",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -421,7 +665,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/admins/14005",
+							"raw": "{{host}}/api/v1/admins/{{adminPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -429,7 +673,7 @@
 								"api",
 								"v1",
 								"admins",
-								"14005"
+								"{{adminPhone}}"
 							]
 						}
 					},
@@ -442,6 +686,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms deletion success\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Admin deleted');",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -453,7 +709,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Micheal\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -461,7 +717,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/admins/14005",
+							"raw": "{{host}}/api/v1/admins/{{adminPhone}}",
 							"host": [
 								"{{host}}"
 							],
@@ -469,7 +725,7 @@
 								"api",
 								"v1",
 								"admins",
-								"14005"
+								"{{adminPhone}}"
 							]
 						}
 					},
@@ -483,6 +739,28 @@
 			"item": [
 				{
 					"name": "Create a customer account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response message is correct\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('User created successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -512,6 +790,23 @@
 				},
 				{
 					"name": "Get all customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -520,7 +815,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"customer\",\n    \"phone\": 1234566,\n    \"email\": \"customer@customer.com\",\n    \"password\": \"1234\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -544,6 +839,29 @@
 				},
 				{
 					"name": "Get a customer by the id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Correct admin is returned\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.phone).to.eql(1234566);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -552,7 +870,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"customer\",\n    \"phone\": 1234566,\n    \"email\": \"customer@customer.com\",\n    \"password\": \"1234\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -560,7 +878,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/customers/1234566",
+							"raw": "{{host}}/api/v1/customers/{{customerPhoen}}",
 							"host": [
 								"{{host}}"
 							],
@@ -568,7 +886,7 @@
 								"api",
 								"v1",
 								"customers",
-								"1234566"
+								"{{customerPhoen}}"
 							]
 						}
 					},
@@ -576,6 +894,29 @@
 				},
 				{
 					"name": "Update the customer info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"User updated\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -589,7 +930,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/customers/1234566",
+							"raw": "{{host}}/api/v1/customers/{{customerPhoen}}",
 							"host": [
 								"{{host}}"
 							],
@@ -597,20 +938,42 @@
 								"api",
 								"v1",
 								"customers",
-								"1234566"
+								"{{customerPhoen}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get a customer by the id Copy 2",
+					"name": "Delete the Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms deletion\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"customer deleted\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Gustav\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -618,7 +981,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/customers/1234566",
+							"raw": "{{host}}/api/v1/customers/{{customerPhoen}}",
 							"host": [
 								"{{host}}"
 							],
@@ -626,7 +989,7 @@
 								"api",
 								"v1",
 								"customers",
-								"1234566"
+								"{{customerPhoen}}"
 							]
 						}
 					},
@@ -640,6 +1003,37 @@
 			"item": [
 				{
 					"name": "Create a service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Service properties exist\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('name');",
+									"    pm.expect(jsonData).to.have.property('description');",
+									"    pm.expect(jsonData).to.have.property('price');",
+									"    pm.expect(jsonData).to.have.property('duration');",
+									"});",
+									"",
+									"pm.test(\"Resource created successfully and _id exists\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData._id).to.be.ok;",
+									"    pm.environment.set(\"createdResourceId\", jsonData._id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -669,6 +1063,23 @@
 				},
 				{
 					"name": "Get all services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -677,7 +1088,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -700,7 +1111,24 @@
 					"response": []
 				},
 				{
-					"name": "Get a service by id",
+					"name": "Get service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -709,7 +1137,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -717,7 +1145,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"raw": "{{host}}/api/v1/services/{{createdResourceId}}",
 							"host": [
 								"{{host}}"
 							],
@@ -725,7 +1153,7 @@
 								"api",
 								"v1",
 								"services",
-								"651f47c049c06f509de356a2"
+								"{{createdResourceId}}"
 							]
 						}
 					},
@@ -733,12 +1161,35 @@
 				},
 				{
 					"name": "Update the service info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Updated successfully!\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test2\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"raw": "{\n    \"price\": 200\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -746,7 +1197,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"raw": "{{host}}/api/v1/services/{{createdResourceId}}",
 							"host": [
 								"{{host}}"
 							],
@@ -754,7 +1205,7 @@
 								"api",
 								"v1",
 								"services",
-								"651f47c049c06f509de356a2"
+								"{{createdResourceId}}"
 							]
 						}
 					},
@@ -767,7 +1218,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test2\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -775,7 +1226,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/services/651f47c049c06f509de356a2",
+							"raw": "{{host}}/api/v1/services/{{createdResourceId}}",
 							"host": [
 								"{{host}}"
 							],
@@ -783,7 +1234,7 @@
 								"api",
 								"v1",
 								"services",
-								"651f47c049c06f509de356a2"
+								"{{createdResourceId}}"
 							]
 						}
 					},
@@ -797,12 +1248,42 @@
 			"item": [
 				{
 					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response has the expected properties\", function() {",
+									"    var jsonData = pm.response.json().savedAppointment;",
+									"    pm.expect(jsonData).to.have.property('confNumber');",
+									"    pm.expect(jsonData).to.have.property('status').eql('Scheduled'); // default value",
+									"    pm.expect(jsonData).to.have.property('price');",
+									"    pm.expect(jsonData).to.have.property('date');",
+									"    pm.expect(jsonData).to.have.property('barber').to.be.an('array');",
+									"    pm.expect(jsonData).to.have.property('customer');",
+									"    ",
+									"    // Store confNumber for further tests",
+									"    pm.environment.set(\"createdAppointmentConfNumber\", jsonData.confNumber);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"raw": "{\n    \"price\": 100,\n    \"date\": \"2023-11-10\",\n    \"message\": \"Optional Message\",\n    \"barber\": [1234567], \n    \"customer\": 9876543\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -826,6 +1307,23 @@
 				},
 				{
 					"name": "Get all appointments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -834,7 +1332,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -858,6 +1356,23 @@
 				},
 				{
 					"name": "Get an appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -866,7 +1381,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"confNumber\": \"2176412\",\n    \"status\": \"Scheduled\",\n    \"price\": 123,\n    \"date\": \"2023-10-05\",\n    \"customer\": \"12847821\",\n    \"barber\": \"123456789\",\n    \"service\": \"651639cc272cb522f7a70aa3\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -874,7 +1389,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/appointments/5614248",
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}",
 							"host": [
 								"{{host}}"
 							],
@@ -882,20 +1397,43 @@
 								"api",
 								"v1",
 								"appointments",
-								"5614248"
+								"{{createdAppointmentConfNumber}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update the appointment info",
+					"name": "Update the appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Appointment status updated successfully!\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\": \"Cancelled\"\n}",
+							"raw": "{\n    \"status\": \"Completed\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -903,7 +1441,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/appointments/5614248",
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/status",
 							"host": [
 								"{{host}}"
 							],
@@ -911,20 +1449,43 @@
 								"api",
 								"v1",
 								"appointments",
-								"5614248"
+								"{{createdAppointmentConfNumber}}",
+								"status"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete a appointment",
+					"name": "Delete an appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response confirms deletion\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Appointment deleted\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\": \"Cancelled\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -932,7 +1493,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/appointments/5614248",
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}",
 							"host": [
 								"{{host}}"
 							],
@@ -940,7 +1501,7 @@
 								"api",
 								"v1",
 								"appointments",
-								"5614248"
+								"{{createdAppointmentConfNumber}}"
 							]
 						}
 					},
@@ -974,6 +1535,26 @@
 		{
 			"key": "host",
 			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "barberPhone",
+			"value": "1234567",
+			"type": "string"
+		},
+		{
+			"key": "adminPhone",
+			"value": "32145",
+			"type": "string"
+		},
+		{
+			"key": "date",
+			"value": "2023-10-20",
+			"type": "string"
+		},
+		{
+			"key": "customerPhoen",
+			"value": "1234566",
 			"type": "string"
 		}
 	]

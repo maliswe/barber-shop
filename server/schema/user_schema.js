@@ -11,9 +11,4 @@ const userSchema = new Schema({
 });
 
 
-const User = mongoose.model("Users", userSchema);
-
-module.exports = User;
-
-//This schema defines the structure and properties for user profiles, including
-//their name, phone number, email, and password.
+module.exports = mongoose.model('Users', userSchema);

@@ -1,7 +1,7 @@
 const Services = require('../schema/services_schema.js')
-const { fieldsMapper, Generator } = require('./utilityMethod.js');
+const { Generator } = require('./utilityMethod.js');
 const { sort } = require('./utilityMethod.js');
-const { recSkipper } = require('./utilityMethod.js');
+const { recSkipper, generator } = require('./utilityMethod.js');
 const multer = require('multer');
 
 const upload = multer({
@@ -10,10 +10,10 @@ const upload = multer({
       fileSize: 8 * 1024 * 1024,
     },
   });
-
+// Create a service
 const create = async (req, res) => {
     try {
-        let customId = await Generator.generator();
+        // Create a new services document based on the request body
         const { name, description, price, duration } = req.body;
         let image = null;
         if (req.file) {
@@ -21,27 +21,33 @@ const create = async (req, res) => {
         }
 
         const newService = new Services({
-            _id: customId,
             name,
             description,
             price,
             duration,
             image,
           });
-        const savedService = await newService.save();
-        res.status(201).json(savedService);
+        
+        const data = await newService.save();
+        res.status(200).json(data);
     } catch (error) {
-        console.error(error);
+             console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
+// Get all the services
 const getAll = async (req, res) => {
     try {
 
         sortFilter = sort(req.query.sort)
+        const pageSize = Number(req.query.pageSize) || 10;
         recSkipper(req.query.page, req.query.pageSize);
-        const services = await Services.find().skip(skip).limit(Number(req.query.pageSize));
+        const services = await Services.find().skip(skip).limit(pageSize);
+
+        if (skip < 0 || pageSize < 0) {
+            return res.status(400).json({ message: 'Invalid query parameters' });
+        }
 
         if (services.length < 1) {
             return res.status(404).json({ message: 'services not found' });
@@ -53,6 +59,7 @@ const getAll = async (req, res) => {
     }
 };
 
+// Get a service
 const getOne = async (req, res, id) => {
     try {
         const services = await Services.findOne({_id:id});
@@ -67,6 +74,7 @@ const getOne = async (req, res, id) => {
     }
 };
 
+// Update the service info
 const update = async (req, res, id) => {
     try {
         const services = await Services.findOne({_id:id});
@@ -83,13 +91,15 @@ const update = async (req, res, id) => {
             services.image = req.file.buffer;
         }
         await services.save();
-        res.status(200).json(services);
+
+        res.status(200).json({ message: 'Updated successfully!'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Remove a service
 const remove = async (req, res, id) => {
     try {
         const result = await Services.deleteOne({_id:id});
