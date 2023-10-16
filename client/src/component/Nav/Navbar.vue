@@ -190,7 +190,7 @@ header {
       align-items: center;
       justify-content: center;
       flex: 1;
-      padding-left: 5%;
+      padding-left: 7%;
       padding-top: 1rem;
     }
 
