@@ -77,7 +77,7 @@ export default {
 
 .service-card img {
   max-width: fill;
-  max-height: 200px;
+  max-height: 25rem;
 }
 
 .name {
@@ -179,11 +179,18 @@ export default {
   .book {
     max-width: 3rem;
     max-height: 2rem;
+    font-size: 0.7rem;
   }
 
   .description {
     font-size: min(5vw, 11);
     line-height: min(3vw, 7);
   }
+  .duration{
+    border-radius: 1rem;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 0.8rem;
+}
 }
 </style>

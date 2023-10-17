@@ -18,9 +18,13 @@ router.delete('/:id', async (req, res) => {
     controller.remove(req, res);
 })
 
-router.put('/:id', controller.upload.single('image'),async (req, res) => {
+router.patch('/:id', controller.upload.single('image'),async (req, res) => {
     controller.update(req, res);
 })
 
 
 module.exports = router;
+
+//Router for managing a gallery of images.
+//This router defines routes for various image gallery actions, including
+//creating, updating, retrieving, and deleting images in the gallery.

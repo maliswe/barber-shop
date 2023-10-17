@@ -1,8 +1,6 @@
 <template>
   <div class="registration-form">
-    <!-- Your form elements go here -->
     <form @submit.prevent="submitForm">
-      <!-- Form fields -->
       <div class="input-group">
         <input type="text" placeholder="Name" v-model="name">
       </div>
@@ -39,7 +37,6 @@ export default {
   methods: {
     async submitForm() {
       try {
-        // Define the backend endpoint
         const customerEndpoint = 'http://localhost:3000/api/v1/customers'
 
         const reponse = await axios.post(customerEndpoint, {
@@ -66,7 +63,6 @@ export default {
 <style scoped lang="scss">
 .registration-form {
 
-  // styling for the form
   input {
     width: 25rem;
     border-radius: 15px;
@@ -78,7 +74,6 @@ export default {
   }
 
   button {
-    // styling for the buttons'
     background-color: #E7A356;
     margin-top: 5%;
     margin-left: 5%;
@@ -93,7 +88,6 @@ export default {
     }
   }
 
-  // Media query for phone size or smaller devices
   @media (max-width: 768px) {
     input {
       width: 100%;

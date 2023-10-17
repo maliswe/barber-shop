@@ -5,5 +5,4 @@ const gallery_schema = new Schema({
     image: { type: Buffer, required: true }
 });
 
-const Gallery = mongoose.model("Gallery", gallery_schema);
-module.exports = Gallery;
+module.exports = mongoose.model('Gallery', gallery_schema);

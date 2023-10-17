@@ -52,7 +52,6 @@ export default {
   }
 
   .login-btn {
-    // styling for the buttons'
     background-color: #E7A356;
     margin-top: 5%;
     padding: 10px 15px;

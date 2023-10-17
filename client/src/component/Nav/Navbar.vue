@@ -148,7 +148,6 @@ header {
     flex-direction: row;
     padding: 0;
     justify-content: space-between;
-    /* Distribute nav elements across the space */
     align-items: center;
     transition: .5s ease all;
     width: 90%;

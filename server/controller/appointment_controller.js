@@ -2,15 +2,14 @@ const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
 const Customer = require('../schema/customer_schema.js');
 const Barber = require('../schema/barber_schema.js');
-const Service = require('../schema/services_schema.js');
-const { fieldsMapper, generator, confNumberChecker} = require('./utilityMethod.js');
+const { fieldsMapper, generator } = require('./utilityMethod.js');
 
 
-
+// Get all the appointment
 const getAllAppointment = async (req, res, customerID = undefined) => {
     try {
         let query = {};
-        if ( customerID !== undefined ){
+        if (customerID !== undefined) {
             query = { customer: customerID }
         }
         const appointments = await Appointment.find(query);
@@ -25,16 +24,16 @@ const getAllAppointment = async (req, res, customerID = undefined) => {
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
-
+// Get an appointment
 const getAppointment = async (req, res, confNumber, customerID = undefined) => {
     try {
 
         let query = {};
-        if ( customerID !== undefined ){
-            query = {customer: customerID}
+        if (customerID !== undefined) {
+            query = { customer: customerID }
         };
 
-        const appointment = await Appointment.findOne({ confNumber: confNumber, ...query});
+        const appointment = await Appointment.findOne({ confNumber: confNumber, ...query });
 
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
@@ -47,6 +46,7 @@ const getAppointment = async (req, res, confNumber, customerID = undefined) => {
     }
 };
 
+// Create an appointment 
 const createAppointment = async (req, res, customerID = undefined) => {
     try {
         let customId = await generator();
@@ -54,40 +54,23 @@ const createAppointment = async (req, res, customerID = undefined) => {
         req.body['confNumber'] = customId;
 
         // Used for create appointment from the customer route
-        if (customerID !== undefined){
+        if (customerID !== undefined) {
             req.body['customer'] = customerID;
         }
-
-        // Verify if customer exists
-        /*const customer = await Customer.findOne({ phone: req.body['customer'] });
-        if (!customer) {
-            return res.status(404).json({ message: 'Customer not found' });
-        }
-        const barber = await Barber.findOne({ phone: req.body['barber'] });
-        if (!barber) {
-            return res.status(404).json({ message: 'barber not found' });
-        }
-        const service = await Service.findOne({ _id: req.body['service'] });
-        if (!service) {
-            return res.status(404).json({ message: 'Service not found' });
-        }*/
 
         // Create the appointment
         const newAppointment = new Appointment(req.body);
 
-        // Update the Customer appointments
         const updatedCustomer = await Customer.findOneAndUpdate(
             { phone: req.body['customer'] },
             { $push: { appointments: newAppointment.confNumber } }
         );
 
-        // Update the Barber appointments
         const updatedBarber = await Barber.findOneAndUpdate(
             { phone: req.body['barber'] },
             { $push: { appointments: newAppointment.confNumber } }
         );
 
-        // save the appointment and send it back
         const savedAppointment = await newAppointment.save();
         res.status(201).json({ savedAppointment });
     } catch (error) {
@@ -96,44 +79,39 @@ const createAppointment = async (req, res, customerID = undefined) => {
     }
 };
 
-//Update the appointment status
 const updateAppointment = async (req, res, confNumber) => {
     try {
-
         const appointment = await Appointment.findOne({ confNumber: confNumber });
 
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        fieldsMapper(appointment, req.body);
+        appointment.status = req.body.status;
         await appointment.save();
 
-        res.status(200).json(appointment);
-
+        res.status(200).json({ message: 'Appointment status updated successfully!' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
 
+// remove an appointment
 const remove = async (req, res, confNumber) => {
     try {
-        // Use Mongoose to query the MongoDB database for Appointment data
         const result = await Appointment.deleteOne({ confNumber: confNumber });
         if (result.deletedCount === 0) {
-            // If no document was deleted, it means the document with the given ID was not found
             return res.status(404).json({ message: 'Appointment not found' });
         }
-        // Send the data as a response to the client
         res.status(200).json({ message: 'Appointment deleted' });
     } catch (error) {
-        // Handle any errors
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Get the barber appointments
 const getBarberAppointments = async (req, res, barberPhone) => {
     try {
         const appointments = await Appointment.find({ barber: barberPhone });
@@ -148,11 +126,66 @@ const getBarberAppointments = async (req, res, barberPhone) => {
     }
 };
 
+// Get a specific service for an appointment
+const getAppointmentService = async (req, res, confNumber, serviceId) => {
+    try {
+        const appointment = await Appointment.findOne({ confNumber: confNumber }).populate('service');
+
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        // Filter the services to get the specific one
+        const service = appointment.service.find(s => s._id.toString() === serviceId);
+
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found for the given appointment' });
+        }
+
+        res.status(200).json(service);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+// Remove a specific service from an appointment
+const deleteServiceFromAppointment = async (req, res, confNumber, serviceId) => {
+    try {
+        const appointment = await Appointment.findOne({ confNumber: confNumber });
+
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        // Check if the service exists in the appointment
+        const serviceIndex = appointment.service.findIndex(s => s.toString() === serviceId);
+
+        if (serviceIndex === -1) {
+            return res.status(404).json({ message: 'Service not found for the given appointment' });
+        }
+
+        // Remove the service from the appointment's services
+        appointment.service.splice(serviceIndex, 1);
+
+        // Save the appointment with the service removed
+        await appointment.save();
+
+        res.status(200).json({ message: 'Service removed from the appointment' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
 module.exports = {
     getAllAppointment,
     getAppointment,
     createAppointment,
     updateAppointment,
     remove,
-    getBarberAppointments
+    getBarberAppointments,
+    getAppointmentService,
+    deleteServiceFromAppointment
 }

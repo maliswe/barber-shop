@@ -1,3 +1,6 @@
+<!--
+*The "Book" component is responsible for displaying and managing the selection of services for booking appointments.
+-->
 <template>
   <div class="container">
     <selectedServices/>

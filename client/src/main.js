@@ -23,12 +23,10 @@ const app = new Vue({
     const token = localStorage.getItem('token')
 
     if (isLoggedIn && token) {
-      // Validate the token with the backend
       axios.get('http://localhost:3000/api/validateToken', {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(response => {
-          // Assuming the API responds with a success for valid tokens
           this.$store.commit('SET_LOGIN_STATUS', isLoggedIn)
           if (role) {
             this.$store.commit('SET_ROLE', role)

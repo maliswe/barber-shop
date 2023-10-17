@@ -1,7 +1,20 @@
+<!--
+* This component displays a table of all admin accounts, with the ability to edit and delete accounts.
+  It also has a button to open a modal for adding a new admin account.
+* This component emits the following events:
+* admin-updated: When an admin account is updated.
+-->
 <template>
   <div>
     <div class="container">
       <h1>Admin accounts</h1>
+      <div class="message" v-if="message">{{ message }}</div>
+      <div class="search-bar">
+        <input type="text" v-model="searchTerm" placeholder="Search by phone"/>
+        <button @click="searchAdmins()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
       <!-- Add a search input field -->
       <div class="search-bar">
         <input type="text" v-model="searchTerm" placeholder="Search by phone number..." :text="searchValue" />
@@ -31,7 +44,7 @@
             <td>{{ admin.phone }}</td>
             <td>
               <button class="edit-button" @click="editAdmin(admin)"><i class="fas fa-edit"></i></button>
-              <button class="delete-button" @click="deleteAdmin(admin.phone)"><i class="fas fa-trash-alt"></i></button>
+              <button class="delete-button" @click="deleteAdmin((admin))"><i class="fas fa-trash-alt"></i></button>
             </td>
           </tr>
         </tbody>
@@ -54,12 +67,12 @@
     <div>
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'BarberController' }">
-          <b-button variant="warning" size="lg">Barber Accounts</b-button>
+          <b-button variant="warning" size="lg">Barber Accounts ></b-button>
         </router-link>
       </b-col>
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'CustomerController' }">
-          <b-button variant="warning" size="lg">Customer Accounts</b-button>
+          <b-button variant="warning" size="lg">Customer Accounts ></b-button>
         </router-link>
       </b-col>
     </div>
@@ -70,7 +83,7 @@
 import { admin } from '@/api/adminApi'
 import addAdminForm from './addAdminForm.vue'
 import updateAdminForm from './updateAdminForm.vue'
-
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -79,7 +92,8 @@ export default {
       showAddAdminFormModal: false,
       showUpdateAdminFormModal: false,
       currentAdmin: null,
-      searchValue: null
+      searchTerm: '',
+      message: ''
     }
   },
   created() {
@@ -90,30 +104,47 @@ export default {
     updateAdminForm
   },
   methods: {
-    getAllAdmins() {
-      admin.getAllAdmins()
-        .then(response => {
-          this.admins = response.data
+    async getAllAdmins() {
+      try {
+        const response = await admin.getAllAdmins()
+        this.admins = response.data
+
+        // Extract PUT and DELETE URLs from HATEOAS links
+        this.admins.forEach(admin => {
+          const putLink = admin.links.find(link => link.type === 'PUT')
+          const deleteLink = admin.links.find(link => link.type === 'DELETE')
+          if (putLink) {
+            admin.putUrl = putLink.href
+          }
+
+          if (deleteLink) {
+            admin.deleteUrl = deleteLink.href
+          }
         })
-        .catch(error => {
-          console.error('Error getting admins:', error)
-        })
+      } catch (error) {
+        console.error('Error getting admins:', error)
+      }
     },
     editAdmin(admin) {
       this.showUpdateAdminFormModal = true
       this.currentAdmin = admin
     },
-    async deleteAdmin(userPhone) {
+    async deleteAdmin(admin) {
+      if (this.admins.length === 1) {
+        window.alert('Admin can not be deleted: You have to atleast have one admin.')
+        return
+      }
       const confirmation = window.confirm('Do you really want to delete?')
+      const baseurl = 'http://localhost:3000/'
       if (confirmation) {
-        admin.deleteAdmin(userPhone)
-          .then(() => {
-            this.admins = this.admins.filter(admin => admin.phone !== userPhone)
-            console.log('Deleted an Admin')
-          })
-          .catch(error => {
-            console.error('Error deleting an admin:', error)
-          })
+        try {
+          // Use the HATEOAS delete link
+          await axios.delete(`${baseurl}${admin.links.find(link => link.type === 'DELETE').href}`)
+          await this.getAllAdmins()
+          console.log('Deleted an Admin')
+        } catch (error) {
+          console.error('Error deleting an admin:', error)
+        }
       }
     },
     showAddAdminForm() {
@@ -131,15 +162,53 @@ export default {
     onAdminUpdated() {
       this.getAllAdmins()
     },
-    searchAdmins(value) {
-      this.searchValue = value
-      console.log(value)
+    showMessage(message) {
+      this.message = message
+      setTimeout(() => {
+        this.message = '' // Clear the message after 1 second
+      }, 1000)
+    },
+    async searchAdmins() {
+      if (!this.searchTerm) {
+        await this.getAllAdmins()
+        return
+      }
+      try {
+        const response = await admin.getAdmin(this.searchTerm)
+        this.admins = [response.data]
+        console.log(this.admins)
+      } catch (error) {
+        this.showMessage('User not found')
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.message {
+  color: red; /* or any color you want for the message */
+  margin-top: -5%;
+  margin-bottom: -5%;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: -5%;
+}
+
+.search-bar input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.search-bar button {
+  color: #3498db;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .form-overlay {
   position: fixed;
   top: 0;
@@ -193,7 +262,6 @@ delete-button i {
   width: fill;
   height: fill;
   background-color: #3498db;
-  /* Adjust the button background color */
   border: none;
   color: white;
   border-radius: 5px;

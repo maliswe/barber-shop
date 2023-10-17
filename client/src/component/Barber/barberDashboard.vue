@@ -33,3 +33,8 @@ export default {
   }
 }
 </style>
+
+// The following component represents the main dashboard view for barbers.
+// It is divided into two sections: one for setting availability and the other for displaying appointments.
+// The "SetAvailability" component allows barbers to manage their availability,
+// while the "AppointmentsList" component shows a list of appointments for the day.

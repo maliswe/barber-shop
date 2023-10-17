@@ -1,7 +1,30 @@
+<!--
+This component displays a list of barbers with their details in a table format. Users can
+add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberForm' and
+'updateBarberForm', for adding and updating barber information.
+-->
 <template>
     <div>
+      <div class="container" v-if="barbers.length === 0" >
+        <h1>No barbers added yet.</h1>
+        <button class="add-button" @click="showAddBarberForm">
+          <i class="fas fa-plus"></i> Add Barber
+        </button>
+      </div>
       <div class="container" v-if="barbers.length > 0">
         <h1>Barber accounts</h1>
+        <div class="table-controls">
+        <div class="search-bar">
+          <input type="text" v-model="searchTerm" placeholder="Search by phone" />
+          <button @click="searchBarber()">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <button class="delete-all-button" @click="deleteAllBarbers">
+          <i class="fas fa-trash-alt"></i>  Delete All
+        </button>
+        <div class="message" v-if="message">{{ message }}</div>
+      </div>
         <table class="barber-table">
           <thead>
             <tr>
@@ -38,6 +61,18 @@
       <div class="form-overlay" v-if="showAddBarberFormModal">
         <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-updated="onBarberUpdated" @close-modal="closeAddBarberForm" />
       </div>
+      <div>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'AdminDashboard' }">
+          <b-button variant="warning" size="lg">Admin Accounts ></b-button>
+        </router-link>
+      </b-col>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'CustomerController' }">
+          <b-button variant="warning" size="lg">Customer Accounts ></b-button>
+        </router-link>
+      </b-col>
+    </div>
     </div>
   </template>
 
@@ -52,7 +87,9 @@ export default {
       barbers: [],
       showAddBarberFormModal: false,
       showUpdateBarberFormModal: false,
-      currentBarber: null
+      currentBarber: null,
+      searchTerm: '',
+      message: ''
     }
   },
   created() {
@@ -107,12 +144,77 @@ export default {
     },
     onBarberUpdated() {
       this.getAllBarbers()
+    },
+    async deleteAllBarbers() {
+      const confirmation = window.confirm('Do you really want to delete all Barbers?')
+      if (confirmation) {
+        await barber.deleteAllBarber()
+        console.log('Deleted all barbers')
+        this.barbers = []
+      }
+    },
+    showMessage(message) {
+      this.message = message
+      setTimeout(() => {
+        this.message = ''
+      }, 1000)
+    },
+    async searchBarber() {
+      if (!this.searchTerm) {
+        await this.getAllBarbers()
+        return
+      }
+      try {
+        const response = await barber.getBarber(this.searchTerm)
+        this.barbers = [response.data]
+      } catch (error) {
+        this.showMessage('Barber not found')
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.container{
+  padding-bottom: 20%;
+}
+.message {
+  color: red;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+.table-controls {
+  margin-bottom: -5%;
+}
+
+.search-bar {
+  display: inline-block;
+}
+
+.search-bar input {
+  margin-right: 5px;
+}
+.search-bar button {
+  color: #3498db;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.delete-all-button {
+  vertical-align:top;
+  display: inline-block;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.delete-all-button:hover {
+  background-color: #c0392b;
+}
 .form-overlay {
   position: fixed;
   top: 0;
@@ -163,10 +265,25 @@ export default {
 .add-button {
   width: fill;
   height: fill;
-  background-color: #3498db; /* Adjust the button background color */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 5px;
+}
+@media (max-width: 767px) {
+  .barber-table {
+    width: 90%;
+    overflow-x: none; /* Enable horizontal scrolling on small screens */
+  }
+
+  .barber-table th, .barber-table td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 0.6rem; /* Adjust font size for smaller screens */
+  }
+
+  .edit-button i, .delete-button i {
+    font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
 }
 
 </style>

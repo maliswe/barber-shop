@@ -4,17 +4,14 @@
       <button @click="goToSignInPage">Sign In</button>
       <button @click="goToBook"><i class="fa fa-calendar"></i>Book</button>
     </div>
-    <!-- For customers -->
     <div v-if="isLoggedIn && role === 'Customer'" class="button-container">
       <button @click="logout">Logout</button>
       <button @click="goToBook"><i class="fa fa-calendar"></i>Book</button>
     </div>
-    <!-- For barbers -->
     <div v-if="isLoggedIn && role === 'Barber'" class="button-container">
       <button @click="logout">Logout</button>
       <button @click="goToBarberDashboard">Barber Dashboard</button>
     </div>
-    <!-- For admins -->
     <div v-if="isLoggedIn && role === 'Admin'" class="button-container">
       <button @click="logout">Logout</button>
       <button @click="goToAdminDashboard">Admin Dashboard</button>
