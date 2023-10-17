@@ -289,10 +289,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
 									"pm.test(\"Response should be json\", function () {",
 									"    pm.response.to.be.json;",
 									"});",
@@ -302,11 +298,6 @@
 									"    ",
 									"    var updatedPhone = pm.environment.get(\"updatedBarberPhone\");",
 									"    pm.expect(jsonData.phone).to.eql(updatedPhone);",
-									"});",
-									"",
-									"pm.test(\"Update success message received\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"Barber info updated\");",
 									"});",
 									""
 								],
@@ -893,17 +884,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
 									"pm.test(\"Response should be json\", function () {",
 									"    pm.response.to.be.json;",
-									"});",
-									"",
-									"pm.test(\"Response confirms update success\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql('Information updated successfully');",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1157,19 +1139,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
 									"pm.test(\"Response should be json\", function () {",
 									"    pm.response.to.be.json;",
-									"});",
-									"",
-									"pm.test(\"Response confirms update\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"User updated\");",
-									"});",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}

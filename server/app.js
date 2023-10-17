@@ -35,7 +35,7 @@ app.use(morgan('dev'));
 const corsOptions = {
     origin: function (origin, callback) {
         const whitelist = [
-            'http://localhost:8080',        ];
+            'http://localhost:3000',        ];
         
         if (whitelist.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
