@@ -5,6 +5,9 @@
 <template>
     <div class="gallery-container">
       <div class="gallery-row">
+        <div v-if="isLoading" class="loading-circle">
+        <i class="fas fa-circle-notch fa-spin"></i>
+      </div>
         <headerPhoto class="gallery-img"
         v-for="gallery in galleries"
         :key="gallery._id"
@@ -50,7 +53,8 @@ export default {
       galleries: [],
       showModel: false,
       popupImage: '',
-      showAdd: false
+      showAdd: false,
+      isLoading: true
     }
   },
   async created() {
@@ -61,7 +65,7 @@ export default {
       try {
         const response = await galleries.getAllGalleries()
         this.galleries = response.data
-        console.log('Fetched galleries:', this.galleries)
+        this.isLoading = false
       } catch (error) {
         console.error('Error fetching galleries:', error)
       }
@@ -118,5 +122,18 @@ export default {
   margin-right: auto;
   padding: 0px 10px;
   }
+.loading-circle {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 1;
+}
+
+.loading-circle i {
+  font-size: 150px;
+  color: #3498db;
+}
 
 </style>
