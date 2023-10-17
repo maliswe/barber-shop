@@ -230,14 +230,14 @@ export default {
 }
 
 .edit-button,
-delete-button {
+.delete-button {
   border: none;
   background: none;
   cursor: pointer;
 }
 
 .edit-button i,
-delete-button i {
+.delete-button i {
   font-size: 15px;
 }
 
@@ -279,5 +279,23 @@ delete-button i {
   background: none;
   border: none;
   cursor: pointer;
+}
+/* Add CSS rules for smaller screens here using media queries */
+@media (max-width: 768px) {
+  .admin-table th,
+  .admin-table td {
+    padding: 0.01rem; /* Reduce cell padding for smaller screens */
+    font-size: 0.8rem; /* Reduce the font size for smaller screens */
+  }
+
+  .edit-button i,
+  .delete-button i {
+    font-size: 10px; /* Reduce the icon size for smaller screens */
+  }
+  .add-button {
+    font-size: 8px;
+    height: 1.1rem;
+    margin: 0.1rem; /* Reduce the font size for the Add button's icon on smaller screens */
+  }
 }
 </style>

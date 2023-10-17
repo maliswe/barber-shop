@@ -31,8 +31,6 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Expertise</th>
-              <th>Services</th>
             <th>
                 <button class="add-button" @click="showAddBarberForm">
                   <i class="fas fa-plus"></i>
@@ -45,8 +43,6 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
               <td>{{ barber.name }}</td>
               <td>{{ barber.email }}</td>
               <td>{{ barber.phone }}</td>
-              <td>{{ barber.experties }}</td>
-              <td>{{ barber.service }}</td>
               <td>
               <button class="edit-button" @click="editBarber(barber)"><i class="fas fa-edit"></i></button>
               <button class="delete-button" @click="deleteBarber((barber.phone))"><i class="fas fa-trash-alt"></i></button>
@@ -176,14 +172,13 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  padding-bottom: 20%;
-}
+
 .message {
   color: red;
   margin-top: 3%;
   margin-bottom: 3%;
 }
+
 .table-controls {
   margin-bottom: -5%;
 }
@@ -195,14 +190,16 @@ export default {
 .search-bar input {
   margin-right: 5px;
 }
+
 .search-bar button {
   color: #3498db;
   background: none;
   border: none;
   cursor: pointer;
 }
+
 .delete-all-button {
-  vertical-align:top;
+  vertical-align: top;
   display: inline-block;
   background-color: #e74c3c;
   color: white;
@@ -215,6 +212,7 @@ export default {
 .delete-all-button:hover {
   background-color: #c0392b;
 }
+
 .form-overlay {
   position: fixed;
   top: 0;
@@ -227,13 +225,15 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .barber-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 50px;
 }
 
-.barber-table th, .barber-table td {
+.barber-table th,
+.barber-table td {
   padding: 10px;
   border: 1px solid #ccc;
 }
@@ -244,6 +244,13 @@ export default {
 
 .white-row {
   background-color: #ffffff;
+}
+
+.edit-button,
+delete-button {
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .edit-button,
@@ -270,20 +277,40 @@ export default {
   color: white;
   border-radius: 5px;
 }
+
 @media (max-width: 767px) {
   .barber-table {
-    width: 90%;
-    overflow-x: none; /* Enable horizontal scrolling on small screens */
+    max-width: 100%;
+    overflow-x: auto;
   }
 
-  .barber-table th, .barber-table td {
-    padding: 0.3rem; /* Adjust padding for smaller screens */
-    font-size: 0.6rem; /* Adjust font size for smaller screens */
+  .barber-table th,
+  .barber-table td {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+    white-space: nowrap
   }
 
-  .edit-button i, .delete-button i {
-    font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  .edit-button i,
+  .delete-button i {
+    font-size: 0.8rem;
+  }
+  .add-button {
+    font-size: 0.6rem;
+    height: 1.1rem;
+    margin: 0.1rem;
+  }
+  .search-bar input {
+    font-size: 14px;
+  }
+
+  .search-bar button {
+    font-size: 14px;
+  }
+
+  .delete-all-button {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
   }
 }
-
 </style>

@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     async finalizeAppointment() {
-
       let customerPhone
 
       // Check if the user is logged in
