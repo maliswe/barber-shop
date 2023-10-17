@@ -21,7 +21,7 @@ export default {
     font-weight: 400;
     font-size: max(1.0vw, 17px);
     line-height: max(1.7vw, 23);
-    color: rgba(136, 135, 143, 1);
+    color: rgb(90, 90, 90);
     width: 75%;
 }
 
