@@ -22,6 +22,7 @@
     color: rgba(136, 135, 143, 1);
     width: 750px;
     height: 500px;
+    padding-right: 20%;
 }
 
 button {
@@ -38,7 +39,7 @@ button {
 }
 
 button:hover {
-  background-color: rgb(155, 90, 16);
+  background: rgb(255, 162, 0);
 }
 
 .textarea{

@@ -13,5 +13,7 @@
     min-width: 10rem;
     height: auto;
     width: auto\9;
+    padding-right: 5%;
+    padding-left: 3%;
 }
 </style>

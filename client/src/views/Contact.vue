@@ -36,15 +36,17 @@ export default {
   justify-content: space-evenly;
   flex-wrap: wrap;
   margin-bottom: 100px;
+  padding-left: 2%;
 }
 
 .message{
-  margin-top: 50px;
+  margin-top: 20px;
+  padding-left: 1rem;
 }
 
 @media (max-width: 768px) {
   .asd {
-    padding-top: 200px;
+    padding-top: 8rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

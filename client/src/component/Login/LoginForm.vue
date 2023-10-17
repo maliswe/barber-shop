@@ -42,9 +42,10 @@ export default {
 .login-form{
   input {
     width: 25rem;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
-    box-shadow: 0cqmax;
+    border: silver;
+    box-shadow: 0;
 
     padding: 10px;
     margin: 10px 0;
@@ -53,12 +54,12 @@ export default {
   .login-btn {
     background-color: #E7A356;
     margin-top: 5%;
-    margin-left: 5%;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
     color: white;
     cursor: pointer;
+    cursor-color
 
     &:hover {
       background-color: #d68c3f;
