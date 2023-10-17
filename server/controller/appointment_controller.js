@@ -2,6 +2,7 @@ const moment = require('moment');
 const Appointment = require('../schema/appointment_schema.js');
 const Customer = require('../schema/customer_schema.js');
 const Barber = require('../schema/barber_schema.js');
+const Services = require('../schema/services_schema.js');
 const { fieldsMapper, generator } = require('./utilityMethod.js');
 
 
@@ -120,14 +121,16 @@ const getAppointmentService = async (req, res, confNumber, serviceId) => {
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        // Filter the services to get the specific one
-        const service = appointment.service.find(s => s._id.toString() === serviceId);
+        serviceId = serviceId.trim();
 
-        if (!service) {
+        // Filter the services to get the specific one
+        const services = await Services.findOne({_id:serviceId});
+
+        if (!services) {
             return res.status(404).json({ message: 'Service not found for the given appointment' });
         }
 
-        res.status(200).json(service);
+        res.status(200).json(services);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });

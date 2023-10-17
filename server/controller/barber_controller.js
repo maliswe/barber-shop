@@ -238,7 +238,7 @@ const deleteAvailability = async (req, res) => {
         const availabilityIndex = barber.availability.findIndex(avail => avail.date.toISOString() === targetDate.toISOString());
 
         if (availabilityIndex === -1) {
-            return res.status(404).send({ message: `No availability found for date: ${targetDate.toISOString()}` });
+            return res.status(404).send({ message: `No availability found for date`});
         }
 
         barber.availability.splice(availabilityIndex, 1);
