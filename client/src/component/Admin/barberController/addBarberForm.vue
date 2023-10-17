@@ -32,7 +32,7 @@ component for adding a new barber.
             <label for="service">Services:</label>
             <select v-model="form.service" id="service">
               <option value="" disabled>Select a service</option>
-              <option v-for="service in allServices" :value="service.id" :key="service.id">{{ service.name }}</option>
+              <option v-for="service in allServices" :value="service._id" :key="service.id">{{ service.name }}</option>
             </select>
           </div>
 
