@@ -21,5 +21,9 @@ export const barber = {
 
   deleteBarber(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
+  },
+
+  deleteAllBarber() {
+    return axios.delete(`${BASE_URL}`)
   }
 }

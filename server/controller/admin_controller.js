@@ -61,7 +61,7 @@ const getAll = async (req, res) => {
             ]
         }));
 
-        res.status(200).json(adminsWithLinks);
+        res.status(201).json(adminsWithLinks);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
