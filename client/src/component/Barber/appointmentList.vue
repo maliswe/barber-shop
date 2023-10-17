@@ -81,7 +81,7 @@ export default {
     async fetchAppointments() {
       const userPhone = this.$store.state.phone
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/appointments/barber/${userPhone}`)
+        const response = await axios.get(`http://localhost:3000/api/v1/barbers/${userPhone}/appointments`)
         this.fetchedAppointments = response.data
       } catch (error) {
         console.error('Error fetching appointments:', error)

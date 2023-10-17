@@ -123,8 +123,9 @@ const removeAll = async (req, res) => {
 }
 
 // Get the barber appointments
-const getBarberAppointments = async (req, res, barberPhone) => {
+const getBarberAppointments = async (req, res) => {
     try {
+        const barberPhone = req.params.phone;
         const appointments = await Appointment.find({ barber: barberPhone });
 
         if (appointments.length < 1) {
