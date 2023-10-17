@@ -15,14 +15,6 @@
           <i class="fas fa-search"></i>
         </button>
       </div>
-      <!-- Add a search input field -->
-      <div class="search-bar">
-        <input type="text" v-model="searchTerm" placeholder="Search by phone number..." :text="searchValue" />
-        <button @click="searchAdmins()">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-
       <table class="admin-table">
         <thead>
           <tr>
@@ -50,10 +42,6 @@
         </tbody>
       </table>
     </div>
-
-    <!-- ... Rest of your component ... -->
-
-    <!-- Add the following components that you have in your code -->
     <div class="form-overlay" v-if="showUpdateAdminFormModal">
       <updateAdminForm ref="updateAdminForm" :showEdit="showUpdateAdminFormModal" :currentAdmin="currentAdmin"
         @admin-updated="onAdminUpdated" @close-modal="closeUpdateAdminForm" />
