@@ -106,14 +106,14 @@ const remove = async (req, res) => {
 const removeAll = async (req, res) => {
     try {
 
-        const count = await Barber.countDouments();
+        const count = await Barber.countDocuments();;
 
         if (count === 0) {
             return res.status(404).send({ message: 'No barbers found in the database.' });
         }
 
         await Barber.deleteMany();
-        res.status.status(200).json({ message: 'Barbers deleted' });
+        res.status(200).json({ message: 'Barbers deleted' });
 
     } catch (error) {
         console.error(error);

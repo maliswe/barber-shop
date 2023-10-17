@@ -10,7 +10,7 @@
       <h1>Admin accounts</h1>
       <div class="message" v-if="message">{{ message }}</div>
       <div class="search-bar">
-        <input type="text" v-model="searchTerm" placeholder="Search by phone number..."/>
+        <input type="text" v-model="searchTerm" placeholder="Search by phone"/>
         <button @click="searchAdmins()">
           <i class="fas fa-search"></i>
         </button>
@@ -49,15 +49,15 @@
       <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated"
         @close-modal="closeAddAdminForm" />
     </div>
-    <div class="container">
+    <div>
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'BarberController' }">
-          <b-button variant="warning" size="lg">Barber Accounts</b-button>
+          <b-button variant="warning" size="lg">Barber Accounts ></b-button>
         </router-link>
       </b-col>
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'CustomerController' }">
-          <b-button variant="warning" size="lg">Customer Accounts</b-button>
+          <b-button variant="warning" size="lg">Customer Accounts ></b-button>
         </router-link>
       </b-col>
     </div>
@@ -181,6 +181,7 @@ export default {
 .search-bar {
   display: flex;
   align-items: center;
+  margin-bottom: -5%;
 }
 
 .search-bar input {

@@ -7,9 +7,18 @@
     <div>
       <div class="container" v-if="customers.length > 0">
         <h1>Customers accounts</h1>
+        <div class="table-controls">
+        <div class="search-bar">
+          <input type="text" v-model="searchTerm" placeholder="Search by phone" />
+          <button @click="searchCustomer()">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
         <button class="delete-all-button" @click="deleteAllCustomer">
-          <i class="fas fa-trash-alt"></i> Delete All Customers
+          <i class="fas fa-trash-alt"></i>  Delete All
         </button>
+        <div class="message" v-if="message">{{ message }}</div>
+      </div>
         <table class="customer-table">
           <thead>
             <tr>
@@ -48,6 +57,18 @@
       <div class="form-overlay" v-if="showAddCustomerFormModal">
         <addCustomerForm ref="addCustomerForm" :showModel="showAddCustomerFormModal" @customer-added="onCustomerUpdated" @close-modal="closeAddCustomerForm" />
       </div>
+      <div>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'AdminDashboard' }">
+          <b-button variant="warning" size="lg">Admin Accounts ></b-button>
+        </router-link>
+      </b-col>
+      <b-col lg="4" class="pb-2">
+        <router-link :to="{ name: 'BarberController' }">
+          <b-button variant="warning" size="lg">Barber Accounts ></b-button>
+        </router-link>
+      </b-col>
+    </div>
     </div>
   </template>
 
@@ -62,7 +83,9 @@ export default {
       customers: [],
       showAddCustomerFormModal: false,
       showUpdateCustomerFormModal: false,
-      currentCustomer: null
+      currentCustomer: null,
+      searchTerm: '',
+      message: ''
     }
   },
   created() {
@@ -125,6 +148,25 @@ export default {
         console.log('Deleted all customers')
         this.customers = []
       }
+    },
+    showMessage(message) {
+      this.message = message
+      setTimeout(() => {
+        this.message = '' // Clear the message after 1 second
+      }, 1000)
+    },
+    async searchCustomer() {
+      if (!this.searchTerm) {
+        await this.getAllCustomers()
+        return
+      }
+      try {
+        const response = await customer.getCustomer(this.searchTerm)
+        this.customers = [response.data]
+        console.log(this.customers)
+      } catch (error) {
+        this.showMessage('User not found')
+      }
     }
 
   }
@@ -132,21 +174,44 @@ export default {
 </script>
 
 <style scoped>
+.message {
+  color: red;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+.table-controls {
+  margin-bottom: -5%;
+}
+
+.search-bar {
+  display: inline-block;
+}
+
+.search-bar input {
+  margin-right: 5px;
+}
+.search-bar button {
+  color: #3498db;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 .delete-all-button {
+  vertical-align:top;
+  display: inline-block;
   background-color: #e74c3c;
   color: white;
   border: none;
-  padding: 10px 20px;
-  margin-top: 20px;
   cursor: pointer;
   border-radius: 5px;
+  margin-left: 20px;
 }
 
 .delete-all-button:hover {
   background-color: #c0392b;
 }
 .container{
-  padding-bottom: 20%;
+  padding-bottom: 10%;
 }
 .form-overlay {
   position: fixed;
