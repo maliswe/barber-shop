@@ -4,6 +4,9 @@
   <div :class="{ 'container': true, 'blur-background': showModel }">
     <headerPhoto />
     <div class="serviceCard">
+      <div v-if="isLoading" class="loading-circle">
+        <i class="fas fa-circle-notch fa-spin"></i>
+      </div>
       <serviceCard
       v-for="service in services"
       :key="service._id" :service="service"
@@ -46,7 +49,8 @@ export default {
       showModel: false,
       showEdit: false,
       editingService: null,
-      form: null
+      form: null,
+      isLoading: true
     }
   },
 
@@ -62,7 +66,7 @@ export default {
       try {
         const response = await services.getAllServices()
         this.services = response.data
-        console.log('Fetched services:', this.services)
+        this.isLoading = false
       } catch (error) {
         console.error('Error fetching services:', error)
       }
@@ -122,5 +126,13 @@ export default {
   box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.07);
   backdrop-filter: blur(10px);
 }
+.loading-circle {
+  z-index: 1;
+  margin-bottom: 15%;
+}
 
+.loading-circle i {
+  font-size: 150px;
+  color: #3498db;
+}
 </style>

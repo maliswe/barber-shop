@@ -28,7 +28,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0;
+    margin-top: 7%;
     background-image: url('../../assets/footerBg.png');
     background-repeat: repeat;
     background-position: center;
@@ -37,7 +37,7 @@ export default {
     @media (max-width: 768px) {
         flex-direction: column;
         align-items: center;
-
+        margin-top: 8%;
         > * {
             width: 100%;
             display: flex;
