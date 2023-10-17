@@ -21,7 +21,7 @@ const create = async (req, res) => {
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -75,6 +75,8 @@ const update = async (req, res) => {
         if (!customer) {
             return res.status(404).json({ message: 'customer not found' });
         }
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
         fieldsMapper(customer, req.body);
         await customer.save();
 
@@ -82,7 +84,7 @@ const update = async (req, res) => {
         res.status(200).json({ message: 'User updated' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -109,7 +111,6 @@ const removeAll = async (req, res) => {
         if (count === 0) {
             return res.status(404).send({ message: 'No Customers found in the database.' });
         }
-
         await Customer.deleteMany();
         res.status(200).json({ message: 'Customers deleted' });
     } catch (error) {

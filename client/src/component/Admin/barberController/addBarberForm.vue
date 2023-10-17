@@ -6,6 +6,7 @@ component for adding a new barber.
     <div class="modal-content">
       <h1>Add a new barber</h1>
       <div class="form-container">
+        <errorHandler :errorMessage="errorMessage" v-if="errorMessage" />
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label for="name">Name:</label>
@@ -50,6 +51,7 @@ component for adding a new barber.
 <script>
 import { services } from '@/api/serviceApi'
 import { barber } from '@/api/barberApi'
+import errorHandler from '../../errorHandler.vue'
 
 export default {
   props: ['showModel'],
@@ -63,8 +65,12 @@ export default {
         experties: null,
         service: ''
       },
-      allServices: []
+      allServices: [],
+      errorMessage: ''
     }
+  },
+  components: {
+    errorHandler
   },
   created() {
     this.getAllService()
@@ -91,7 +97,7 @@ export default {
           this.$emit('barber-added')
         })
         .catch(error => {
-          console.error('Error adding barber:', error)
+          this.errorMessage = JSON.stringify(error.response.data.message)
         })
     },
     closeModal() {

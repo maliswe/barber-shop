@@ -107,7 +107,8 @@ const update = async (req, res) => {
         if (!admin) {
             return res.status(404).json({ message: 'Admin not found' });
         }
-
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
         fieldsMapper(admin, req.body);
 
         await admin.save();
@@ -116,7 +117,7 @@ const update = async (req, res) => {
         res.status(200).json({ message: 'Information updated successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 };
 

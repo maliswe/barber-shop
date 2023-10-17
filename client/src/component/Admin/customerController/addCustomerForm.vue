@@ -8,6 +8,7 @@
     <div class="modal-content">
       <h1>Add a new customer</h1>
       <div class="form-container">
+        <errorHandler :errorMessage="errorMessage" v-if="errorMessage" />
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label for="name">Name:</label>
@@ -37,6 +38,7 @@
 
 <script>
 import { customer } from '@/api/customerApi'
+import errorHandler from '../../errorHandler.vue'
 
 export default {
   props: ['showModel'],
@@ -47,8 +49,12 @@ export default {
         phone: null,
         email: '',
         password: null
-      }
+      },
+      errorMessage: ''
     }
+  },
+  components: {
+    errorHandler
   },
   methods: {
     handleSubmit() {
@@ -64,7 +70,7 @@ export default {
           this.$emit('customer-added')
         })
         .catch(error => {
-          console.error('Error adding customer:', error)
+          this.errorMessage = JSON.stringify(error.response.data.message)
         })
     },
     closeModal() {

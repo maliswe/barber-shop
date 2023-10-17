@@ -9,6 +9,7 @@
     <div class="modal-content">
       <h1>Update a customer</h1>
       <div class="form-container">
+        <errorHandler :errorMessage="errorMessage" v-if="errorMessage" />
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label for="name">Name:</label>
@@ -39,6 +40,7 @@
 
 <script>
 import { customer } from '@/api/customerApi'
+import errorHandler from '../../errorHandler.vue'
 
 export default {
   props: {
@@ -51,6 +53,9 @@ export default {
       default: null
     }
   },
+  components: {
+    errorHandler
+  },
   data() {
     return {
       form: {
@@ -58,7 +63,8 @@ export default {
         phone: null,
         email: '',
         password: null
-      }
+      },
+      errorMessage: ''
     }
   },
   watch: {
@@ -90,7 +96,7 @@ export default {
           this.$emit('customer-updated')
         })
         .catch(error => {
-          console.error('Error adding customer:', error)
+          this.errorMessage = JSON.stringify(error.response.data.message)
         })
     },
     closeModal() {
