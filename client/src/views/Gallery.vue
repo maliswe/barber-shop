@@ -1,7 +1,3 @@
-<!--
-* The "Gallery" component displays a collection of images and provides the ability to view them in a popup, add new images (for Admins), and delete images.
-* It communicates with the "headerPhoto," "Popup," and "galleryAddForm" child components.
--->
 <template>
     <div class="gallery-container">
       <div class="gallery-row">
@@ -123,12 +119,16 @@ export default {
   padding: 0px 10px;
   }
 .loading-circle {
-  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   z-index: 1;
+  @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15%;
+  }
 }
 
 .loading-circle i {
