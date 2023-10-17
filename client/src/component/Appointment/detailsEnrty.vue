@@ -66,8 +66,6 @@ export default {
   },
   methods: {
     async finalizeAppointment() {
-      console.log('User Phone from Store:', this.$store.state.phone)
-      console.log('this.phoneNumber:', this.phoneNumber)
 
       let customerPhone
 
@@ -88,9 +86,6 @@ export default {
         barber: this.Phone,
         phoneNumber: customerPhone
       }
-
-      console.log('"Sending data:"', appointmentData)
-
       try {
         const response = await axios.post(`http://localhost:3000/api/v1/customers/${customerPhone}/appointments`, appointmentData)
 

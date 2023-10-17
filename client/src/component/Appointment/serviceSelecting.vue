@@ -82,7 +82,6 @@ export default {
       try {
         const response = await services.getAllServices()
         this.services = response.data
-        console.log('Fetched services:', this.services)
       } catch (error) {
         console.error('Error fetching services:', error)
         this.error = 'Unable to load the services, please try later'

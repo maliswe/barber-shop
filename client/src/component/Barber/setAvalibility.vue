@@ -62,8 +62,6 @@ export default {
           const timeSlots = response.data.timeSlots || []
           const transformedTimes = this.transformFetchedTimes(timeSlots)
           this.selectedTimes = transformedTimes
-          console.log('Transformed times for picker:', transformedTimes)
-          console.log('Transformed times for picker:', timeSlots)
         })
         .catch(error => {
           if (error.response && error.response.status === 200) {
@@ -117,7 +115,6 @@ export default {
         if (flattenedTimes.length === 0) {
           axios.delete(`http://localhost:3000/api/v1/barbers/${userPhone}/availability/${calendarDate}`)
             .then(response => {
-              console.log('Date with no times removed: ', response.data)
               this.showTimePicker = false
             })
             .catch(error => {
