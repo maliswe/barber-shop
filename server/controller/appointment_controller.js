@@ -111,21 +111,6 @@ const remove = async (req, res, confNumber) => {
     }
 };
 
-// Get the barber appointments
-const getBarberAppointments = async (req, res, barberPhone) => {
-    try {
-        const appointments = await Appointment.find({ barber: barberPhone });
-
-        if (appointments.length < 1) {
-            return res.status(404).json({ message: 'No appointments found for this barber' });
-        }
-        res.status(200).json(appointments);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
-    }
-};
-
 // Get a specific service for an appointment
 const getAppointmentService = async (req, res, confNumber, serviceId) => {
     try {
@@ -185,7 +170,6 @@ module.exports = {
     createAppointment,
     updateAppointment,
     remove,
-    getBarberAppointments,
     getAppointmentService,
     deleteServiceFromAppointment
 }

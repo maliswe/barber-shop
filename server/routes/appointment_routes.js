@@ -21,9 +21,6 @@ router.patch('/:confNumber/status', async (req, res) => {
 router.delete('/:confNumber', async (req, res) => {
     controller.remove(req, res, req.params.confNumber);
 }); // Delete an appointment
-router.get('/barber/:phone', async (req, res) => {
-    controller.getBarberAppointments(req, res, req.params.phone);
-}); // Get the barber appointmentas
 
 router.get('/:confNumber/services/:serviceId', async (req, res) => {
     controller.getAppointmentService(req, res, req.params.confNumber, req.params.serviceId);

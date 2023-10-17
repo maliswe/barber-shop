@@ -3,6 +3,7 @@ const { fieldsMapper } = require('./utilityMethod.js')
 const { sort } = require('./utilityMethod.js')
 const { recSkipper } = require('./utilityMethod.js')
 const bcrypt = require('bcryptjs')
+const Appointment = require('../schema/appointment_schema.js')
 
 // Create barber account
 const create = async (req, res) => {
@@ -120,6 +121,21 @@ const removeAll = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+// Get the barber appointments
+const getBarberAppointments = async (req, res, barberPhone) => {
+    try {
+        const appointments = await Appointment.find({ barber: barberPhone });
+
+        if (appointments.length < 1) {
+            return res.status(404).json({ message: 'No appointments found for this barber' });
+        }
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
 
 // Barber set available time to his schudle 
 const setAvailability = async (req, res, next) => {
@@ -276,7 +292,8 @@ module.exports = {
     getOneAvailability,
     getAllAvailabilities,
     deleteAvailability,
-    getAllOnDate
+    getAllOnDate,
+    getBarberAppointments
 };
 
 //Module for managing barbers, their availability, and appointments.
