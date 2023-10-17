@@ -88,7 +88,6 @@ export default {
   data() {
     return {
       admins: [],
-      searchTerm: '', // Initialize the search term
       showAddAdminFormModal: false,
       showUpdateAdminFormModal: false,
       currentAdmin: null,
