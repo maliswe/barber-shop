@@ -2,7 +2,7 @@
   <div class="container">
     <headerPhoto class="headerPhoto" />
     <button v-if="isLoggedIn && (role === 'Admin')" class="btn btn-primary" @click="openEditModal">Edit Text</button>
-    <textSection class="textSection" :text="textContent" />
+    <textSection :text="textContent" />
     <whoAreWe class="whoAreWe" />
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
@@ -16,7 +16,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <textarea v-model="editedText" class="form-control" rows="10"></textarea>
+            <textarea v-model="textContent" class="form-control" rows="10" ></textarea>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -33,6 +33,7 @@ import headerPhoto from '../component/About/headerPhoto.vue'
 import textSection from '../component/About/textSection.vue'
 import whoAreWe from '../component/About/whoAreWe.vue'
 import { mapState } from 'vuex'
+import { about } from '@/api/aboutApi'
 
 export default {
   name: 'About',
@@ -44,9 +45,12 @@ export default {
   computed: {
     ...mapState(['isLoggedIn', 'role'])
   },
+  created() {
+    this.getAboutUs()
+  },
   data() {
     return {
-      textContent: 'Text shouLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis Quis ipsum suspendisse ultrices gravida Risus commodo viverra send do eiusmod maecenas accumsan lacus vel facilisis. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrice QuIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrice Quis ipsum suspendisse ultrices gravida Risus commodo viverra send do eiusmod maecenas accumsan lacus vel facilisis.is ipsum suspendisse ultrices gravida Risus commodo viverra send do eiusmod maecenas accumsan lacus vel facilisis. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrice QuIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrice Quis ipsum suspendisse ultrices gravida Risus commodo viverra send do eiusmod maecenas accumsan lacus vel facilisis.is ipsum suspendisse ultrices gravida Risus commodo viverra send do eiusmod maecenas accumsan lacus vel facilisis. ld be here',
+      textContent: '',
       editedText: ''
     }
   },
@@ -55,9 +59,17 @@ export default {
       this.editedText = this.textContent
       $('#editModal').modal('show')
     },
-    saveEditedText() {
-      this.textContent = this.editedText
+    async saveEditedText() {
+      const newText = {
+        text: this.textContent
+      }
+      await about.updateAbout(newText)
+      this.getAboutUs()
       $('#editModal').modal('hide')
+    },
+    async getAboutUs() {
+      const textObject = await about.getAbout()
+      this.textContent = textObject.data.text
     }
   }
 }

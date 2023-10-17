@@ -80,6 +80,9 @@ app.use('/api/v1/galleries', galleryRouter)
 authRouter = require('./routes/auth_routes.js');
 app.use('/api', authRouter)
 
+aboutRouter = require('./routes/about_routes.js');
+app.use('/api/v1/abouts', aboutRouter)
+
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
