@@ -62,6 +62,125 @@
 					"response": []
 				},
 				{
+					"name": "Create a service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Service properties exist\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('name');",
+									"    pm.expect(jsonData).to.have.property('description');",
+									"    pm.expect(jsonData).to.have.property('price');",
+									"    pm.expect(jsonData).to.have.property('duration');",
+									"});",
+									"",
+									"pm.test(\"Resource created successfully and _id exists\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData._id).to.be.ok;",
+									"    pm.environment.set(\"createdResourceId\", jsonData._id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/services/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create an appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Response has the expected properties\", function() {",
+									"    var jsonData = pm.response.json().savedAppointment;",
+									"    pm.expect(jsonData).to.have.property('confNumber');",
+									"    pm.expect(jsonData).to.have.property('status').eql('Scheduled'); // default value",
+									"    pm.expect(jsonData).to.have.property('price');",
+									"    pm.expect(jsonData).to.have.property('date');",
+									"    pm.expect(jsonData).to.have.property('barber').to.be.an('array');",
+									"    pm.expect(jsonData).to.have.property('customer');",
+									"    ",
+									"    // Store confNumber for further tests",
+									"    pm.environment.set(\"createdAppointmentConfNumber\", jsonData.confNumber);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 100,\n    \"date\": \"2023-11-10\",\n    \"message\": \"Optional Message\",\n    \"barber\": [1234567], \n    \"customer\": 9876543,\n    \"service\": [\"{{createdResourceId}}\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get All Barbers",
 					"event": [
 						{
@@ -325,7 +444,7 @@
 					"response": []
 				},
 				{
-					"name": "Post/ Get availability for specific date",
+					"name": "Get/ Get availability for specific date",
 					"event": [
 						{
 							"listen": "test",
@@ -402,6 +521,145 @@
 									"key": "date",
 									"value": "{{date}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get appointments on specific barber (relationship)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200 when appointments are retrieved\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/{{barberPhone}}/appointments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"{{barberPhone}}",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all available times for all the barbers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200 when availabilities are retrieved\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/allavailability/{{date}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"allavailability",
+								"{{date}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific date for barber & timeSlot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200 when availability is deleted successfully\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().message).to.equal(\"Availability deleted successfully.\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/barbers/{{barberPhone}}/availability/{{date}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"barbers",
+								"{{barberPhone}}",
+								"availability",
+								"{{date}}"
 							]
 						}
 					},
@@ -495,7 +753,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 32145,\n\t\"email\": \"admin@test.test\",\n\t\"password\": \"1234\"\n}",
+							"raw": "{\n\t\"name\": \"admin\",\n\t\"phone\": 235325,\n\t\"email\": \"admin@test.com\",\n\t\"password\": \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -945,6 +1203,50 @@
 					"response": []
 				},
 				{
+					"name": "Create appointment from the customer endpoint (relationship)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create a valid appointment\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 100,\n    \"date\": \"2023-11-10\",\n    \"message\": \"Optional Message\",\n    \"barber\": [1234567], \n    \"customer\": 9876543\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/customers/{{customerPhoen}}/appointments",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"{{customerPhoen}}",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete the Customer",
 					"event": [
 						{
@@ -999,10 +1301,159 @@
 			"description": "Test the endpoints of the customer routes"
 		},
 		{
-			"name": "Service",
+			"name": "Appointment",
 			"item": [
 				{
-					"name": "Create a service",
+					"name": "Get all appointments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"{{createdAppointmentConfNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get service from the appointment route",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response should be json\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/services/{{createdResourceId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"{{createdAppointmentConfNumber}}",
+								"services",
+								"{{createdResourceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update the appointment",
 					"event": [
 						{
 							"listen": "test",
@@ -1016,30 +1467,22 @@
 									"    pm.response.to.be.json;",
 									"});",
 									"",
-									"pm.test(\"Service properties exist\", function() {",
+									"pm.test(\"Response confirms update\", function() {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('name');",
-									"    pm.expect(jsonData).to.have.property('description');",
-									"    pm.expect(jsonData).to.have.property('price');",
-									"    pm.expect(jsonData).to.have.property('duration');",
+									"    pm.expect(jsonData.message).to.eql(\"Appointment status updated successfully!\");",
 									"});",
-									"",
-									"pm.test(\"Resource created successfully and _id exists\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData._id).to.be.ok;",
-									"    pm.environment.set(\"createdResourceId\", jsonData._id);",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Service\",\n    \"description\": \"Test\",\n    \"price\": 200,\n    \"duration\": 24\n}",
+							"raw": "{\n    \"status\": \"Completed\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1047,20 +1490,72 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/services/",
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/status",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"services",
-								""
+								"appointments",
+								"{{createdAppointmentConfNumber}}",
+								"status"
 							]
 						}
 					},
 					"response": []
 				},
+				{
+					"name": "Delete the service from the appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete Service From Appointment\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().message).to.equal(\"Service removed from the appointment\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/services/{{createdResourceId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"{{createdAppointmentConfNumber}}",
+								"services",
+								"{{createdResourceId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Test the endpoints of the appointment routes"
+		},
+		{
+			"name": "Service",
+			"item": [
 				{
 					"name": "Get all services",
 					"event": [
@@ -1239,222 +1734,6 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"description": "Test the endpoints of the service routes"
-		},
-		{
-			"name": "Appointment",
-			"item": [
-				{
-					"name": "New Request",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									"pm.test(\"Response should be json\", function () {",
-									"    pm.response.to.be.json;",
-									"});",
-									"",
-									"pm.test(\"Response has the expected properties\", function() {",
-									"    var jsonData = pm.response.json().savedAppointment;",
-									"    pm.expect(jsonData).to.have.property('confNumber');",
-									"    pm.expect(jsonData).to.have.property('status').eql('Scheduled'); // default value",
-									"    pm.expect(jsonData).to.have.property('price');",
-									"    pm.expect(jsonData).to.have.property('date');",
-									"    pm.expect(jsonData).to.have.property('barber').to.be.an('array');",
-									"    pm.expect(jsonData).to.have.property('customer');",
-									"    ",
-									"    // Store confNumber for further tests",
-									"    pm.environment.set(\"createdAppointmentConfNumber\", jsonData.confNumber);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"price\": 100,\n    \"date\": \"2023-11-10\",\n    \"message\": \"Optional Message\",\n    \"barber\": [1234567], \n    \"customer\": 9876543\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/v1/appointments/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"appointments",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get all appointments",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response should be json\", function () {",
-									"    pm.response.to.be.json;",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/v1/appointments/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"appointments",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get an appointment",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response should be json\", function () {",
-									"    pm.response.to.be.json;",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"appointments",
-								"{{createdAppointmentConfNumber}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update the appointment",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response should be json\", function () {",
-									"    pm.response.to.be.json;",
-									"});",
-									"",
-									"pm.test(\"Response confirms update\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"Appointment status updated successfully!\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"status\": \"Completed\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/v1/appointments/{{createdAppointmentConfNumber}}/status",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"appointments",
-								"{{createdAppointmentConfNumber}}",
-								"status"
-							]
-						}
-					},
-					"response": []
 				},
 				{
 					"name": "Delete an appointment",
@@ -1508,7 +1787,7 @@
 					"response": []
 				}
 			],
-			"description": "Test the endpoints of the appointment routes"
+			"description": "Test the endpoints of the service routes"
 		}
 	],
 	"event": [
@@ -1544,7 +1823,7 @@
 		},
 		{
 			"key": "adminPhone",
-			"value": "32145",
+			"value": "235325",
 			"type": "string"
 		},
 		{
@@ -1555,6 +1834,11 @@
 		{
 			"key": "customerPhoen",
 			"value": "1234566",
+			"type": "string"
+		},
+		{
+			"key": "service",
+			"value": "651639cc272cb522f7a70aa3",
 			"type": "string"
 		}
 	]

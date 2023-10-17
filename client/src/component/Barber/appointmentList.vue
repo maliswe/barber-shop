@@ -4,8 +4,10 @@
 -->
 <template>
   <div>
-    <h2>Today's Appointments</h2>
-    <table>
+    <div class="table-heading">
+      <h2>Today's Appointments</h2>
+    </div>
+    <table class="barber-table">
       <thead>
         <tr>
           <th>Time</th>
@@ -15,10 +17,9 @@
           <th>Actions</th>
         </tr>
       </thead>
-
       <tbody>
         <tr v-for="appointment in todaysAppointments" :key="appointment.confNumber"
-          :class="{ 'colored-row': $index % 2 === 1 }">
+          :class="{ 'gray-row': $index % 2 === 1, 'white-row': $index % 2 === 0 }">
           <td>{{ new Date(appointment.date).toLocaleTimeString() }}</td>
           <td>{{ appointment.customerName }}</td>
           <td>{{ appointment.message }}</td>
@@ -27,9 +28,14 @@
           </td>
           <td>
             <button
-              :class="{ 'success-btn': appointment.status !== 'Completed', 'completed-btn': appointment.status === 'Completed' }"
+              :class="{
+                'action-button': true,
+                'success-btn': appointment.status !== 'Completed',
+                'completed-btn': appointment.status === 'Completed'
+              }"
               @click="updateAppointmentStatus(appointment.confNumber, 'Completed')"
-              :disabled="appointment.status === 'Completed'">
+              :disabled="appointment.status === 'Completed'"
+            >
               {{ appointment.status === 'Completed' ? 'COMPLETED' : 'DONE!' }}
             </button>
           </td>
@@ -122,91 +128,66 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-div {
-  margin-top: 2rem;
+<style scoped>
 
-  h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-      color: black;
-    }
-  }
-
-  .success-btn {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover{
-      color: blue;
-    }
-  }
-
-  .completed-btn {
-    background-color: yellow;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
+.table-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
+.table-heading h2 {
+  font-size: 24px;
+  text-align: center;
+}
+
+.barber-table {
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+  border-collapse: collapse;
+  margin-bottom: 50px;
+}
+
+.barber-table th, .barber-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.gray-row {
+  background-color: #f0f0f0;
+}
+
+.white-row {
+  background-color: #ffffff;
+}
+
+.action-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-button:disabled {
+  background-color: yellow;
+  color: black;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .barber-table {
+    width: 90%;
+    overflow-x: none;
   }
 
-  .close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    &:hover, &:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-    }
+  .barber-table th, .barber-table td {
+    padding: 0.09rem;
+    font-size: 0.59rem;
   }
 }
+
 </style>

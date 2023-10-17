@@ -63,8 +63,6 @@ export default {
       this.selectedServices = JSON.parse(this.$route.query.selectedServices)
       this.totalPrice = parseFloat(this.$route.query.totalPrice) || 0
       this.totalDuration = parseInt(this.$route.query.totalDuration) || 0
-      console.log('Total Price:', this.totalPrice)
-      console.log('Total Duration (minutes):', this.totalDuration)
     }
   },
   methods: {
@@ -94,7 +92,6 @@ export default {
           })
         }
 
-        console.log('Barber availability:', this.barbers)
       } catch (error) {
         console.error('Error fetching barbers" availability:', error)
       }
