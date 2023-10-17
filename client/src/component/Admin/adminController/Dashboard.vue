@@ -6,7 +6,7 @@
 -->
 <template>
   <div>
-    <div class="container" v-if="admins.length > 0">
+    <div class="container">
       <h1>Admin accounts</h1>
       <div class="message" v-if="message">{{ message }}</div>
       <div class="search-bar">
@@ -15,6 +15,14 @@
           <i class="fas fa-search"></i>
         </button>
       </div>
+      <!-- Add a search input field -->
+      <div class="search-bar">
+        <input type="text" v-model="searchTerm" placeholder="Search by phone number..." :text="searchValue" />
+        <button @click="searchAdmins()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
       <table class="admin-table">
         <thead>
           <tr>
@@ -29,6 +37,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Update the v-for loop to use the filteredAdmins computed property -->
           <tr v-for="(admin, index) in admins" :key="admin._id" :class="index % 2 === 0 ? 'gray-row' : 'white-row'">
             <td>{{ admin.name }}</td>
             <td>{{ admin.email }}</td>
@@ -41,14 +50,20 @@
         </tbody>
       </table>
     </div>
+
+    <!-- ... Rest of your component ... -->
+
+    <!-- Add the following components that you have in your code -->
     <div class="form-overlay" v-if="showUpdateAdminFormModal">
       <updateAdminForm ref="updateAdminForm" :showEdit="showUpdateAdminFormModal" :currentAdmin="currentAdmin"
         @admin-updated="onAdminUpdated" @close-modal="closeUpdateAdminForm" />
     </div>
+
     <div class="form-overlay" v-if="showAddAdminFormModal">
       <addAdminForm ref="addAdminForm" :showModel="showAddAdminFormModal" @admin-added="onAdminUpdated"
         @close-modal="closeAddAdminForm" />
     </div>
+
     <div>
       <b-col lg="4" class="pb-2">
         <router-link :to="{ name: 'BarberController' }">
@@ -61,7 +76,6 @@
         </router-link>
       </b-col>
     </div>
-
   </div>
 </template>
 
@@ -74,6 +88,7 @@ export default {
   data() {
     return {
       admins: [],
+      searchTerm: '', // Initialize the search term
       showAddAdminFormModal: false,
       showUpdateAdminFormModal: false,
       currentAdmin: null,
@@ -135,14 +150,12 @@ export default {
     showAddAdminForm() {
       this.showAddAdminFormModal = true
     },
-
     closeAddAdminForm() {
       this.showAddAdminFormModal = false
     },
     showUpdateAdminForm() {
       this.showUpdateAdminFormModal = true
     },
-
     closeUpdateAdminForm() {
       this.showUpdateAdminFormModal = false
     },
@@ -230,14 +243,14 @@ export default {
 }
 
 .edit-button,
-.delete-button {
+delete-button {
   border: none;
   background: none;
   cursor: pointer;
 }
 
 .edit-button i,
-.delete-button i {
+delete-button i {
   font-size: 15px;
 }
 
@@ -252,5 +265,22 @@ export default {
   border: none;
   color: white;
   border-radius: 5px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.search-bar button {
+  color: #3498db;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 </style>

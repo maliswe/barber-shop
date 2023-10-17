@@ -55,18 +55,19 @@ export default {
   position: relative;
 
   .carousel-overlay {
-    position: absolute;
-    top: 60%;
-    left: 30%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    color: #fff;
+    position: absolute; // This makes the text overlay the carousel
+    top: 50%; // Center it vertically
+    left: 30%; // Center it horizontally
+    transform: translate(-50%, -50%); // Adjust for exact centering
+    z-index: 10; // Make sure the text is above the images
+    color: #fff; // Making the text color white for visibility
     font-size: 4rem;
     font-weight: 800;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
     h1 {
       font-size: 4rem;
+      padding-top: 30%;
       font-weight: bold;
     }
 
@@ -174,7 +175,7 @@ export default {
   }
 }
 
-@media (max-width: 798px) and (min-width: 413px) {
+@media (max-width: 798px) and (min-width: 375px) {
   .carousel-container {
 
     .carousel-overlay {
@@ -197,6 +198,20 @@ export default {
 
 @media (max-width: 412px) {
   .carousel-container {
+    .carousel-indicators li{
+      border-radius: 50%; // Makes the shape circular
+      width: 5px; // Define the width of the actual circle
+      height: 4px; // Define the height of the actual circle
+      margin: 1px 5px; // Adjust spacing if needed
+      background-color: rgba(255, 255, 255, 0.5); // A transparent white background for non-active indicators
+      border: 1px;
+      &:active {
+        background-color: white; // Background color for active indicator
+        border-color: white; // White border for active indicator
+        outline: 1px solid #E7A356; // Adds an additional outer border
+        outline-offset: 1px;
+      }
+    }
 
     .carousel-overlay {
       padding: 10%;
@@ -218,9 +233,9 @@ export default {
       }
 
       button {
-        font-size: 0.9rem;
-        padding: 5px 10px;
-        margin-bottom: 0;
+        font-size: 0.6rem;
+        padding: 5px 10px; // some padding to make the button look good
+        margin-bottom: 0; // remove the huge bottom margin
       }
     }
   }

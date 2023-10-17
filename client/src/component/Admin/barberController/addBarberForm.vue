@@ -29,7 +29,10 @@ component for adding a new barber.
 
           <div class="form-group">
             <label for="service">Services:</label>
-            <input v-model="form.service" id="service">
+            <select v-model="form.service" id="service">
+              <option value="" disabled>Select a service</option>
+              <option v-for="service in allServices" :value="service.id" :key="service.id">{{ service.name }}</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -45,6 +48,7 @@ component for adding a new barber.
 </template>
 
 <script>
+import { services } from '@/api/serviceApi'
 import { barber } from '@/api/barberApi'
 
 export default {
@@ -57,11 +61,19 @@ export default {
         email: '',
         password: null,
         experties: null,
-        service: null
-      }
+        service: ''
+      },
+      allServices: []
     }
   },
+  created() {
+    this.getAllService()
+  },
   methods: {
+    async getAllService() {
+      const res = await services.getAllServices()
+      this.allServices = res.data
+    },
     handleSubmit() {
       const formData = {
         name: this.form.name,
@@ -71,6 +83,8 @@ export default {
         password: this.form.password,
         service: this.form.service
       }
+      console.log('service:', this.form.service)
+      console.log('formData:', formData)
       barber.createBarber(formData)
         .then(() => {
           this.$emit('close-modal')

@@ -1,9 +1,11 @@
 <template>
   <header :class="{ 'scrolled-nav': scrollNav }">
     <div class="navbar-container">
-      <div class="branding">
+      <router-link class="branding" active-class="active-link" :to="{ name: 'Home' }">
+        <div class="branding">
         <Logo />
       </div>
+    </router-link>
       <nav>
         <ul v-if="isLoggedIn && (role === 'Customer' || role === 'Admin') || !isLoggedIn" class="navigation">
           <li><router-link class="link" active-class="active-class" :to="{ name: 'Home' }">Home</router-link></li>
@@ -187,8 +189,8 @@ header {
       align-items: center;
       justify-content: center;
       flex: 1;
-      padding-left: 0;
-      padding-right: 3rem;
+      padding-left: 7%;
+      padding-top: 1rem;
     }
 
     .icon {
