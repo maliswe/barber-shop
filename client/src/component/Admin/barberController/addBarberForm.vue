@@ -4,7 +4,7 @@ component for adding a new barber.
 <template>
   <div class="modal-overlay" v-if="showModel">
     <div class="modal-content">
-      <h1>Add a new barber</h1>
+      <p>Add a new barber</p>
       <div class="form-container">
         <errorHandler :errorMessage="errorMessage" v-if="errorMessage" />
         <form @submit.prevent="handleSubmit">
@@ -122,7 +122,7 @@ export default {
 
 .modal-content {
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   max-width: 80%;
   margin-top: 60px;
@@ -134,7 +134,7 @@ export default {
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .form-group label {
@@ -145,7 +145,7 @@ export default {
 .form-group input,
 .form-group textarea {
   width: calc(100% - 20px);
-  width: 100%;
+  width: 90%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -153,7 +153,7 @@ export default {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 5px 15px;
   background-color: #3498db;
   color: white;
   border: none;

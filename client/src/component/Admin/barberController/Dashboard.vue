@@ -31,8 +31,6 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Expertise</th>
-              <th>Services</th>
             <th>
                 <button class="add-button" @click="showAddBarberForm">
                   <i class="fas fa-plus"></i>
@@ -45,8 +43,6 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
               <td>{{ barber.name }}</td>
               <td>{{ barber.email }}</td>
               <td>{{ barber.phone }}</td>
-              <td>{{ barber.experties }}</td>
-              <td>{{ barber.service }}</td>
               <td>
               <button class="edit-button" @click="editBarber(barber)"><i class="fas fa-edit"></i></button>
               <button class="delete-button" @click="deleteBarber((barber.phone))"><i class="fas fa-trash-alt"></i></button>
@@ -283,6 +279,26 @@ export default {
 
   .edit-button i, .delete-button i {
     font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
+  .search-bar input {
+    font-size: 14px;
+  }
+
+  .search-bar button {
+    font-size: 14px;
+  }
+
+  .delete-all-button {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+  }
+  .table-controls {
+    margin-bottom: -15%;
+  }
+  .message {
+    font-size: 0.8rem;
+    margin-top: 1%;
+    margin-bottom: -1%;
   }
 }
 

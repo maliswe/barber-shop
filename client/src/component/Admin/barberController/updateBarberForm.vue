@@ -7,7 +7,7 @@ the form data is sent to the API for updating the barber record.
 <template>
   <div class="modal-overlay" v-if="showEdit">
     <div class="modal-content">
-      <h1>Update a barber</h1>
+      <p>Update a barber</p>
       <div class="form-container">
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
@@ -143,7 +143,7 @@ export default {
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .form-group label {

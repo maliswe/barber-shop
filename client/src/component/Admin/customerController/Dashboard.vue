@@ -271,6 +271,7 @@ export default {
 
 @media (max-width: 767px) {
   .customer-table {
+    margin-top: -12%;
     width: 90%;
     overflow-x: none; /* Enable horizontal scrolling on small screens */
   }
@@ -282,6 +283,17 @@ export default {
 
   .edit-button i, .delete-button i {
     font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
+  .search-bar input {
+    font-size: 0.8rem;
+  }
+  .search-bar button {
+    font-size: 0.8rem;
+  }
+  .message {
+    font-size: 0.8rem;
+    margin-top: 1%;
+    margin-bottom: -1%;
   }
 }
 

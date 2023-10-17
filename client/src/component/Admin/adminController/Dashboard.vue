@@ -280,4 +280,35 @@ delete-button i {
   border: none;
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .admin-table {
+    width: 90%;
+    overflow-x: none; /* Enable horizontal scrolling on small screens */
+  }
+
+  .admin-table th, .admin-table td {
+    padding: 0.3rem; /* Adjust padding for smaller screens */
+    font-size: 0.6rem; /* Adjust font size for smaller screens */
+  }
+
+  .edit-button i, .delete-button i {
+    font-size: 0.6rem; /* Adjust icon size for smaller screens */
+  }
+  .search-bar input {
+    font-size: 0.8rem;
+  }
+
+  .search-bar{
+    margin-bottom: -15%;
+  }
+  .search-bar button {
+    font-size: 0.8rem;
+  }
+  .message {
+    font-size: 0.8rem;
+    margin-top: 1%;
+    margin-bottom: -1%;
+  }
+}
 </style>
