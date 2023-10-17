@@ -1,5 +1,5 @@
 const Customer = require('../schema/customer_schema.js')
-const { fieldsMapper, recSkipper, sort } = require('./utilityMethod.js');
+const { fieldsMapper, recSkipper, sort, generator } = require('./utilityMethod.js');
 const bcrypt = require('bcryptjs');
 const Appointment = require('../schema/appointment_schema.js');
 
@@ -121,10 +121,15 @@ const removeAll = async (req, res) => {
 
 const createAppointmentForCustomer = async (req, res) => {
     try {
-        const customerId = req.params.customer_id;
 
+        let customId = await generator();
+
+        req.body['confNumber'] = customId;
+
+        const id = req.params.customer_id;
+        
         // Find the customer using the provided ID
-        const customer = await Customer.findById(customerId);
+        const customer = await Customer.findOne({ phone: id });
 
         // If the customer doesn't exist, return an error
         if (!customer) {

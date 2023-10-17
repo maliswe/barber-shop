@@ -57,7 +57,7 @@ export default {
         String(this.selectedDate.getDate()).padStart(2, '0')
       ].join('-')
       console.log('Calendar date sent to API:', calendarDate)
-      axios.get(`http://localhost:3000/api/v1/barbers/availability/${userPhone}/${calendarDate}`)
+      axios.get(`http://localhost:3000/api/v1/barbers/${userPhone}/availability/${calendarDate}`)
         .then(response => {
           const timeSlots = response.data.timeSlots || []
           const transformedTimes = this.transformFetchedTimes(timeSlots)
@@ -115,7 +115,7 @@ export default {
         console.log(dateToSave)
 
         if (flattenedTimes.length === 0) {
-          axios.delete(`http://localhost:3000/api/v1/barbers/availability/${userPhone}/${calendarDate}`)
+          axios.delete(`http://localhost:3000/api/v1/barbers/${userPhone}/availability/${calendarDate}`)
             .then(response => {
               console.log('Date with no times removed: ', response.data)
               this.showTimePicker = false

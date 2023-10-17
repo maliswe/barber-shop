@@ -134,6 +134,24 @@ const remove = async (req, res) => {
     }
 };
 
+const removeAll = async (req, res) => {
+    try {
+
+        const count = await Admin.countDouments();
+
+        if (count === 0) {
+            return res.status(404).send({ message: 'No Admins found in the database.' });
+        }
+
+        await Admin.deleteMany();
+        res.status.status(200).json({ message: 'Admins deleted' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const methodDispatch = async (req, res, id) => {
     methodType = req.headers['_method']
     try {
@@ -155,6 +173,7 @@ module.exports = {
     getOne,
     remove,
     update,
+    removeAll,
     methodDispatch
 };
 

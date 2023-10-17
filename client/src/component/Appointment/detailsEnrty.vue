@@ -66,7 +66,19 @@ export default {
   },
   methods: {
     async finalizeAppointment() {
-      const customerPhone = this.isLoggedIn ? this.$store.state.userPhone : this.phoneNumber
+      console.log('User Phone from Store:', this.$store.state.phone)
+      console.log('this.phoneNumber:', this.phoneNumber)
+
+      let customerPhone
+
+      // Check if the user is logged in
+      if (this.isLoggedIn) {
+        // If logged in, use the user's phone number from the store
+        customerPhone = this.$store.state.phone
+      } else {
+        // If not logged in, use the phone number from this.phoneNumber
+        customerPhone = this.phoneNumber
+      }
 
       const appointmentData = {
         price: this.totalPrice,
@@ -74,13 +86,13 @@ export default {
         message: this.message,
         service: this.selectedServices,
         barber: this.Phone,
-        customer: customerPhone
+        phoneNumber: customerPhone
       }
 
       console.log('"Sending data:"', appointmentData)
 
       try {
-        const response = await axios.post('http://localhost:3000/api/v1/appointments', appointmentData)
+        const response = await axios.post(`http://localhost:3000/api/v1/customers/${customerPhone}/appointments`, appointmentData)
 
         if (response.status === 201) {
           this.showPopup = true
@@ -103,8 +115,6 @@ export default {
     width: 100%;
     border-radius: 15px;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
-    box-shadow: 0cqmax;
-
     padding: 10px;
     margin: 10px 0;
   }
