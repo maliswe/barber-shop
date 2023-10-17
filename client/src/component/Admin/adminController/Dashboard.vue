@@ -244,7 +244,17 @@ delete-button i {
 .delete-button {
   color: red;
 }
+.edit-button,
+.delete-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
 
+.edit-button i,
+.delete-button i {
+  font-size: 15px;
+}
 .add-button {
   width: fill;
   height: fill;

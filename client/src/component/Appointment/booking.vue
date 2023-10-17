@@ -91,7 +91,6 @@ export default {
             }
           })
         }
-
       } catch (error) {
         console.error('Error fetching barbers" availability:', error)
       }

@@ -59,7 +59,7 @@ add, edit, or delete barber records. It utilizes two subcomponents, 'addBarberFo
         <updateBarberForm ref="updateBarberForm" :showEdit="showUpdateBarberFormModal" :currentService="currentBarber" @barber-updated="onBarberUpdated" @close-modal="closeUpdateBarberForm" />
       </div>
       <div class="form-overlay" v-if="showAddBarberFormModal">
-        <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-updated="onBarberUpdated" @close-modal="closeAddBarberForm" />
+        <addBarberForm ref="addBarberForm" :showModel="showAddBarberFormModal" @barber-added="onBarberUpdated" @close-modal="closeAddBarberForm" />
       </div>
       <div>
       <b-col lg="4" class="pb-2">

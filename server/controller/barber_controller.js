@@ -22,7 +22,7 @@ const create = async (req, res) => {
         res.status(201).json({ message: 'Barber created successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -77,6 +77,8 @@ const update = async (req, res) => {
         if (!barber) {
             return res.status(404).json({ message: 'Barber not found' });
         }
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
 
         fieldsMapper(barber, req.body);
 
@@ -85,7 +87,7 @@ const update = async (req, res) => {
         res.status(200).json({ message: 'Barber info updated' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
